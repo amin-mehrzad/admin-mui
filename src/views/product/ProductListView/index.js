@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductList = () => {
   const classes = useStyles();
-  const [products] = useState(data);
+  const [commands] = useState(data);
 
   return (
     <Page
       className={classes.root}
-      title="Products"
+      title="Commands"
     >
       <Container maxWidth={false}>
         <Toolbar />
@@ -39,20 +39,20 @@ const ProductList = () => {
             container
             spacing={3}
           >
-            {products.map((product) => (
+            {/* {commands.map((product) => ( */}
               <Grid
                 item
-                key={product.id}
+                key={commands[0].id}
                 lg={4}
                 md={6}
                 xs={12}
               >
                 <ProductCard
                   className={classes.productCard}
-                  product={product}
+                  product={commands[0]}
                 />
               </Grid>
-            ))}
+            {/* ))} */}
           </Grid>
         </Box>
         <Box

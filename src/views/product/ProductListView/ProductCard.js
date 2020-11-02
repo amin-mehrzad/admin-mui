@@ -9,10 +9,13 @@ import {
   Divider,
   Grid,
   Typography,
-  makeStyles
+  makeStyles,
+  Button
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+// import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import WarningIcon from '@material-ui/icons/Warning';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +48,7 @@ const ProductCard = ({ className, product, ...rest }) => {
           <Avatar
             alt="Product"
             src={product.media}
-            variant="square"
+            variant="circle"
           />
         </Box>
         <Typography
@@ -76,23 +79,24 @@ const ProductCard = ({ className, product, ...rest }) => {
             className={classes.statsItem}
             item
           >
-            <AccessTimeIcon
+            {/* <AccessTimeIcon
               className={classes.statsIcon}
               color="action"
-            />
-            <Typography
+            /> */}
+            {/* <Typography
               color="textSecondary"
               display="inline"
               variant="body2"
             >
               Updated 2hr ago
-            </Typography>
+            </Typography> */}
+            <Button size="large"  variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={() => { alert('clicked') }}>Set Color</Button>
           </Grid>
           <Grid
             className={classes.statsItem}
             item
           >
-            <GetAppIcon
+            {/* <GetAppIcon
               className={classes.statsIcon}
               color="action"
             />
@@ -104,7 +108,7 @@ const ProductCard = ({ className, product, ...rest }) => {
               {product.totalDownloads}
               {' '}
               Downloads
-            </Typography>
+            </Typography> */}
           </Grid>
         </Grid>
       </Box>
