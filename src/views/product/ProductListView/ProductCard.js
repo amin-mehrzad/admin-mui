@@ -194,14 +194,20 @@ const ProductCard = ({ className, product, ...rest }) => {
                         //defaultValue="Default Value"
                         variant="outlined"
                         fullWidth='true'
-                        helperText="Please enter code here and press submit button"
+                        // helperText="Please enter code here and press submit button"
                         InputProps={{
                           startAdornment: <InputAdornment  >"msg" :</InputAdornment>,
                         }}                      />
                       {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
                     {/* </FormControl> */}
-                    <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>Set Color</Button>
+                    <Box
+                    ml={1}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <Button size="large" variant="contained"  color="primary" onClick={()=>alert('clicked')}>Submit</Button>
 
+                  </Box>
                   </Box>
                 </div>
               </Fade>

@@ -39,20 +39,20 @@ const ProductList = () => {
             container
             spacing={3}
           >
-            {/* {commands.map((product) => ( */}
+            {commands.map((command) => (
               <Grid
                 item
-                key={commands[0].id}
+                key={command.id}
                 lg={4}
                 md={6}
                 xs={12}
               >
                 <ProductCard
                   className={classes.productCard}
-                  product={commands[0]}
+                  product={command}
                 />
               </Grid>
-            {/* ))} */}
+             ))}
           </Grid>
         </Box>
         {/* <Box

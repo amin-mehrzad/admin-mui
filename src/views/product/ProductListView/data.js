@@ -22,7 +22,7 @@ export default [
     createdAt: '03/04/2019',
     description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
-    title: '',
+    title: 'Clear IDs',
     totalDownloads: '857'
   },
   {
