@@ -10,17 +10,44 @@ import {
   Grid,
   Typography,
   makeStyles,
-  Button
+  Button,
+  Modal,
+  Backdrop,
+  FormControl,
+  InputLabel,
+  Input,
+  FormHelperText,
+  TextField,
+  TextareaAutosize ,
+  InputAdornment
 } from '@material-ui/core';
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import WarningIcon from '@material-ui/icons/Warning';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 
+import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '1225ch',
+    },
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    width:'800px'
   },
   statsItem: {
     alignItems: 'center',
@@ -31,8 +58,51 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+const Fade = React.forwardRef(function Fade(props, ref) {
+  const { in: open, children, onEnter, onExited, ...other } = props;
+  const style = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: open ? 1 : 0 },
+    onStart: () => {
+      if (open && onEnter) {
+        onEnter();
+      }
+    },
+    onRest: () => {
+      if (!open && onExited) {
+        onExited();
+      }
+    },
+  });
+
+
+  Fade.propTypes = {
+    children: PropTypes.element,
+    in: PropTypes.bool.isRequired,
+    onEnter: PropTypes.func,
+    onExited: PropTypes.func,
+  };
+
+  return (
+    <animated.div ref={ref} style={style} {...other}>
+      {children}
+    </animated.div>
+  );
+});
+
 const ProductCard = ({ className, product, ...rest }) => {
   const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Card
@@ -90,7 +160,52 @@ const ProductCard = ({ className, product, ...rest }) => {
             >
               Updated 2hr ago
             </Typography> */}
-            <Button size="large"  variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={() => { alert('clicked') }}>Set Color</Button>
+            <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>Set Color</Button>
+            <Modal
+             // aria-labelledby="spring-modal-title"
+           //  aria-describedby="spring-modal-description"
+              className={classes.modal}
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <div className={classes.paper}>
+                  {/* <h2 id="spring-modal-title">Spring modal</h2>
+                  <p id="spring-modal-description">react-spring animates me.</p> */}
+                  <Box
+                    mt={3}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    {/* <FormControl> */}
+                      {/* <InputLabel htmlFor="outlined-multiline-static">Email address</InputLabel> */}
+                      {/* <Input id="my-input" aria-describedby="my-helper-text" /> */}
+                      <TextField
+                        id="outlined-multiline-static"
+                        //label='Set Status Command '
+                        label='Command'
+                        multiline
+                        rows={1}
+                        //defaultValue="Default Value"
+                        variant="outlined"
+                        fullWidth='true'
+                        helperText="Please enter code here and press submit button"
+                        InputProps={{
+                          startAdornment: <InputAdornment  >"msg" :</InputAdornment>,
+                        }}                      />
+                      {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
+                    {/* </FormControl> */}
+                    <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>Set Color</Button>
+
+                  </Box>
+                </div>
+              </Fade>
+            </Modal>
           </Grid>
           <Grid
             className={classes.statsItem}

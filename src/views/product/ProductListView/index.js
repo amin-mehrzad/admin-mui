@@ -55,7 +55,7 @@ const ProductList = () => {
             {/* ))} */}
           </Grid>
         </Box>
-        <Box
+        {/* <Box
           mt={3}
           display="flex"
           justifyContent="center"
@@ -65,7 +65,7 @@ const ProductList = () => {
             count={3}
             size="small"
           />
-        </Box>
+        </Box> */}
       </Container>
     </Page>
   );
