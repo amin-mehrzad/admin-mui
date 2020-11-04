@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   avatar: {
     marginRight: theme.spacing(2)
+  },
+  table:{
+    width:'50px'
   }
 }));
 
@@ -79,8 +82,8 @@ const Results = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box minWidth={1050}>
-          <Table>
+        <Box >
+          <Table size="small">
             <TableHead>
               <TableRow>
                 {/* <TableCell padding="checkbox">
@@ -94,20 +97,26 @@ const Results = ({ className, customers, ...rest }) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                <TableCell>
+                <TableCell className={classes.table}>
                   Campus
-                </TableCell>
-                <TableCell>
+                </TableCell >
+                <TableCell className={classes.table}>
                   Venue
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.table}>
                   Section
                 </TableCell>
-                <TableCell>
-                  Room Id
-                </TableCell>
-                <TableCell>
+                <TableCell className={classes.table}>
                   Gender
+                </TableCell>
+                <TableCell className={classes.table}>
+                  Hub Id
+                </TableCell>
+                <TableCell className={classes.table}>
+                  Sensor Id
+                </TableCell>
+                <TableCell className={classes.table}>
+                  Status
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -126,7 +135,7 @@ const Results = ({ className, customers, ...rest }) => {
                       value="true"
                     />
                   </TableCell> */}
-                  <TableCell>
+                  <TableCell className={classes.table}>
                     <Box
                       alignItems="center"
                       display="flex"
@@ -148,15 +157,22 @@ const Results = ({ className, customers, ...rest }) => {
                   <TableCell>
                     {customer.venue_name}
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{width:'50px'}}>
                     {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
                     {customer.section_name}
                   </TableCell>
                   <TableCell>
-                  {customer.room_id}
+                    {customer.room_sub_type}
                   </TableCell>
                   <TableCell>
-                    {customer.room_sub_type}
+                  {customer.hub_id}
+                  </TableCell>
+
+                  <TableCell>
+                    {customer.sensor_id}
+                  </TableCell>
+                  <TableCell>
+                    {customer.status}
                   </TableCell>
                 </TableRow>
               ))}
