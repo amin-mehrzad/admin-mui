@@ -1,4 +1,6 @@
 import { v4 as uuid } from 'uuid';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
+
 
 export default [
   {
@@ -6,47 +8,48 @@ export default [
     createdAt: '27/03/2019',
     description: 'Set the Open color and the Closed color as an RRGGBB hex value. ID range is 00 for a Global command or a single ID 01 to 30 for individual Light Indicator',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
-    title: 'Set Colors',
-    totalDownloads: '594'
+  //  media: ColorLensIcon,
+    title: 'Set Status',
+    button: 'Set Color'
   },
   {
     id: uuid(),
     createdAt: '31/03/2019',
-    description: 'Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.',
+    description: 'The hub will clear all backlogged notifications from memory. Up to 28,000 notifications will be erased.',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
     title: 'Clear Notifications',
-    totalDownloads: '625'
+    button: 'Clear'
   },
   {
     id: uuid(),
     createdAt: '03/04/2019',
-    description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
+    description: 'This command will simulate moving the TEST/PAIR selection switch in order to erase hub memory. ',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
     title: 'Clear IDs',
-    totalDownloads: '857'
+    button: 'Clear'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
-    description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
+    description: 'Flashes two colors in an alternating pattern. Colors are set by an RRGGBB hex value; you may repeat the number of pulses and the on rate in milliseconds.',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
     title: 'Set Event',
-    totalDownloads: '406'
+    button: 'Set Event'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
-    description: 'GitHub is a web-based hosting service for version control of code using Git.',
+    description: 'Report Diagnostics to the server endpoint at ‘api/ device/status’ will generate additional attribute key pairs in JSON format. ',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
     title: 'Read Diagnostic Data',
-    totalDownloads: '835'
+    button: 'Read Data'
   },
   {
     id: uuid(),
     createdAt: '04/04/2019',
-    description: 'Squarespace provides software as a service for website building and hosting. Headquartered in NYC.',
+    description: 'This instruction works with the internal Bootloader routines to load a new firmware file into the hub. The server should send the binary or “Hex” file along with the command.',
     media: 'https://www.computerhope.com/jargon/b/binary-0s-1s.jpg',
     title: 'Update Firmware',
-    totalDownloads: '835'
+    button: 'Update'
   }
 ];

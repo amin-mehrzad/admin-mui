@@ -22,8 +22,8 @@ import {
   InputAdornment
 } from '@material-ui/core';
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import WarningIcon from '@material-ui/icons/Warning';
+// import GetAppIcon from '@material-ui/icons/GetApp';
+// import WarningIcon from '@material-ui/icons/Warning';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
@@ -160,7 +160,8 @@ const ProductCard = ({ className, product, ...rest }) => {
             >
               Updated 2hr ago
             </Typography> */}
-            <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>Set Color</Button>
+            {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
+            <Button size="large" variant="contained" color="action" onClick={handleOpen}>{product.button}</Button>
             <Modal
              // aria-labelledby="spring-modal-title"
            //  aria-describedby="spring-modal-description"
