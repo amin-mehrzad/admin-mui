@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -7,8 +7,32 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './data';
+//import data from './data';
 
+import axios from 'axios'
+// function report(){
+//   return axios({
+//     method: 'get', 
+//     url: 'http://3.15.126.206/api/report',
+//     //data: {id: varID},
+//     headers: {"Access-Control-Allow-Origin": "*"}
+//   }).then(response => response.data)
+// }
+// const data=report()
+// console.log(data)
+// async function dd (){
+// const data = await axios({
+//   method: 'get', 
+//   url: 'http://3.15.126.206/api/report',
+//   //data: {id: varID},
+//   headers: {"Access-Control-Allow-Origin": "*"}
+// })
+// // .then((res)=>
+// // console.log (res)
+// // )
+// console.log(data)
+// return data
+// }
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -20,7 +44,26 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
+  const [customers,setCustomers] = useState([]);
+
+  useEffect(async () => {
+    const result = await axios({
+      method: 'get', 
+      url: 'http://3.15.126.206/api/report',
+      //data: {id: varID},
+      headers: {"Access-Control-Allow-Origin": "*"}
+    })
+    setCustomers(result.data)
+    //setData(result);
+  }, []);
+
+  // axios({
+  //   method: 'get', 
+  //   url: 'http://3.15.126.206/api/report',
+  //   //data: {id: varID},
+  //   headers: {"Access-Control-Allow-Origin": "*"}
+  // }).then(response => setCustomers(response.data))
+  //     .catch(err => console.log(err))
 
   return (
     <Page
@@ -28,7 +71,7 @@ const CustomerListView = () => {
       title="Customers"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        {/* <Toolbar /> */}
         <Box mt={3}>
           <Results customers={customers} />
         </Box>

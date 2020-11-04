@@ -20,6 +20,8 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
+  Code as Code,
+  BookOpen as Book,
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
@@ -43,8 +45,13 @@ const items = [
   // },
   {
     href: '/app/commands',
-    icon: ShoppingBagIcon,
-    title: 'Commands'
+    icon: Code,
+    title: 'Hub Commands'
+  },
+  {
+    href: '/app/report',
+    icon: Book,
+    title: 'Report'
   },
   // {
   //   href: '/app/account',
