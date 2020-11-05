@@ -82,7 +82,7 @@ const Results = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box >
+        <Box style={{maxWidth:'800px'}} >
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -124,7 +124,7 @@ const Results = ({ className, customers, ...rest }) => {
               {customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
-                  //key={customers.indexOf(customer.name)}
+                 // key={customers.indexOf(customer)}
                   key={customer.room_id}
                   //selected={selectedCustomerIds.indexOf(customer.name) !== -1}
                 >
