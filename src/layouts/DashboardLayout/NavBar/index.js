@@ -53,6 +53,11 @@ const items = [
     icon: Book,
     title: 'Report'
   },
+  {
+    href: '/app/status',
+    icon: Book,
+    title: 'Status List'
+  },
   // {
   //   href: '/app/account',
   //   icon: UserIcon,

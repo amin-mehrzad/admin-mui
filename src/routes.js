@@ -8,6 +8,7 @@ import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
+import StatusListView from 'src/views/statusList/StatusListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 
@@ -21,6 +22,7 @@ const routes = [
       // { path: 'dashboard', element: <DashboardView /> },
       { path: 'commands', element: <ProductListView /> },
       { path: 'report', element: <CustomerListView /> },
+      { path: 'status', element: <StatusListView /> },
       // { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
