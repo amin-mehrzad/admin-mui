@@ -19,6 +19,11 @@ import {
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
 
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -82,7 +87,7 @@ const Results = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box style={{maxWidth:'800px'}} >
+        <Box style={{maxWidth:'850px'}} >
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -117,6 +122,9 @@ const Results = ({ className, customers, ...rest }) => {
                 </TableCell>
                 <TableCell className={classes.table}>
                   Status
+                </TableCell>
+                <TableCell className={classes.table}>
+                  Time Stamp
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -157,7 +165,7 @@ const Results = ({ className, customers, ...rest }) => {
                   <TableCell>
                     {customer.venue_name}
                   </TableCell>
-                  <TableCell style={{width:'50px'}}>
+                  <TableCell style={{width:'10px'}}>
                     {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
                     {customer.section_name}
                   </TableCell>
@@ -171,8 +179,11 @@ const Results = ({ className, customers, ...rest }) => {
                   <TableCell>
                     {customer.sensor_id}
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={{width:'10px'}}>
                     {customer.status}
+                  </TableCell>
+                  <TableCell>
+                    {dayjs(customer.timeStamp).tz("America/Chicago").format('YYYY-MM-DD HH:mm:ss') }
                   </TableCell>
                 </TableRow>
               ))}

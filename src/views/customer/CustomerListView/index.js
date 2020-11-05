@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
-    maxWidth:'820px'
+    maxWidth:'890px'
   }
 }));
 
@@ -54,6 +54,7 @@ const CustomerListView = () => {
       //data: {id: varID},
       headers: {"Access-Control-Allow-Origin": "*"}
     })
+    console.log(result)
     setCustomers(result.data)
     //setData(result);
   }, []);
