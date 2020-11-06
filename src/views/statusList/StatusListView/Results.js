@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { forwardRef, useState, useEffect } from 'react';import clsx from 'clsx';
 import PropTypes from 'prop-types';
 // import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -22,189 +21,304 @@ import getInitials from 'src/utils/getInitials';
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+
+import MaterialTable from 'material-table';
+import {
+  AddBox,
+  ArrowDownward,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Clear,
+  DeleteOutline,
+  Edit,
+  FilterList,
+  FirstPage,
+  LastPage,
+  Remove,
+  SaveAlt,
+  Search,
+  ViewColumn
+} from "@material-ui/icons";
+
+import axios from 'axios';
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  avatar: {
-    marginRight: theme.spacing(2)
-  },
-  table:{
-    width:'50px'
-  }
-}));
+
+// import clsx from 'clsx';
+// import PropTypes from 'prop-types';
+//import moment from 'moment';
+// import PerfectScrollbar from 'react-perfect-scrollbar';
+// import { makeStyles } from '@material-ui/styles';
+
+//import { Input } from '@material-ui/core';
+
+// import { getInitials } from 'helpers';
+
+
+//import setAuthToken from '../../../../utils/setAuthToken';
+
 
 const Results = ({ className, customers, ...rest }) => {
-  const classes = useStyles();
- // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(1000);
-  const [page, setPage] = useState(0);
 
-  // const handleSelectAll = (event) => {
-  //   let newSelectedCustomerIds;
+  var tempFormData = new FormData()
+  const [formData, setFormData] = React.useState(tempFormData)
 
-  //   if (event.target.checked) {
-  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
-  //   } else {
-  //     newSelectedCustomerIds = [];
-  //   }
 
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
+  //setAuthToken(`Bearer ${localStorage.jwtToken}`);
 
-  // const handleSelectOne = (event, id) => {
-  //   const selectedIndex = selectedCustomerIds.indexOf(id);
-  //   let newSelectedCustomerIds = [];
+  var categoryList = {}
+  const categories =  axios.get(`${process.env.REACT_APP_BACKEND_URL}/API/categories`)
+  .then((response)=>{
+    response.data.data.forEach((element, index) => {
+    categoryList[index] = element.categoryName
+  })
+})
+  // var columnsData = state.columns
+  // columnsData[6] = { title: 'Category', field: 'category', lookup: categoryList }
+  // console.log(columnsData)
+  const [state, setState] = React.useState({
+    columns: [
+      {
+        field: 'imageUrl',
+        title: 'Picture',
+      //  render: rowData => <img src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${rowData.imageUrl}`} style={{ width: 30, height: 30, borderRadius: '20%' }} />,
+        editComponent: props => <input type="file" id="imageUrl" name="imageUrl" accept="image/*" onChange={handleInputChange} />
+      },
+      { title: 'Name', field: 'name' },
+      { title: 'Price', field: 'price', type: 'numeric' },
+      { title: 'QTY', field: 'qty', type: 'numeric' },
 
-  //   if (selectedIndex === -1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
-  //       selectedCustomerIds.slice(0, selectedIndex),
-  //       selectedCustomerIds.slice(selectedIndex + 1)
-  //     );
-  //   }
+      {
+        title: 'Tax',
+        field: 'tax',
+        lookup: { 0: 'No', 1: 'Yes' },
+      },
+      { title: 'Barcode', field: 'barcode' },
 
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
+      {
+        title: 'Category', field: 'category', lookup: categoryList
+      },
+      {
+        title: 'Featured',
+        field: 'featured',
+        lookup: { 0: 'No', 1: 'Yes' },
+      },
+      {
+        title: 'Active',
+        field: 'active',
+        lookup: { 0: 'No', 1: 'Yes' },
+      },
+    ],
+    data: []
+  })
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+
+
+  useEffect(() => {
+    async function fetchCategory() {
+    //  setAuthToken(`Bearer ${localStorage.jwtToken}`);
+     // const categories = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/API/categories`)
+      //         .then( (response) => {
+      //           var categoryList = {}
+      //           response.data.data.forEach((element, index) => {
+      //             categoryList[index] = element.categoryName
+      //           })
+      //           async function fetchProducts(){
+      //           const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/API/products`)
+      //           console.log(data.data.data)
+
+      //           var columnsData = state.columns
+      //           columnsData[6] = { title: 'Category', field: 'category', lookup: categoryList }
+
+      //           setState({ data: data.data.data, columns: columnsData });
+      // }
+      // fetchProducts()
+
+      //         })
+
+      //console.log(categories)
+      
+     // console.log(categoryList)
+
+      // var columnsData = state.columns
+      // columnsData[6] = { title: 'Category', field: 'category', lookup: categoryList }
+      // console.log(columnsData)
+      const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/API/products`)
+      console.log(data.data.data)
+     // setState({ data: data.data.data, columns: columnsData })
+      setState({ ...state,data: data.data.data})
+     // .then(console.log(state));
+
+
+    }
+    fetchCategory()
+  }, []);
+
+  console.log(state)
+  const handleInputChange = (event) => {
+
+    console.log(event.target.files[0])
+
+
+    console.log(formData)
+
+    tempFormData = formData
+    tempFormData.set('imageUrl', event.target.files[0])
+    setFormData(tempFormData)
+  }
+
+
+  const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <PerfectScrollbar>
-        <Box style={{maxWidth:'850px'}} >
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
-                <TableCell className={classes.table}>
-                  Campus
-                </TableCell >
-                <TableCell className={classes.table}>
-                  Venue
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Section
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Gender
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Hub Id
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Sensor Id
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Status
-                </TableCell>
-                <TableCell className={classes.table}>
-                  Time Stamp
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                 // key={customers.indexOf(customer)}
-                  key={customer.room_id}
-                  //selected={selectedCustomerIds.indexOf(customer.name) !== -1}
-                >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
-                      value="true"
-                    />
-                  </TableCell> */}
-                  <TableCell className={classes.table}>
-                    <Box
-                      alignItems="center"
-                      display="flex"
-                    >
-                      {/* <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar> */}
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {customer.venue_name}
-                  </TableCell>
-                  <TableCell style={{width:'10px'}}>
-                    {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
-                    {customer.section_name}
-                  </TableCell>
-                  <TableCell>
-                    {customer.room_sub_type}
-                  </TableCell>
-                  <TableCell>
-                  {customer.hub_id}
-                  </TableCell>
+    <MaterialTable
+      title="Products"
+      columns={state.columns}
+      data={state.data}
+      icons={tableIcons}
+      options={{
+        pageSize: 10,
+        pageSizeOptions: [5, 10, 20, 30, 50, 75, 100],
+        toolbar: true,
+        paging: true
+      }}
+     /* editable={{
 
-                  <TableCell>
-                    {customer.sensor_id}
-                  </TableCell>
-                  <TableCell style={{width:'10px'}}>
-                    {customer.status}
-                  </TableCell>
-                  <TableCell>
-                    {dayjs(customer.timeStamp).tz("America/Chicago").format('YYYY-MM-DD HH:mm:ss') }
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={customers.length}
-        onChangePage={handlePageChange}
-       onChangeRowsPerPage={handleLimitChange}
-        page={page}
-       // count={100}
-        rowsPerPage={limit}
-        //rowsPerPage={1000}
-        rowsPerPageOptions={[100]}
-      />
-    </Card>
+        onRowAdd: (newData) =>
+
+          new Promise((resolve) => {
+            tempFormData = formData
+            tempFormData.set('name', newData.name)
+            tempFormData.set('price', newData.price)
+            tempFormData.set('qty', newData.qty)
+            tempFormData.set('tax', newData.tax)
+            tempFormData.set('featured', newData.featured)
+            tempFormData.set('barcode', newData.barcode)
+            tempFormData.set('category', newData.category)
+            tempFormData.set('active', newData.active)
+
+            console.log(tempFormData)
+
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/API/products`, tempFormData)
+              .then(function (response) {
+                // handle success
+                console.log(response);
+
+                for (let pair of tempFormData.entries()) {
+                  console.log(pair[0] + ': ' + pair[1]);
+                }
+                setTimeout(() => {
+                  resolve();
+
+                  setState((prevState) => {
+                    const data = [...prevState.data];
+                    console.log(newData)
+                    data.push({ ...response.data.result, imageUrl: response.data.result.imageUrl });
+                    console.log(formData)
+
+                    return { ...prevState, data };
+                  });
+                }, 1600);
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+              .then(function () {
+                // always executed
+              });    
+              
+          }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve) => { 
+            
+            console.log(newData)
+            console.log(oldData)
+            console.log(formData.get('imageUrl'))
+
+            if (oldData) {
+              if (formData.get('imageUrl') != null) {
+                var tempData = formData
+                tempData.set('name', newData.name)
+                tempData.set('price', newData.price)
+                tempData.set('qty', newData.qty)
+                tempData.set('tax', newData.tax)
+                tempData.set('featured', newData.featured)
+                tempData.set('barcode', newData.barcode)
+                tempData.set('category', newData.category)
+                tempData.set('active', newData.active)
+
+                for (let pair of tempData.entries()) {
+                  console.log(pair[0] + ': ' + pair[1]);
+                }
+              } else {
+                var tempData = newData
+              }
+              console.log(tempData)
+
+              axios.put(`${process.env.REACT_APP_BACKEND_URL}/API/products/${oldData._id}`, tempData)
+                .then(function (response) {
+                  console.log(response.data.result)
+
+
+                  setTimeout(() => {
+
+                    var tempFormData = new FormData()
+                    setFormData(tempFormData);
+
+                    resolve();
+                    setState((prevState) => {
+                      const data = [...prevState.data];
+                      data[data.indexOf(oldData)] = response.data.result;
+                      return { ...prevState, data };
+                    });
+
+
+                  }, 600);
+                })
+            }
+            
+          }),
+        onRowDelete: (oldData) =>
+          new Promise((resolve) => {
+            
+            setTimeout(() => {
+              resolve();
+              console.log(oldData)
+              setState((prevState) => {
+                const data = [...prevState.data];
+
+                axios.delete(`${process.env.REACT_APP_BACKEND_URL}/API/products/${oldData._id}`)
+                data.splice(data.indexOf(oldData), 1);
+                return { ...prevState, data };
+              });
+            }, 600);
+            
+          }),
+         }} 
+         */
+    />
   );
-};
+}
 
 Results.propTypes = {
   className: PropTypes.string,

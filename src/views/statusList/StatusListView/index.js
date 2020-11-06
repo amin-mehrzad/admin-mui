@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CustomerListView = () => {
+const StatusListView = () => {
   const classes = useStyles();
   const [customers,setCustomers] = useState([]);
 
@@ -75,11 +75,11 @@ const CustomerListView = () => {
       <Container maxWidth={false}>
         {/* <Toolbar /> */}
         <Box mt={3}>
-          <Results customers={customers} />
+          {/* <Results customers={customers} /> */}
         </Box>
       </Container>
     </Page>
   );
 };
 
-export default CustomerListView;
+export default StatusListView;

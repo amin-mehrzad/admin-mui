@@ -47,15 +47,18 @@ const CustomerListView = () => {
   const classes = useStyles();
   const [customers,setCustomers] = useState([]);
 
-  useEffect(async () => {
+  useEffect(async function(){
     const result = await axios({
       method: 'get', 
       url: 'http://3.15.126.206/api/report',
       //data: {id: varID},
       headers: {"Access-Control-Allow-Origin": "*"}
     })
-    console.log(result)
-    setCustomers(result.data)
+    
+
+    var tableData=result.data.filter(x=> x!=null)
+    console.log(tableData)
+    setCustomers(tableData)
     //setData(result);
   }, []);
 
