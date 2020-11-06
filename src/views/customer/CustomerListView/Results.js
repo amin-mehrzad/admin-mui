@@ -87,7 +87,7 @@ const Results = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box style={{maxWidth:'850px'}} >
+        <Box style={{maxWidth:'910px'}} >
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -123,7 +123,7 @@ const Results = ({ className, customers, ...rest }) => {
                 <TableCell className={classes.table}>
                   Status
                 </TableCell>
-                <TableCell className={classes.table}>
+                <TableCell className={classes.table} style= {{minWidth:'180px'}}>
                   Time Stamp
                 </TableCell>
               </TableRow>
