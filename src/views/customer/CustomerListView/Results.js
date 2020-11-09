@@ -183,7 +183,7 @@ const Results = ({ className, customers, ...rest }) => {
                     {customer.status}
                   </TableCell>
                   <TableCell>
-                    {dayjs(customer.timeStamp).tz("America/Chicago").format('YYYY-MM-DD HH:mm:ss') }
+                    {dayjs(customer.timestamp).tz("America/Chicago").format('YYYY-MM-DD HH:mm:ss') }
                   </TableCell>
                 </TableRow>
               ))}
