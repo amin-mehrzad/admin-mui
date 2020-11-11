@@ -47,17 +47,20 @@ const StatusListView = () => {
   const classes = useStyles();
   const [customers,setCustomers] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() =>{ async function fetchData(){
     const result = await axios({
       method: 'get', 
-      url: 'http://3.15.126.206/api/report',
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
       //data: {id: varID},
       headers: {"Access-Control-Allow-Origin": "*"}
     })
-    console.log(result)
-    setCustomers(result.data)
+    return result
+  }
+
+    let reportData=fetchData()
+    setCustomers(reportData.data)
     //setData(result);
-  }, []);
+  });
 
   // axios({
   //   method: 'get', 

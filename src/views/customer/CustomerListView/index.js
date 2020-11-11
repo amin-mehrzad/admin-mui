@@ -10,6 +10,8 @@ import Toolbar from './Toolbar';
 //import data from './data';
 
 import axios from 'axios'
+//import dotenv from 'dotenv/config'
+
 // function report(){
 //   return axios({
 //     method: 'get', 
@@ -47,20 +49,42 @@ const CustomerListView = () => {
   const classes = useStyles();
   const [customers,setCustomers] = useState([]);
 
-  useEffect(async function(){
+
+  // useEffect(() =>{ async function fetchData(){
+  //   const result = await axios({
+  //     method: 'get', 
+  //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
+  //     //data: {id: varID},
+  //     headers: {"Access-Control-Allow-Origin": "*"}
+  //   })
+  //   return result
+  // }
+
+  //   let reportData=fetchData()
+  //   setCustomers(reportData.data)
+  //   //setData(result);
+  // });
+
+  useEffect(() =>{ async function fetchData(){
     const result = await axios({
       method: 'get', 
-      url: 'http://3.15.126.206/api/report',
+     // url: 'http://3.15.126.206/api/report',
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
       //data: {id: varID},
       headers: {"Access-Control-Allow-Origin": "*"}
     })
-    
-
     var tableData=result.data.filter(x=> x!=null)
     console.log(tableData)
     setCustomers(tableData)
+    //return result
+  }
+
+    fetchData()
+   // console.log(reportData)
+
+
     //setData(result);
-  }, []);
+  },[]);
 
   // axios({
   //   method: 'get', 
