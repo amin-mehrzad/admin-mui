@@ -18,7 +18,7 @@ import {
   Input,
   FormHelperText,
   TextField,
-  TextareaAutosize ,
+  TextareaAutosize,
   InputAdornment
 } from '@material-ui/core';
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width:'800px'
+    width: '800px'
   },
   statsItem: {
     alignItems: 'center',
@@ -114,12 +114,15 @@ const ProductCard = ({ className, product, ...rest }) => {
           display="flex"
           justifyContent="center"
           mb={3}
+          mt={2}
+
         >
-          <Avatar
+          {/* <Avatar
             alt="Product"
-            src={product.media}
-            variant="circle"
-          />
+            // src={product.media}
+            variant="circle"> */}
+            {product.media}
+          {/* </Avatar> */}
         </Box>
         <Typography
           align="center"
@@ -163,8 +166,8 @@ const ProductCard = ({ className, product, ...rest }) => {
             {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
             <Button size="large" variant="contained" color="action" onClick={handleOpen}>{product.button}</Button>
             <Modal
-             // aria-labelledby="spring-modal-title"
-           //  aria-describedby="spring-modal-description"
+              // aria-labelledby="spring-modal-title"
+              //  aria-describedby="spring-modal-description"
               className={classes.modal}
               open={open}
               onClose={handleClose}
@@ -184,31 +187,31 @@ const ProductCard = ({ className, product, ...rest }) => {
                     justifyContent="center"
                   >
                     {/* <FormControl> */}
-                      {/* <InputLabel htmlFor="outlined-multiline-static">Email address</InputLabel> */}
-                      {/* <Input id="my-input" aria-describedby="my-helper-text" /> */}
-                      <TextField
-                        id="outlined-multiline-static"
-                        //label='Set Status Command '
-                        label='Command'
-                        multiline
-                        rows={1}
-                        //defaultValue="Default Value"
-                        variant="outlined"
-                        fullWidth='true'
-                        // helperText="Please enter code here and press submit button"
-                        InputProps={{
-                          startAdornment: <InputAdornment  >"msg" :</InputAdornment>,
-                        }}                      />
-                      {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
+                    {/* <InputLabel htmlFor="outlined-multiline-static">Email address</InputLabel> */}
+                    {/* <Input id="my-input" aria-describedby="my-helper-text" /> */}
+                    <TextField
+                      id="outlined-multiline-static"
+                      //label='Set Status Command '
+                      label='Command'
+                      multiline
+                      rows={1}
+                      //defaultValue="Default Value"
+                      variant="outlined"
+                      fullWidth='true'
+                      // helperText="Please enter code here and press submit button"
+                      InputProps={{
+                        startAdornment: <InputAdornment  >"msg" :</InputAdornment>,
+                      }} />
+                    {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
                     {/* </FormControl> */}
                     <Box
-                    ml={1}
-                    display="flex"
-                    justifyContent="center"
-                  >
-                    <Button size="large" variant="contained"  color="primary" onClick={()=>alert('clicked')}>Submit</Button>
+                      ml={1}
+                      display="flex"
+                      justifyContent="center"
+                    >
+                      <Button size="large" variant="contained" color="primary" onClick={() => alert('clicked')}>Submit</Button>
 
-                  </Box>
+                    </Box>
                   </Box>
                 </div>
               </Fade>
