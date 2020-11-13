@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -19,14 +19,22 @@ import {
   FormHelperText,
   TextField,
   TextareaAutosize,
-  InputAdornment
+  InputAdornment,
+  IconButton,
+  Collapse
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import CloseIcon from '@material-ui/icons/Close';
+
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
 // import GetAppIcon from '@material-ui/icons/GetApp';
 // import WarningIcon from '@material-ui/icons/Warning';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
+//import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
+
+
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,7 +102,10 @@ const Fade = React.forwardRef(function Fade(props, ref) {
 const ProductCard = ({ className, product, ...rest }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [command, setCommand] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -102,6 +113,33 @@ const ProductCard = ({ className, product, ...rest }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleChange = event => {
+    // console.log(event.target.value)
+    setCommand(event.target.value);
+  };
+  const handleSubmit = async () => {
+    const result = await axios({
+      method: 'post',
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/commands`,
+      data: {
+        command: command,
+        commandType: product.commandType,
+        hubId: "E15FE4D80000"
+      },
+      headers: { "Access-Control-Allow-Origin": "*" }
+    })
+    console.log(result)
+    if (result.status == 200) {
+      setSuccess(true)
+      setError(false)
+    }
+    else {
+      setSuccess(false)
+      setError(true)
+    }
+
   };
 
   return (
@@ -121,7 +159,7 @@ const ProductCard = ({ className, product, ...rest }) => {
             alt="Product"
             // src={product.media}
             variant="circle"> */}
-            {product.media}
+          {product.media}
           {/* </Avatar> */}
         </Box>
         <Typography
@@ -183,6 +221,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                   <p id="spring-modal-description">react-spring animates me.</p> */}
                   <Box
                     mt={3}
+                    mb={1}
                     display="flex"
                     justifyContent="center"
                   >
@@ -192,6 +231,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                     <TextField
                       id="outlined-multiline-static"
                       //label='Set Status Command '
+                      value={command}
                       label='Command'
                       multiline
                       rows={1}
@@ -200,8 +240,10 @@ const ProductCard = ({ className, product, ...rest }) => {
                       fullWidth='true'
                       // helperText="Please enter code here and press submit button"
                       InputProps={{
-                        startAdornment: <InputAdornment  >"msg" :</InputAdornment>,
-                      }} />
+                        startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                      }}
+                      onChange={handleChange}
+                    />
                     {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
                     {/* </FormControl> */}
                     <Box
@@ -209,10 +251,48 @@ const ProductCard = ({ className, product, ...rest }) => {
                       display="flex"
                       justifyContent="center"
                     >
-                      <Button size="large" variant="contained" color="primary" onClick={() => alert('clicked')}>Submit</Button>
+                      <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
 
                     </Box>
+
                   </Box>
+                  <Collapse in={success}>
+                    <Alert
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          color="inherit"
+                          size="small"
+                          onClick={() => {
+                            setSuccess(false);
+                          }}
+                        >
+                          <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                      }
+                    >
+                      Command Sent Successfully.
+                    </Alert>
+                  </Collapse>
+                  <Collapse in={error}>
+                    <Alert
+                      severity="error"
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          color="inherit"
+                          size="small"
+                          onClick={() => {
+                            setError(false);
+                          }}
+                        >
+                          <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                      }
+                    >
+                      Sending Command Failed.
+                    </Alert>
+                  </Collapse>
                 </div>
               </Fade>
             </Modal>
