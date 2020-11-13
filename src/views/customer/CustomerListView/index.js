@@ -67,7 +67,7 @@ const CustomerListView = () => {
 
   useEffect(() =>{ async function fetchData(){
     const result = await axios({
-      method: 'get', 
+      method: 'post', 
      // url: 'http://3.15.126.206/api/report',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
       //data: {id: varID},

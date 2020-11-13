@@ -56,7 +56,7 @@ export default [
     title: 'Read Diagnostic Data',
     button: 'Read Data',
     commandType: 5,
-    commandKey: 'Report'
+    commandKey: 'msg'
 
   },
   {
