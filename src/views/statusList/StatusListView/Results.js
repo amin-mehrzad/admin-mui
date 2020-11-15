@@ -115,7 +115,7 @@ const Results = ({ className, customers, ...rest }) => {
   })
 
 
-
+/*
   useEffect(() => {
     async function fetchCategory() {
     //  setAuthToken(`Bearer ${localStorage.jwtToken}`);
@@ -155,7 +155,7 @@ const Results = ({ className, customers, ...rest }) => {
     }
     fetchCategory()
   }, []);
-
+*/
   console.log(state)
   const handleInputChange = (event) => {
 

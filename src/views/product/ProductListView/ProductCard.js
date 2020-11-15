@@ -134,6 +134,7 @@ const ProductCard = ({ className, product, ...rest }) => {
     if (result.status == 200) {
       setSuccess(true)
       setError(false)
+      window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank"); 
     }
     else {
       setSuccess(false)

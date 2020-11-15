@@ -49,19 +49,24 @@ const StatusListView = () => {
 
   useEffect(() =>{ async function fetchData(){
     const result = await axios({
-      method: 'get', 
+      method: 'post', 
+     // url: 'http://3.15.126.206/api/report',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
       //data: {id: varID},
       headers: {"Access-Control-Allow-Origin": "*"}
     })
-    return result
+    var tableData=result.data.filter(x=> x!=null)
+    console.log(tableData)
+    setCustomers(tableData)
+    //return result
   }
 
-    let reportData=fetchData()
-    setCustomers(reportData.data)
-    //setData(result);
-  });
+    fetchData()
+   // console.log(reportData)
 
+
+    //setData(result);
+  },[]);
   // axios({
   //   method: 'get', 
   //   url: 'http://3.15.126.206/api/report',
