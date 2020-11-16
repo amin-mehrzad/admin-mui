@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+ // useEffect
+} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
-  Avatar,
+ // Avatar,
   Box,
   Card,
   CardContent,
@@ -13,12 +16,12 @@ import {
   Button,
   Modal,
   Backdrop,
-  FormControl,
-  InputLabel,
-  Input,
-  FormHelperText,
+ // FormControl,
+  //InputLabel,
+ // Input,
+ // FormHelperText,
   TextField,
-  TextareaAutosize,
+ // TextareaAutosize,
   InputAdornment,
   IconButton,
   Collapse
@@ -131,10 +134,10 @@ const ProductCard = ({ className, product, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
     console.log(result)
-    if (result.status == 200) {
+    if (result.status === 200) {
       setSuccess(true)
       setError(false)
-      window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank"); 
+      window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank");
     }
     else {
       setSuccess(false)

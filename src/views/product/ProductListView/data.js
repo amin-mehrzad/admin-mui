@@ -1,7 +1,15 @@
 import React from 'react';
 
 import { v4 as uuid } from 'uuid';
-import { Brush, ColorLens, ClearAll, Delete, WbIncandescent, Assignment, SystemUpdateAlt } from '@material-ui/icons';
+import {
+  //Brush,
+  ColorLens,
+  ClearAll,
+  Delete,
+  WbIncandescent,
+  Assignment,
+  SystemUpdateAlt
+} from '@material-ui/icons';
 
 
 export default [

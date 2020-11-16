@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Avatar,
   Box,
-  Button,
+ // Button,
   Divider,
   Drawer,
   Hidden,
@@ -13,16 +13,16 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Code as Code,
+  // AlertCircle as AlertCircleIcon,
+  // BarChart as BarChartIcon,
+  // Lock as LockIcon,
+  // Settings as SettingsIcon,
+  // ShoppingBag as ShoppingBagIcon,
+  // User as UserIcon,
+  // UserPlus as UserPlusIcon,
+  Code,
   BookOpen as Book,
-  Users as UsersIcon
+  // Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 

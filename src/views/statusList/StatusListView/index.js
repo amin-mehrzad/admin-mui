@@ -5,8 +5,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Results from './Results';
-import Toolbar from './Toolbar';
+// import Results from './Results';
+// import Toolbar from './Toolbar';
 //import data from './data';
 
 import axios from 'axios'

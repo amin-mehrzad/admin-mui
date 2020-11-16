@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 // import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
+  // Avatar,
   Box,
   Card,
-  Checkbox,
+  // Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +17,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import getInitials from 'src/utils/getInitials';
+// import getInitials from 'src/utils/getInitials';
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
