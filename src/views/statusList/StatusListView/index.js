@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { 
+  // useState, 
+  useEffect } from 'react';
 import {
   Box,
   Container,
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StatusListView = () => {
   const classes = useStyles();
-  const [customers,setCustomers] = useState([]);
+  // const [customers,setCustomers] = useState([]);
 
   useEffect(() =>{ async function fetchData(){
     const result = await axios({
@@ -57,7 +59,7 @@ const StatusListView = () => {
     })
     var tableData=result.data.filter(x=> x!=null)
     console.log(tableData)
-    setCustomers(tableData)
+    // setCustomers(tableData)
     //return result
   }
 

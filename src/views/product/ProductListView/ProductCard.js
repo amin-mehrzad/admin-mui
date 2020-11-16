@@ -206,7 +206,9 @@ const ProductCard = ({ className, product, ...rest }) => {
               Updated 2hr ago
             </Typography> */}
             {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
-            <Button size="large" variant="contained" color="action" onClick={handleOpen}>{product.button}</Button>
+            <Button size="large" variant="contained" color="default" onClick={handleOpen}>{product.button}</Button>
+            <Fade in={open}>
+
             <Modal
               // aria-labelledby="spring-modal-title"
               //  aria-describedby="spring-modal-description"
@@ -219,7 +221,6 @@ const ProductCard = ({ className, product, ...rest }) => {
                 timeout: 500,
               }}
             >
-              <Fade in={open}>
                 <div className={classes.paper}>
                   {/* <h2 id="spring-modal-title">Spring modal</h2>
                   <p id="spring-modal-description">react-spring animates me.</p> */}
@@ -241,7 +242,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                       rows={1}
                       //defaultValue="Default Value"
                       variant="outlined"
-                      fullWidth='true'
+                      fullWidth={true}
                       // helperText="Please enter code here and press submit button"
                       InputProps={{
                         startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
@@ -298,8 +299,9 @@ const ProductCard = ({ className, product, ...rest }) => {
                     </Alert>
                   </Collapse>
                 </div>
-              </Fade>
             </Modal>
+            </Fade>
+
           </Grid>
           <Grid
             className={classes.statsItem}
