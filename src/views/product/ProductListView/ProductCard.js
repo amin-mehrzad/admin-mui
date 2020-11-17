@@ -248,6 +248,8 @@ const ProductCard = ({ className, product, ...rest }) => {
                         startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
                       }}
                       onChange={handleChange}
+                      // placeholder="Search product"
+
                     />
                     {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
                     {/* </FormControl> */}
