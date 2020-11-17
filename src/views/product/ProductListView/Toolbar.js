@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
-  Button,
+ // Button,
   Card,
   CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon,
+ // TextField,
+ // InputAdornment,
+ // SvgIcon,
   makeStyles,
   FormControl,
   InputLabel,
   Select
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+//import { Search as SearchIcon } from 'react-feather';
 import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 160,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -65,7 +65,7 @@ const Toolbar = ({ className, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (venueResult.data[0].venue_id != 0){
+    if (venueResult.data[0].venue_id !== 0){
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowVenue(true)
@@ -74,6 +74,7 @@ const Toolbar = ({ className, ...rest }) => {
     }
     else{
       setShowVenue(false)
+      setShowSection(false)
       let hubResult = await axios({
         method: 'get',
         url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
@@ -90,8 +91,9 @@ const Toolbar = ({ className, ...rest }) => {
   };
 
   const venueHandleChange = async (event) => {
+    setSectionData([])
     var name = event.target.name;
-    var venue_id = event.target.value;
+ ///////   var venue_id = event.target.value;
     //  console.log(event)
     setState({
       ...state,
@@ -99,12 +101,12 @@ const Toolbar = ({ className, ...rest }) => {
     });
     let sectionResult = await axios({
       method: 'get',
-      url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${event.target.value}`,
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/venue-sections?campus_id=${state.campus}&venue_id=${event.target.value}`,
       //data: {id: varID},
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (sectionResult.data[0].venue_section_id != 0){
+    if (sectionResult.data[0].venue_section_id !== 0){
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowVenue(true)
