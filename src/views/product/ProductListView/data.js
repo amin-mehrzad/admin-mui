@@ -21,7 +21,9 @@ export default [
     title: 'Set Status',
     button: 'Set Color',
     commandType: 1,
-    commandKey: 'msg'
+    commandKey: 'msg',
+   // hubId:''
+
   },
   {
     id: uuid(),
@@ -31,7 +33,9 @@ export default [
     title: 'Clear Notifications',
     button: 'Clear',
     commandType: 2,
-    commandKey: 'msg'
+    commandKey: 'msg',
+   // hubId:''
+
 
   },
   {
@@ -42,7 +46,8 @@ export default [
     title: 'Clear IDs',
     button: 'Clear',
     commandType: 3,
-    commandKey: 'msg'
+    commandKey: 'msg',
+   // hubId:''
 
   },
   {
@@ -53,7 +58,9 @@ export default [
     title: 'Set Event',
     button: 'Set Event',
     commandType: 4,
-    commandKey: 'msg'
+    commandKey: 'msg',
+    //hubId:''
+
 
   },
   {
@@ -64,7 +71,9 @@ export default [
     title: 'Read Diagnostic Data',
     button: 'Read Data',
     commandType: 5,
-    commandKey: 'msg'
+    commandKey: 'msg',
+   //hubId:''
+
 
   },
   {
@@ -75,7 +84,9 @@ export default [
     title: 'Update Firmware',
     button: 'Update',
     commandType: 6,
-    commandKey: 'FirmwareUpdate'
+    commandKey: 'FirmwareUpdate',
+   // hubId:''
+
 
   }
 ];

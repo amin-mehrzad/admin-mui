@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({ className,value,onChange, ...rest }) => {
+  console.log(value)
   const classes = useStyles();
   const [state, setState] = useState({
     campus: '',
@@ -228,8 +229,14 @@ const Toolbar = ({ className, ...rest }) => {
 
   };
 
+  const hubHandleChange=(event) =>{
+    // Here, we invoke the callback with the new value
+    onChange(event.target.value);
+}
+
 
   useEffect(() => {
+  //  console.log(props)
     async function fetchData() {
       const result = await axios({
         method: 'get',
@@ -368,7 +375,7 @@ const Toolbar = ({ className, ...rest }) => {
                 <Select
                   native
                   value={state.hub}
-                  // onChange={handleChange}
+                  onChange={hubHandleChange}
                   label="Hub"
                   inputProps={{
                     name: 'hub',

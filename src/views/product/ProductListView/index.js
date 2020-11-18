@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
 const ProductList = () => {
   const classes = useStyles();
   const [commands] = useState(data);
+  const [hubId, setHubId] = useState("");
+
+  const handleChange= (newValue) =>{
+    setHubId(newValue);
+  }
 
   return (
     <Page
@@ -33,7 +38,7 @@ const ProductList = () => {
       title="Commands"
     >
       <Container maxWidth={false}>
-        <Toolbar />
+        <Toolbar value={hubId} onChange={handleChange}/>
         <Box mt={3}>
           <Grid
             container
@@ -49,7 +54,7 @@ const ProductList = () => {
               >
                 <ProductCard
                   className={classes.productCard}
-                  product={command}
+                  product={{hubId:hubId,...command}}
                 />
               </Grid>
              ))}

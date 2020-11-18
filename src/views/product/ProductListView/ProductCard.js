@@ -123,13 +123,14 @@ const ProductCard = ({ className, product, ...rest }) => {
     setCommand(event.target.value);
   };
   const handleSubmit = async () => {
+    console.log(product)
     const result = await axios({
       method: 'post',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/commands`,
       data: {
         command: command,
         commandType: product.commandType,
-        hubId: "E15FE4D80000"
+        hubId: product.hubId
       },
       headers: { "Access-Control-Allow-Origin": "*" }
     })
