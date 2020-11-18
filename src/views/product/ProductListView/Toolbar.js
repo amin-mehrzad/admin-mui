@@ -157,7 +157,7 @@ const Toolbar = ({ className, ...rest }) => {
     })
 
     if (roomResult.data[0].room_id !== null){
-      console.log(roomResult.data)
+     // console.log(roomResult.data)
       setShowHub(false)
       setShowVenue(true)
       setShowSection(true)
@@ -179,6 +179,50 @@ const Toolbar = ({ className, ...rest }) => {
 
 
     }
+
+
+
+  };
+
+  const roomHandleChange = async (event) => {
+    setHubsData([])
+    var name = event.target.name;
+    ///////   var venue_id = event.target.value;
+    //  console.log(event)
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+    let hubResult = await axios({
+      method: 'get',
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
+      //data: {id: varID},
+      headers: { "Access-Control-Allow-Origin": "*" }
+    })
+
+   //if (roomResult.data[0].hub_id !== null){
+      console.log(hubResult.data)
+      setShowHub(true)
+      setShowVenue(true)
+      setShowSection(true)
+      setHubsData(hubResult.data)
+      setShowRoom(true)
+
+    // }
+    // else{
+    //   //setShowVenue(false)
+    //   let hubResult = await axios({
+    //     method: 'get',
+    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}`,
+    //     //data: {id: varID},
+    //     headers: { "Access-Control-Allow-Origin": "*" }
+    //   })
+    //   console.log(hubResult.data)
+    //   setShowHub(true)
+    //   setHubsData(hubResult.data)
+
+
+    // }
 
 
 
@@ -300,6 +344,25 @@ const Toolbar = ({ className, ...rest }) => {
                   )}
                 </Select>
               </FormControl> : null}
+
+              {showRoom ? <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel htmlFor="room">Room</InputLabel>
+                <Select
+                  native
+                  value={state.room}
+                   onChange={roomHandleChange}
+                  label="Room"
+                  inputProps={{
+                    name: 'room',
+                    id: 'room',
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  {roomData.map((room,index) =>
+                    <option value={room.room_id} key={index}>{room.name}</option>
+                  )}
+                </Select>
+              </FormControl> : null}
               {showHub ? <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="hub">Hub</InputLabel>
                 <Select
@@ -315,24 +378,6 @@ const Toolbar = ({ className, ...rest }) => {
                   <option aria-label="None" value="" />
                   {hubsData.map((hub,index) =>
                     <option value={hub.hub_id} key={index}>{hub.hub_id}</option>
-                  )}
-                </Select>
-              </FormControl> : null}
-              {showRoom ? <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="room">Room</InputLabel>
-                <Select
-                  native
-                  value={state.room}
-                  // onChange={handleChange}
-                  label="Room"
-                  inputProps={{
-                    name: 'room',
-                    id: 'room',
-                  }}
-                >
-                  <option aria-label="None" value="" />
-                  {roomData.map((room,index) =>
-                    <option value={room.room_id} key={index}>{room.name}</option>
                   )}
                 </Select>
               </FormControl> : null}
