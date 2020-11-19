@@ -25,7 +25,7 @@ import {
   InputAdornment,
   IconButton,
   Collapse,
-  Hidden
+  // Hidden
   // OutlinedInput
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
@@ -185,7 +185,7 @@ const ProductCard = ({ className, product, ...rest }) => {
       setSuccess(true)
       setError(false)
       if (product.commandType === 5)
-        window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank");
+        window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics/${product.hubId}`, "_blank");
     }
     else {
       setSuccess(false)
