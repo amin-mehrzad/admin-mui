@@ -16,8 +16,9 @@ import {
   Button,
   Modal,
   Backdrop,
-  // FormControl,
-  // InputLabel,
+  FormControl,
+  InputLabel,
+  Select,
   // Input,
   // FormHelperText,
   TextField,
@@ -109,6 +110,7 @@ const ProductCard = ({ className, product, ...rest }) => {
 
   const [open, setOpen] = useState(false);
   const [command, setCommand] = useState("");
+  const [firmwares, setFirmwares] = useState([]);
   const [commandData, setCommandData] = useState({
     openColor: '',
     closeColor: '',
@@ -118,13 +120,23 @@ const ProductCard = ({ className, product, ...rest }) => {
     repeat: '',
     rate: '',
     color1: '',
-    color2: ''
+    color2: '',
+    firmware: ''
 
   });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = async () => {
+    if (product.commandType === 6) {
+      let firmwareResult = await axios({
+        method: 'get',
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-firmware`,
+        //data: {id: varID},
+        headers: { "Access-Control-Allow-Origin": "*" }
+      })
+      setFirmwares(firmwareResult.data)
+    }
     setOpen(true);
   };
 
@@ -137,7 +149,7 @@ const ProductCard = ({ className, product, ...rest }) => {
     setCommand(event.target.value);
   };
 
-  const handleChangeCommand = event => {
+  const handleChangeCommand = async event => {
     // console.log(event.target.value)
     var name = event.target.name;
 
@@ -145,8 +157,24 @@ const ProductCard = ({ className, product, ...rest }) => {
       ...commandData,
       [name]: event.target.value
     })
+    if(product.commandType===6){
+      let firmwareResult = await axios({
+        method: 'get',
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-firmware/${event.target.value}`,
+        //data: {id: varID},
+        headers: { "Access-Control-Allow-Origin": "*" }
+      })
+      setCommand(firmwareResult.data[0].firmware_binary)
+    }
   };
 
+  // const firmwareHandleChange = async (event)=>{
+  //   var name = event.target.name;
+  //   setCommandData({
+  //     ...commandData,
+  //     [name]: event.target.value,
+  //   });
+  // }
   const handleSubmit = async () => {
     var commandString
     switch (product.commandType) {
@@ -165,9 +193,13 @@ const ProductCard = ({ className, product, ...rest }) => {
       case 5:
         commandString = `Report`
         break
-      default:
+      case 6:
         commandString = command
+        break
+      default:
+        commandString = ''
     }
+
 
     console.log(commandString)
     const result = await axios({
@@ -254,7 +286,7 @@ const ProductCard = ({ className, product, ...rest }) => {
               Updated 2hr ago
             </Typography> */}
             {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
-            <Button size="large" variant="contained" color="default" onClick={product.commandType===5?handleSubmit:handleOpen} disabled={(product.hubId === "")}>{product.button}</Button>
+            <Button size="large" variant="contained" color="default" onClick={product.commandType === 5 ? handleSubmit : handleOpen} disabled={(product.hubId === "")}>{product.button}</Button>
             <Fade in={open}>
 
               <Modal
@@ -272,44 +304,52 @@ const ProductCard = ({ className, product, ...rest }) => {
                 <div className={classes.paper}>
                   {/* <h2 id="spring-modal-title">Spring modal</h2>
                   <p id="spring-modal-description">react-spring animates me.</p> */}
-                  {product.commandType===6 ? <Box
+                  {product.commandType === 6 ? <Box
                     mt={3}
                     mb={1}
                     display="flex"
-                    justifyContent="center"
+                     justifyContent="center"
                   >
-                    {/* <FormControl> */}
-                    {/* <InputLabel htmlFor="outlined-multiline-static">Email address</InputLabel> */}
-                    {/* <Input id="my-input" aria-describedby="my-helper-text" /> */}
-                    <TextField
-                      id="outlined-multiline-static"
-                      //label='Set Status Command '
-                      value={command}
-                      label='Command'
-                      multiline
-                      rows={10}
-                      //rows={1}
-                      //defaultValue="Default Value"
-                      variant="outlined"
-                      fullWidth={true}
-                      // helperText="Please enter code here and press submit button"
-                      InputProps={{
-                        startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
-                      }}
-                      onChange={handleChange}
-                    // placeholder="Search product"
+                    <Grid container  spacing={3} >
+                      <Grid item xs={12} style={{ marginButtom: '10px' }}>
+                        <Typography style={{ marginButtom: '10px' }}>Please select firmware version:</Typography>
+                        {/* <FormControl variant="outlined" className={classes.formControl}> */}
+                      </Grid>
+                      <Grid item xs={6} style={{ marginButtom: '10px' }}>
 
-                    />
-                    {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
-                    {/* </FormControl> */}
-                    <Box
-                      ml={1}
-                     // display="flex"
-                      justifyContent="center"
-                    >
-                      <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
+                        <FormControl variant="outlined" >
+                          <InputLabel htmlFor="firmware">Firmware Version</InputLabel>
+                          <Select
+                            native
+                            value={commandData.firmware}
+                            onChange={handleChangeCommand}
+                            label="Firmware Version"
+                            inputProps={{
+                              name: 'firmware',
+                              id: 'firmware',
+                            }}
+                          >
+                            <option aria-label="None" value="" />
+                            {firmwares.map((firmware) =>
+                              <option value={firmware.firmware_id} key={firmware.firmware_id} >{firmware.firmware_version}</option>
+                            )}
+                            {/* <option value={30}>Thirty</option> */}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6} style={{ marginButtom: '10px' }}>
 
-                    </Box>
+                        <Box
+                         // ml={1}
+                           display="flex"
+                          justifyContent="left"
+                        >
+                          <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
+
+                        </Box>
+                      </Grid>
+
+                    </Grid>
 
                   </Box> : null}
                   {product.commandType === 1 ? <Box
@@ -322,7 +362,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                       {/* <InputLabel htmlFor="my-input" >Email address</InputLabel>
                     <OutlinedInput  id="my-input" aria-describedby="my-helper-text"  variant="outlined" /> */}
 
-                      <Grid item xs={12}>
+                      <Grid item xs={12} >
                         <Typography style={{ marginButtom: '10px' }}>Please enter sensor ID:</Typography>
 
                         <TextField
@@ -557,7 +597,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                           //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
                           // }}
                           onChange={handleChangeCommand}
-                          placeholder="3"
+                          placeholder="100"
 
                         />
                       </Grid>
