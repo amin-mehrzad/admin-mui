@@ -54,6 +54,8 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
 
   const campusHandleChange = async (event) => {
+    onChange("")
+setHubsData([])
     var name = event.target.name;
     var campus_id = event.target.value;
     //  console.log(event)
@@ -97,6 +99,8 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   };
 
   const venueHandleChange = async (event) => {
+    onChange("")
+
     setSectionData([])
     var name = event.target.name;
  ///////   var venue_id = event.target.value;
@@ -142,6 +146,8 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
 
   const sectionHandleChange = async (event) => {
+    onChange("")
+
     setRoomData([])
     var name = event.target.name;
     ///////   var venue_id = event.target.value;
@@ -186,6 +192,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   };
 
   const roomHandleChange = async (event) => {
+    onChange("")
     setHubsData([])
     var name = event.target.name;
     ///////   var venue_id = event.target.value;

@@ -1,11 +1,11 @@
 import React, {
   useState,
- // useEffect
+  // useEffect
 } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
- // Avatar,
+  // Avatar,
   Box,
   Card,
   CardContent,
@@ -16,15 +16,16 @@ import {
   Button,
   Modal,
   Backdrop,
- // FormControl,
-  //InputLabel,
- // Input,
- // FormHelperText,
+  FormControl,
+  InputLabel,
+  Input,
+  FormHelperText,
   TextField,
- // TextareaAutosize,
+  // TextareaAutosize,
   InputAdornment,
   IconButton,
-  Collapse
+  Collapse,
+  OutlinedInput
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
@@ -107,6 +108,11 @@ const ProductCard = ({ className, product, ...rest }) => {
 
   const [open, setOpen] = useState(false);
   const [command, setCommand] = useState("");
+  const [commandData, setCommandData] = useState({
+    openColor: '',
+    closeColor: '',
+    sensorId: ''
+  });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
@@ -122,13 +128,33 @@ const ProductCard = ({ className, product, ...rest }) => {
     // console.log(event.target.value)
     setCommand(event.target.value);
   };
+
+  const handleChangeCommand = event => {
+    // console.log(event.target.value)
+    var name = event.target.name;
+
+    setCommandData({
+      ...commandData,
+      [name]: event.target.value
+    })
+  };
+
   const handleSubmit = async () => {
-    console.log(product)
+    var commandString
+    switch (product.commandType){
+      case 1 :
+          commandString = `Set Status ${commandData.sensorId} Open ${commandData.openColor} Closed ${commandData.closeColor}`
+         break
+      default:
+          commandString = command
+    }
+    
+    console.log(commandString)
     const result = await axios({
       method: 'post',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/commands`,
       data: {
-        command: command,
+        command: commandString,
         commandType: product.commandType,
         hubId: product.hubId
       },
@@ -138,7 +164,8 @@ const ProductCard = ({ className, product, ...rest }) => {
     if (result.status === 200) {
       setSuccess(true)
       setError(false)
-      window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank");
+      if (product.commandType == 5)
+        window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank");
     }
     else {
       setSuccess(false)
@@ -210,22 +237,22 @@ const ProductCard = ({ className, product, ...rest }) => {
             <Button size="large" variant="contained" color="default" onClick={handleOpen}>{product.button}</Button>
             <Fade in={open}>
 
-            <Modal
-              // aria-labelledby="spring-modal-title"
-              //  aria-describedby="spring-modal-description"
-              className={classes.modal}
-              open={open}
-              onClose={handleClose}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-            >
+              <Modal
+                // aria-labelledby="spring-modal-title"
+                //  aria-describedby="spring-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
                 <div className={classes.paper}>
                   {/* <h2 id="spring-modal-title">Spring modal</h2>
                   <p id="spring-modal-description">react-spring animates me.</p> */}
-                  <Box
+                  {false ? <Box
                     mt={3}
                     mb={1}
                     display="flex"
@@ -249,7 +276,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                         startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
                       }}
                       onChange={handleChange}
-                      // placeholder="Search product"
+                    // placeholder="Search product"
 
                     />
                     {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
@@ -263,7 +290,106 @@ const ProductCard = ({ className, product, ...rest }) => {
 
                     </Box>
 
-                  </Box>
+                  </Box> : null}
+                  {product.commandType === 1 ? <Box
+                    mt={3}
+                    mb={1}
+                    //  display="flex"
+                    justifyContent="center"
+                  >
+                    <Grid container spacing={3}>
+                      {/* <InputLabel htmlFor="my-input" >Email address</InputLabel>
+                    <OutlinedInput  id="my-input" aria-describedby="my-helper-text"  variant="outlined" /> */}
+
+                      <Grid item xs={12}>
+                        <Typography>Please enter sensor ID:</Typography>
+
+                        <TextField
+                          id="sensorId"
+                          name="sensorId"
+                          //label='Set Status Command '
+                          value={commandData.sensorId}
+                          label='Sensor ID'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="00"
+
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <Typography>Please enter color value in RRGGBB hex format:</Typography>
+
+                        <TextField
+                          id="openColor"
+                          name="openColor"
+                          //label='Set Status Command '
+                          value={commandData.openColor}
+                          label='Open Color'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="00FE10"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+
+                        <TextField
+                          id="closeColor"
+                          name="closeColor"
+                          //label='Set Status Command '
+                          value={commandData.closeColor}
+                          label='Close Color'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="FF051A"
+                        // mt={2}
+
+                        />
+                        {/* <FormHelperText id="my-helper-text">Please enter value in RRGGBB HEX format.</FormHelperText> */}
+
+                      </Grid>
+                      {/* </Grid> */}
+                      {/* <Grid container> */}
+                      <Grid item xs={12}>
+                        {/* <Box
+                        ml={1}
+                        // mt={'50%'}
+                        display="flex"
+                        justifyContent="center"
+                      > */}
+                        <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
+                        {/* </Box> */}
+
+
+                      </Grid>
+
+                    </Grid>
+                  </Box> : null}
                   <Collapse in={success}>
                     <Alert
                       action={
@@ -302,7 +428,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                     </Alert>
                   </Collapse>
                 </div>
-            </Modal>
+              </Modal>
             </Fade>
 
           </Grid>

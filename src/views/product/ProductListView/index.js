@@ -3,7 +3,8 @@ import {
   Box,
   Container,
   Grid,
-  makeStyles
+  makeStyles,
+  Zoom
 } from '@material-ui/core';
 //import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
@@ -45,6 +46,7 @@ const ProductList = () => {
             spacing={3}
           >
             {commands.map((command) => (
+              <Zoom in={hubId!=""}>
               <Grid
                 item
                 key={command.id}
@@ -57,6 +59,7 @@ const ProductList = () => {
                   product={{hubId:hubId,...command}}
                 />
               </Grid>
+              </Zoom>
              ))}
           </Grid>
         </Box>
