@@ -16,16 +16,17 @@ import {
   Button,
   Modal,
   Backdrop,
-  FormControl,
-  InputLabel,
-  Input,
-  FormHelperText,
+  // FormControl,
+  // InputLabel,
+  // Input,
+  // FormHelperText,
   TextField,
   // TextareaAutosize,
   InputAdornment,
   IconButton,
   Collapse,
-  OutlinedInput
+  Hidden
+  // OutlinedInput
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
@@ -141,14 +142,23 @@ const ProductCard = ({ className, product, ...rest }) => {
 
   const handleSubmit = async () => {
     var commandString
-    switch (product.commandType){
-      case 1 :
-          commandString = `Set Status ${commandData.sensorId} Open ${commandData.openColor} Closed ${commandData.closeColor}`
-         break
+    switch (product.commandType) {
+      case 1:
+        commandString = `Set Status ${commandData.sensorId} Open ${commandData.openColor} Closed ${commandData.closeColor}`
+        break
+      case 2:
+        commandString = `Clear Notif`
+        break
+      case 3:
+        commandString = `Clear ID`
+        break
+        case 4:
+          commandString = ``
+          break
       default:
-          commandString = command
+        commandString = command
     }
-    
+
     console.log(commandString)
     const result = await axios({
       method: 'post',
@@ -164,7 +174,7 @@ const ProductCard = ({ className, product, ...rest }) => {
     if (result.status === 200) {
       setSuccess(true)
       setError(false)
-      if (product.commandType == 5)
+      if (product.commandType === 5)
         window.open(`http://${process.env.REACT_APP_SERVER_URI}/api/diagnostics`, "_blank");
     }
     else {
@@ -234,7 +244,7 @@ const ProductCard = ({ className, product, ...rest }) => {
               Updated 2hr ago
             </Typography> */}
             {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
-            <Button size="large" variant="contained" color="default" onClick={handleOpen}>{product.button}</Button>
+            <Button size="large" variant="contained" color="default" onClick={handleOpen} disabled={(product.hubId === "")}>{product.button}</Button>
             <Fade in={open}>
 
               <Modal
@@ -390,6 +400,51 @@ const ProductCard = ({ className, product, ...rest }) => {
 
                     </Grid>
                   </Box> : null}
+
+                  {product.commandType === 2 ? <Box
+                    mt={3}
+                    mb={1}
+                    justifyContent="center"
+                  >
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <Typography variant='h4'>Do You Want To Clear Notifications?</Typography>
+                      </Grid>
+                      <Grid item xs={12} >
+                        <Box
+                          ml={1}
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          <Button size="large" variant="contained" color="primary" onClick={handleSubmit} style={{ marginRight: '70px' }}>Clear</Button>
+                          <Button size="large" variant="contained" color="primary" onClick={handleClose} style={{ marginLeft: '70px' }}>Cancel</Button>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box> : null}
+
+                  {product.commandType === 3 ? <Box
+                    mt={3}
+                    mb={1}
+                    justifyContent="center"
+                  >
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <Typography variant='h4'>Do You Want To Clear IDs?</Typography>
+                      </Grid>
+                      <Grid item xs={12} >
+                        <Box
+                          ml={1}
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          <Button size="large" variant="contained" color="primary" onClick={handleSubmit} style={{ marginRight: '70px' }}>Clear</Button>
+                          <Button size="large" variant="contained" color="primary" onClick={handleClose} style={{ marginLeft: '70px' }}>Cancel</Button>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box> : null}
+
                   <Collapse in={success}>
                     <Alert
                       action={

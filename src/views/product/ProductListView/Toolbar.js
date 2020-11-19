@@ -12,7 +12,9 @@ import {
   makeStyles,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  CardHeader,
+  Typography
 } from '@material-ui/core';
 //import { Search as SearchIcon } from 'react-feather';
 import axios from 'axios'
@@ -281,10 +283,16 @@ setHubsData([])
           Add product
         </Button>
       </Box> */}
-      <Box mt={3}>
+      <Box >
         <Card>
+          {/* <CardHeader> */}
+
+          {/* </CardHeader> */}
           <CardContent>
-            <Box maxWidth={2500}>
+            <Box maxWidth={2500} mt={1}>
+            {/* <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+                  Please Select Hub ID :
+            </Typography> */}
               {/* <TextField
                 fullWidth
                 InputProps={{

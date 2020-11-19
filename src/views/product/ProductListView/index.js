@@ -46,7 +46,7 @@ const ProductList = () => {
             spacing={3}
           >
             {commands.map((command) => (
-              <Zoom in={hubId!=""}>
+              // <Zoom in={hubId!==""}>
               <Grid
                 item
                 key={command.id}
@@ -59,7 +59,7 @@ const ProductList = () => {
                   product={{hubId:hubId,...command}}
                 />
               </Grid>
-              </Zoom>
+              // </Zoom>
              ))}
           </Grid>
         </Box>
