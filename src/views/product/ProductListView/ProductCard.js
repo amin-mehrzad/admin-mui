@@ -112,7 +112,14 @@ const ProductCard = ({ className, product, ...rest }) => {
   const [commandData, setCommandData] = useState({
     openColor: '',
     closeColor: '',
-    sensorId: ''
+    sensorId: '',
+    eventSensorId: '',
+    delay: '',
+    repeat: '',
+    rate: '',
+    color1: '',
+    color2: ''
+
   });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -152,9 +159,12 @@ const ProductCard = ({ className, product, ...rest }) => {
       case 3:
         commandString = `Clear ID`
         break
-        case 4:
-          commandString = ``
-          break
+      case 4:
+        commandString = `Set Event ${commandData.eventSensorId} @${commandData.delay}${commandData.repeat !== "" ? ` Rpt ${commandData.repeat}` : ""}${commandData.rate !== "" ? ` Rate ${commandData.rate}` : ""}${commandData.color1 !== "" ? ` Color1 ${commandData.color1}` : ""}${commandData.color2 !== "" ? ` Color2 ${commandData.color2}` : ""}`
+        break
+      case 5:
+        commandString = `Report`
+        break
       default:
         commandString = command
     }
@@ -244,7 +254,7 @@ const ProductCard = ({ className, product, ...rest }) => {
               Updated 2hr ago
             </Typography> */}
             {/* <Button size="large" variant="contained" startIcon={<ColorLensIcon />} color="action" onClick={handleOpen}>{product.button}</Button> */}
-            <Button size="large" variant="contained" color="default" onClick={handleOpen} disabled={(product.hubId === "")}>{product.button}</Button>
+            <Button size="large" variant="contained" color="default" onClick={product.commandType===5?handleSubmit:handleOpen} disabled={(product.hubId === "")}>{product.button}</Button>
             <Fade in={open}>
 
               <Modal
@@ -262,7 +272,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                 <div className={classes.paper}>
                   {/* <h2 id="spring-modal-title">Spring modal</h2>
                   <p id="spring-modal-description">react-spring animates me.</p> */}
-                  {false ? <Box
+                  {product.commandType===6 ? <Box
                     mt={3}
                     mb={1}
                     display="flex"
@@ -277,7 +287,8 @@ const ProductCard = ({ className, product, ...rest }) => {
                       value={command}
                       label='Command'
                       multiline
-                      rows={1}
+                      rows={10}
+                      //rows={1}
                       //defaultValue="Default Value"
                       variant="outlined"
                       fullWidth={true}
@@ -293,7 +304,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                     {/* </FormControl> */}
                     <Box
                       ml={1}
-                      display="flex"
+                     // display="flex"
                       justifyContent="center"
                     >
                       <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
@@ -312,7 +323,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                     <OutlinedInput  id="my-input" aria-describedby="my-helper-text"  variant="outlined" /> */}
 
                       <Grid item xs={12}>
-                        <Typography>Please enter sensor ID:</Typography>
+                        <Typography style={{ marginButtom: '10px' }}>Please enter sensor ID:</Typography>
 
                         <TextField
                           id="sensorId"
@@ -336,7 +347,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                       </Grid>
 
                       <Grid item xs={12}>
-                        <Typography>Please enter color value in RRGGBB hex format:</Typography>
+                        <Typography mb={1}>Please enter color value in RRGGBB hex format:</Typography>
 
                         <TextField
                           id="openColor"
@@ -442,6 +453,179 @@ const ProductCard = ({ className, product, ...rest }) => {
                           <Button size="large" variant="contained" color="primary" onClick={handleClose} style={{ marginLeft: '70px' }}>Cancel</Button>
                         </Box>
                       </Grid>
+                    </Grid>
+                  </Box> : null}
+                  {product.commandType === 4 ? <Box
+                    mt={3}
+                    mb={1}
+                    //  display="flex"
+                    justifyContent="center"
+                  >
+                    <Grid container spacing={3}>
+                      {/* <InputLabel htmlFor="my-input" >Email address</InputLabel>
+                    <OutlinedInput  id="my-input" aria-describedby="my-helper-text"  variant="outlined" /> */}
+
+                      <Grid item xs={12}>
+                        <Typography style={{ marginButtom: '10px' }}>Please enter sensor ID:</Typography>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="eventSensorId"
+                          name="eventSensorId"
+                          //label='Set Status Command '
+                          value={commandData.eventSensorId}
+                          label='Sensor ID'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="00"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography style={{ marginButtom: '10px' }}>Please enter seconds of delay in hex format:</Typography>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="delay"
+                          name="delay"
+                          //label='Set Status Command '
+                          value={commandData.delay}
+                          label='Delay'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="000001"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography style={{ marginButtom: '10px' }}>Please enter number of repeat:</Typography>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="repeat"
+                          name="repeat"
+                          //label='Set Status Command '
+                          value={commandData.repeat}
+                          label='Repeat'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="3"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography>Please enter rate in miliseconds:</Typography>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="rate"
+                          name="rate"
+                          //label='Set Status Command '
+                          value={commandData.rate}
+                          label='Rate'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="3"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography style={{ marginButtom: '10px' }}>Please enter color value in RRGGBB hex format:</Typography>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="color1"
+                          name="color1"
+                          //label='Set Status Command '
+                          value={commandData.color1}
+                          label='Color 1'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="00FE10"
+
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+
+                        <TextField
+                          style={{ marginTop: '10px' }}
+                          id="color2"
+                          name="color2"
+                          //label='Set Status Command '
+                          value={commandData.color2}
+                          label='Color 2'
+                          multiline
+                          rows={1}
+                          //defaultValue="Default Value"
+                          variant="outlined"
+                          fullWidth={true}
+                          // helperText="Please enter code here and press submit button"
+                          // InputProps={{
+                          //   startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                          // }}
+                          onChange={handleChangeCommand}
+                          placeholder="FF051A"
+                        // mt={2}
+
+                        />
+                        {/* <FormHelperText id="my-helper-text">Please enter value in RRGGBB HEX format.</FormHelperText> */}
+
+                      </Grid>
+                      {/* </Grid> */}
+                      {/* <Grid container> */}
+                      <Grid item xs={12}>
+                        {/* <Box
+                        ml={1}
+                        // mt={'50%'}
+                        display="flex"
+                        justifyContent="center"
+                      > */}
+                        <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
+                        {/* </Box> */}
+
+
+                      </Grid>
+
                     </Grid>
                   </Box> : null}
 
