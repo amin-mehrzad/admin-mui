@@ -158,7 +158,7 @@ const Results = ({ className, customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {customer.campus_name}
                       </Typography>
                     </Box>
                   </TableCell>

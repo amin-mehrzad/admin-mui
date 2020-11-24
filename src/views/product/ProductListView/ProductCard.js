@@ -23,7 +23,7 @@ import {
   // FormHelperText,
   TextField,
   // TextareaAutosize,
-  InputAdornment,
+  // InputAdornment,
   IconButton,
   Collapse,
   // Hidden
@@ -144,10 +144,10 @@ const ProductCard = ({ className, product, ...rest }) => {
     setOpen(false);
   };
 
-  const handleChange = event => {
-    // console.log(event.target.value)
-    setCommand(event.target.value);
-  };
+  // const handleChange = event => {
+  //   // console.log(event.target.value)
+  //   setCommand(event.target.value);
+  // };
 
   const handleChangeCommand = async event => {
     // console.log(event.target.value)
