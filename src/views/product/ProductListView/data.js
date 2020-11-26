@@ -11,8 +11,7 @@ import {
   SystemUpdateAlt
 } from '@material-ui/icons';
 
-
-export default [
+let data=[
   {
     id: uuid(),
     createdAt: '27/03/2019',
@@ -90,3 +89,4 @@ export default [
 
   }
 ];
+export default data
