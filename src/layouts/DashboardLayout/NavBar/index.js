@@ -30,7 +30,7 @@ import NavItem from './NavItem';
 const user = {
 avatar: '/static/images/tooshlight_logo.png',
 jobTitle: 'Admin',
-name: 'Tooshlight'
+name: 'Tooshlights'
 };
 
 const items = [
