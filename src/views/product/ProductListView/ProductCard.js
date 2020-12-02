@@ -23,7 +23,7 @@ import {
   // FormHelperText,
   TextField,
   // TextareaAutosize,
-  // InputAdornment,
+  InputAdornment,
   IconButton,
   Collapse,
   // Hidden
@@ -144,10 +144,10 @@ const ProductCard = ({ className, product, ...rest }) => {
     setOpen(false);
   };
 
-  // const handleChange = event => {
-  //   // console.log(event.target.value)
-  //   setCommand(event.target.value);
-  // };
+  const handleChange = event => {
+    // console.log(event.target.value)
+    setCommand(event.target.value);
+  };
 
   const handleChangeCommand = async event => {
     // console.log(event.target.value)
@@ -157,7 +157,7 @@ const ProductCard = ({ className, product, ...rest }) => {
       ...commandData,
       [name]: event.target.value
     })
-    if(product.commandType===6){
+    if (product.commandType === 6) {
       let firmwareResult = await axios({
         method: 'get',
         url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-firmware/${event.target.value}`,
@@ -194,6 +194,9 @@ const ProductCard = ({ className, product, ...rest }) => {
         commandString = `Report`
         break
       case 6:
+        commandString = command
+        break
+      case 7:
         commandString = command
         break
       default:
@@ -308,9 +311,9 @@ const ProductCard = ({ className, product, ...rest }) => {
                     mt={3}
                     mb={1}
                     display="flex"
-                     justifyContent="center"
+                    justifyContent="center"
                   >
-                    <Grid container  spacing={3} >
+                    <Grid container spacing={3} >
                       <Grid item xs={12} style={{ marginButtom: '10px' }}>
                         <Typography style={{ marginButtom: '10px' }}>Please select firmware version:</Typography>
                         {/* <FormControl variant="outlined" className={classes.formControl}> */}
@@ -340,8 +343,8 @@ const ProductCard = ({ className, product, ...rest }) => {
                       <Grid item xs={6} style={{ marginButtom: '10px' }}>
 
                         <Box
-                         // ml={1}
-                           display="flex"
+                          // ml={1}
+                          display="flex"
                           justifyContent="left"
                         >
                           <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
@@ -352,6 +355,54 @@ const ProductCard = ({ className, product, ...rest }) => {
                     </Grid>
 
                   </Box> : null}
+
+
+
+
+                  {product.commandType === 7 ? <Box
+                    mt={3}
+                    mb={1}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    {/* <FormControl> */}
+                    {/* <InputLabel htmlFor="outlined-multiline-static">Email address</InputLabel> */}
+                    {/* <Input id="my-input" aria-describedby="my-helper-text" /> */}
+                    <TextField
+                      id="outlined-multiline-static"
+                      //label='Set Status Command '
+                      value={command}
+                      label='Command'
+                      multiline
+                      rows={1}
+                      //defaultValue="Default Value"
+                      variant="outlined"
+                      fullWidth={true}
+                      // helperText="Please enter code here and press submit button"
+                      InputProps={{
+                        startAdornment: <InputAdornment  >{`"${product.commandKey}" : `}</InputAdornment>,
+                      }}
+                      onChange={handleChange}
+                    // placeholder="Search product"
+
+                    />
+                    {/* <FormHelperText id="my-helper-text">Please enter code here and press submit button</FormHelperText> */}
+                    {/* </FormControl> */}
+                    <Box
+                      ml={1}
+                      display="flex"
+                      justifyContent="center"
+                    >
+                      <Button size="large" variant="contained" color="primary" onClick={handleSubmit} >Submit</Button>
+
+                    </Box>
+
+                  </Box> : null}
+
+
+
+
+
                   {product.commandType === 1 ? <Box
                     mt={3}
                     mb={1}

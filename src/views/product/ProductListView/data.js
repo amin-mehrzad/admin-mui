@@ -8,7 +8,8 @@ import {
   Delete,
   WbIncandescent,
   Assignment,
-  SystemUpdateAlt
+  SystemUpdateAlt,
+  SettingsEthernet
 } from '@material-ui/icons';
 
 let data=[
@@ -84,6 +85,19 @@ let data=[
     button: 'Update',
     commandType: 6,
     commandKey: 'FirmwareUpdate',
+   // hubId:''
+
+
+  },
+  {
+    id: uuid(),
+    createdAt: '04/04/2019',
+    description: 'Custom command will be send to the hub. This option is avalable for developers to create their own commands.',
+    media: <SettingsEthernet fontSize="large" />,
+    title: 'Custom Command',
+    button: 'Send Command',
+    commandType: 7,
+    commandKey: 'msg',
    // hubId:''
 
 
