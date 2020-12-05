@@ -208,12 +208,11 @@ const ProductCard = ({ className, product, ...rest }) => {
     const result = await axios({
       method: 'post',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/commands`,
-      data: {
-        command: commandString,
-        commandType: product.commandType,
-        hubId: product.hubId
-      },
-      headers: { "Access-Control-Allow-Origin": "*" }
+      data: `${product.hubId},{"${product.commandKey}":"${commandString}"}`,
+     // commandType: ${product.commandType},
+      headers: { "Access-Control-Allow-Origin": "*" ,
+                 "Content-Type":"text/plain"
+                }
     })
     console.log(result)
     if (result.status === 200) {
