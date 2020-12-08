@@ -208,7 +208,7 @@ const ProductCard = ({ className, product, ...rest }) => {
     const result = await axios({
       method: 'post',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/commands`,
-      data: `${product.hubId},{"${product.commandKey}":"${commandString}"}`,
+      data: `${product.hubId},${commandString}`,
      // commandType: ${product.commandType},
       headers: { "Access-Control-Allow-Origin": "*" ,
                  "Content-Type":"text/plain"
