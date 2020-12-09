@@ -28,7 +28,7 @@ import NavItem from './NavItem';
 //import tooshlightLogo from '../../../images/tooshlight_logo.png';
 
 const user = {
-avatar: '/static/images/tooshlight_logo.png',
+avatar: '/static/images/admin-icon-.png',
 jobTitle: 'Admin',
 name: 'Tooshlights'
 };
