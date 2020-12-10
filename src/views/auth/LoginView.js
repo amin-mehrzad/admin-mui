@@ -43,15 +43,16 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
+              username: 'Admin',
               password: 'Password123'
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              //username: Yup.string().username('Must be a valid username').max(255).required('Username is required'),
+              username: Yup.string().max(255).required('Username is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              navigate('/app/commands', { replace: true });
             }}
           >
             {({
@@ -66,24 +67,25 @@ const LoginView = () => {
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
                   <Typography
+                    align="center"
                     color="textPrimary"
                     variant="h2"
                   >
                     Sign in
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
                     Sign in on the internal platform
-                  </Typography>
+                  </Typography> */}
                 </Box>
                 <Grid
                   container
                   spacing={3}
                 >
-                  <Grid
+                  {/* <Grid
                     item
                     xs={12}
                     md={6}
@@ -98,8 +100,8 @@ const LoginView = () => {
                     >
                       Login with Facebook
                     </Button>
-                  </Grid>
-                  <Grid
+                  </Grid> */}
+                  {/* <Grid
                     item
                     xs={12}
                     md={6}
@@ -113,7 +115,7 @@ const LoginView = () => {
                     >
                       Login with Google
                     </Button>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Box
                   mt={3}
@@ -124,20 +126,20 @@ const LoginView = () => {
                     color="textSecondary"
                     variant="body1"
                   >
-                    or login with email address
+                    Login with admin account
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.username && errors.username}
+                  label="Username"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="username"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -166,6 +168,7 @@ const LoginView = () => {
                   </Button>
                 </Box>
                 <Typography
+                  align="center"
                   color="textSecondary"
                   variant="body1"
                 >
