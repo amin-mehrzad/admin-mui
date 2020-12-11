@@ -21,6 +21,8 @@ import {
   // User as UserIcon,
   // UserPlus as UserPlusIcon,
   Code,
+  Clipboard,
+  Assignment,
   BookOpen as Book,
   // Users as UsersIcon
 } from 'react-feather';
@@ -54,10 +56,15 @@ const items = [
     icon: Book,
     title: 'Report'
   },
+  // {
+  //   href: '/app/status',
+  //   icon: Book,
+  //   title: 'Status List'
+  // },
   {
-    href: '/app/status',
-    icon: Book,
-    title: 'Status List'
+    href: '/app/hub-assignment',
+    icon: Clipboard,
+    title: 'Hub Assignment'
   },
   // {
   //   href: '/app/account',

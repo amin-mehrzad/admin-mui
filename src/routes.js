@@ -8,7 +8,8 @@ import CustomerListView from 'src/views/customer/CustomerListView';
  import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
-import StatusListView from 'src/views/statusList/StatusListView';
+// import StatusListView from 'src/views/statusList/StatusListView';
+import HubAssignment from 'src/views/hubAssignment/HubAssignmentView';
 // import RegisterView from 'src/views/auth/RegisterView';
 // import SettingsView from 'src/views/settings/SettingsView';
 
@@ -22,7 +23,8 @@ const routes = [
       // { path: 'dashboard', element: <DashboardView /> },
       { path: 'commands', element: <ProductListView /> },
       { path: 'report', element: <CustomerListView /> },
-      { path: 'status', element: <StatusListView /> },
+      // { path: 'status', element: <StatusListView /> },
+      { path: 'hub-assignment', element: <HubAssignment /> },
       // { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
