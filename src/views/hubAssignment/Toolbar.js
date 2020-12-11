@@ -56,8 +56,9 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
 
   const campusHandleChange = async (event) => {
-    onChange("")
+    onChange([])
 setHubsData([])
+console.log(event.target.value)
     var name = event.target.name;
     var campus_id = event.target.value;
     //  console.log(event)
@@ -85,23 +86,26 @@ setHubsData([])
       setShowSection(false)
       setShowRoom(false)
 
-      let hubResult = await axios({
+      let roomResult = await axios({
         method: 'get',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
+      //  url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
+              url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${campus_id}&venue_id=0&venue_section_id=0`,
         //data: {id: varID},
         headers: { "Access-Control-Allow-Origin": "*" }
       })
-      console.log(hubResult.data)
-      setShowHub(true)
-      setHubsData(hubResult.data)
-
+      console.log(roomResult.data)
+     // setShowHub(true)
+     // setHubsData(hubResult.data)
+      setRoomData(roomResult.data)
+      setShowRoom(true)
+      onChange(roomResult.data)
 
     }
 
   };
 
   const venueHandleChange = async (event) => {
-    onChange("")
+    onChange([])
 
     setSectionData([])
     var name = event.target.name;
@@ -148,7 +152,7 @@ setHubsData([])
 
 
   const sectionHandleChange = async (event) => {
-    onChange("")
+    onChange([])
 
     setRoomData([])
     var name = event.target.name;

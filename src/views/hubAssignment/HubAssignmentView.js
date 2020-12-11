@@ -38,13 +38,12 @@ const HubAssignment = () => {
       className={classes.root}
       title="Hub Assignment"
     >
-      <Container maxWidth={false}>
+      <Container 
+      maxWidth={false}
+      spacing={3}>
         <Toolbar value={roomData} onChange={handleChange}/>
         <Box mt={3}>
-          <Grid
-           // container
-            spacing={3}
-          >
+          <Grid >
             {/* {commands.map((command) => (
               // <Zoom in={roomData!==""}>
               <Grid
@@ -55,7 +54,7 @@ const HubAssignment = () => {
                 xs={12}
               > */}
                 <RoomsTable
-                // className={classes.rooms}
+                 //className={classes.rooms}
                   roomData={roomData}
                 />
               {/* </Grid> */}

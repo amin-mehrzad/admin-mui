@@ -44,10 +44,10 @@ const tableIcons = {
 };
 
 const Rooms = ({ roomData, ...rest }) => {
-  console.log(roomData)
+  console.log(typeof(roomData))
   // const { useState } = React;
   const [selectedRow, setSelectedRow] = useState(null);
-  const [data, setData] = useState([]);
+ // const [data, setData] = useState([]);
 
   return (
     <MaterialTable
@@ -61,7 +61,7 @@ const Rooms = ({ roomData, ...rest }) => {
         { title: 'Description', field: 'description' },
         { title: 'Total Stalls', field: 'total_stalls', type: 'numeric' },
         { title: 'Sensor Count', field: 'sensor_count', type: 'numeric' },
-        { title: 'Updated', field: 'updated_at' }, // TODO:  add type date
+        { title: 'Updated', field: 'updated_at' }, //TODO:  add type date
         { title: 'Updated By', field: 'updated_by' }
         // {
         //   title: 'Birth Place',
@@ -79,7 +79,10 @@ const Rooms = ({ roomData, ...rest }) => {
         paging :false,
         search:false,
         rowStyle: rowData => ({
-          backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'
+          backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          fontSize: '14px'
+
         })
       }}
     />
