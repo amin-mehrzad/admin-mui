@@ -35,7 +35,7 @@ const HubAssignment = () => {
     setRoomData(newValue);
   }
   const handleChangeRooms = (newValue) => {
-    console.log(newValue)
+   // console.log(newValue)
 
     //  setSensorData(newValue);
     setSensorData([{hub_id:'test'}]);
