@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useState,
 } from 'react';
 import MaterialTable from 'material-table'
@@ -10,10 +11,20 @@ import tableIcons from '../../icons/tableIcons'
 
 const SensorRangeTable = ({ sensorData, ...rest }) => {
   console.log(typeof(sensorData))
+  console.log(sensorData)
   // const { useState } = React;
  // const [selectedRow, setSelectedRow] = useState(null);
  // const [sensorRange, setSensorRange] = useState([]);
- // const [data, setData] = useState([]); 
+ const [data, setData] = useState([]);
+
+ useEffect (()=>{
+ setData(sensorData)
+
+ },[sensorData])
+ 
+ //setData(sensorData)
+ console.log(data)
+
   return (
     <MaterialTable
       icons={tableIcons}
@@ -38,7 +49,7 @@ const SensorRangeTable = ({ sensorData, ...rest }) => {
         // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
         // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
      // ]}
-     data={sensorData}
+     data={data}
      // onRowClick={( (evt, selectedRow) => {
       //  console.log(selectedRow)
       //  setSelectedRow(selectedRow.tableData.id);

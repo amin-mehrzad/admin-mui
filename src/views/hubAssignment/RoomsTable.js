@@ -7,6 +7,7 @@ import axios from 'axios'
 
 const Rooms = ({ value,onChange, ...rest }) => {
   console.log(typeof(value.rooms))
+  console.log(value)
   // const { useState } = React;
  const [selectedRow, setSelectedRow] = useState(null);
   const [sensorRange, setSensorRange] = useState([]);
@@ -53,7 +54,7 @@ const Rooms = ({ value,onChange, ...rest }) => {
         paging :false,
         search:false,
         rowStyle: rowData => ({
-          backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+          backgroundColor: (selectedRow === rowData.tableData.id && value.sensorRange.length >0) ? '#EEE' : '#FFF',
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
           fontSize: '14px'
 
