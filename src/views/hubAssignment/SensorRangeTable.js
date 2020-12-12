@@ -43,8 +43,8 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const Rooms = ({ roomData,onChange, ...rest }) => {
-  console.log(typeof(roomData))
+const SensorRangeTable = ({ sensorData, ...rest }) => {
+  console.log(typeof(sensorData))
   // const { useState } = React;
   const [selectedRow, setSelectedRow] = useState(null);
   const [sensorRange, setSensorRange] = useState([]);
@@ -52,15 +52,15 @@ const Rooms = ({ roomData,onChange, ...rest }) => {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Rooms:"
+      title="Sensor Range:"
       columns={[
-        { title: 'Room ID', field: 'room_id' , type: 'numeric'},
-        { title: 'Room Type', field: 'room_type' },
-        { title: 'Room Sub Type', field: 'room_sub_type' },
-        { title: 'Room Name', field: 'name' },
-        { title: 'Description', field: 'description' },
-        { title: 'Total Stalls', field: 'total_stalls', type: 'numeric' },
-        { title: 'Sensor Count', field: 'sensor_count', type: 'numeric' },
+        { title: 'Hub ID', field: 'hub_id' },
+        { title: 'Sensor Range From', field: 'sensor_range_from', type: 'numeric' },
+        { title: 'Sensor Range To', field: 'sensor_range_to' , type: 'numeric'},
+        { title: 'Active?', field: 'sensor_active' },
+        { title: 'Gender', field: 'sensor_range_gender' },
+        { title: 'Handicap?', field: 'sensore_handicap'},
+        { title: 'Display Sensor', field: 'display_sensor' },
         { title: 'Updated', field: 'updated_at' }, //TODO:  add type date
         { title: 'Updated By', field: 'updated_by' }
         // {
@@ -73,11 +73,10 @@ const Rooms = ({ roomData,onChange, ...rest }) => {
         // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
         // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
      // ]}
-     data={roomData}
+     data={sensorData}
       onRowClick={( (evt, selectedRow) => {
         console.log(selectedRow)
         setSelectedRow(selectedRow.tableData.id);
-        onChange()
         } )}
       options={{
         paging :false,
@@ -98,4 +97,4 @@ const Rooms = ({ roomData,onChange, ...rest }) => {
 //     product: PropTypes.object.isRequired
 //   };
 
-export default Rooms;
+export default SensorRangeTable;
