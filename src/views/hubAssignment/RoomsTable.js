@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table'
 import tableIcons from '../../icons/tableIcons'
+import axios from 'axios'
 
 
 
-const Rooms = ({ roomData,onChange, ...rest }) => {
-  console.log(typeof(roomData))
+const Rooms = ({ value,onChange, ...rest }) => {
+  console.log(typeof(value.rooms))
   // const { useState } = React;
-  const [selectedRow, setSelectedRow] = useState(null);
+ const [selectedRow, setSelectedRow] = useState(null);
   const [sensorRange, setSensorRange] = useState([]);
  // const [data, setData] = useState([]); 
   return (
@@ -34,11 +35,19 @@ const Rooms = ({ roomData,onChange, ...rest }) => {
         // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
         // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
      // ]}
-     data={roomData}
-      onRowClick={( (evt, selectedRow) => {
+     data={value.rooms}
+      onRowClick={(async (evt, selectedRow) => {
         console.log(selectedRow)
-        setSelectedRow(selectedRow.tableData.id);
-        onChange()
+        let hrsResult = await axios({
+          method: 'get',
+          url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-room-sensors?campus_id=${selectedRow.campus_id}&venue_id=${selectedRow.venue_id}&venue_section_id=${selectedRow.venue_section_id}&room_id=${selectedRow.room_id}`,
+          headers: { "Access-Control-Allow-Origin": "*" }
+        })
+        console.log(hrsResult.data)
+         setSelectedRow(selectedRow.tableData.id);
+        setSensorRange(hrsResult.data);
+        //value={sensorRange:hrsResult.data,rooms:value.rooms}
+        onChange(hrsResult.data)
         } )}
       options={{
         paging :false,

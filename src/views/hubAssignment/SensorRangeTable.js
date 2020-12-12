@@ -11,8 +11,8 @@ import tableIcons from '../../icons/tableIcons'
 const SensorRangeTable = ({ sensorData, ...rest }) => {
   console.log(typeof(sensorData))
   // const { useState } = React;
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [sensorRange, setSensorRange] = useState([]);
+ // const [selectedRow, setSelectedRow] = useState(null);
+ // const [sensorRange, setSensorRange] = useState([]);
  // const [data, setData] = useState([]); 
   return (
     <MaterialTable
@@ -20,8 +20,8 @@ const SensorRangeTable = ({ sensorData, ...rest }) => {
       title="Sensor Range:"
       columns={[
         { title: 'Hub ID', field: 'hub_id' },
-        { title: 'Sensor Range From', field: 'sensor_range_from', type: 'numeric' },
-        { title: 'Sensor Range To', field: 'sensor_range_to' , type: 'numeric'},
+        { title: 'Sensor Range From', field: 'sensor_id_range_from', type: 'numeric' },
+        { title: 'Sensor Range To', field: 'sensor_id_range_to' , type: 'numeric'},
         { title: 'Active?', field: 'sensor_active' },
         { title: 'Gender', field: 'sensor_range_gender' },
         { title: 'Handicap?', field: 'sensore_handicap'},
@@ -39,15 +39,15 @@ const SensorRangeTable = ({ sensorData, ...rest }) => {
         // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
      // ]}
      data={sensorData}
-      onRowClick={( (evt, selectedRow) => {
-        console.log(selectedRow)
-        setSelectedRow(selectedRow.tableData.id);
-        } )}
+     // onRowClick={( (evt, selectedRow) => {
+      //  console.log(selectedRow)
+      //  setSelectedRow(selectedRow.tableData.id);
+       // } )}
       options={{
         paging :false,
         search:false,
         rowStyle: rowData => ({
-          backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
+       //   backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF',
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
           fontSize: '14px'
 
