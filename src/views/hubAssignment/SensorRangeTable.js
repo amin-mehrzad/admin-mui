@@ -5,6 +5,7 @@ import React, {
 import MaterialTable from 'material-table'
 import tableIcons from '../../icons/tableIcons'
 
+import axios from 'axios';
 
 
 //const tableIcons = 
@@ -80,13 +81,18 @@ const SensorRangeTable = ({ sensorData, ...rest }) => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
-              // let hubRoomSensorUpdate = await axios({
-              //   method: 'put',
-              //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-room-sensors`,
-              //  // data: {id:},
-              //   headers: { "Access-Control-Allow-Origin": "*" }
-              // })
-              setData([...dataUpdate]);
+              console.log(newData)
+
+              axios({
+                method: 'put',
+                url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-room-sensors`,
+                data: newData,
+                headers: { "Access-Control-Allow-Origin": "*" }
+              })
+              .then((response)=>{
+                console.log(response)
+                setData([...dataUpdate]);
+              })
 
               resolve();
             }, 1000)
