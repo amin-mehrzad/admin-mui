@@ -70,7 +70,24 @@ const SensorRangeTable = ({ sensorData, ...rest }) => {
        onRowAdd: newData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              setData([...data, newData]);
+var payload = {...newData, 
+  campus_id:data[0].campus_id,  
+  venue_id:data[0].venue_id ,
+  venue_section_id:data[0].venue_section_id , 
+  room_id:data[0].room_id  
+}
+console.log(payload)
+
+              axios({
+                method: 'post',
+                url: `http://${process.env.REACT_APP_SERVER_URI}/api/hub-room-sensors`,
+                data: {...payload, },
+                headers: { "Access-Control-Allow-Origin": "*" }
+              })
+              .then((response)=>{
+                console.log(response)
+                setData([...data, newData]);
+              })
               
               resolve();
             }, 1000)
