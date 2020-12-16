@@ -5,19 +5,19 @@ import axios from 'axios'
 
 
 
-const Rooms = ({ value,onChange, ...rest }) => {
-  console.log(typeof(value.rooms))
+const Rooms = ({ value, onChange, ...rest }) => {
+  console.log(typeof (value.rooms))
   console.log(value)
   // const { useState } = React;
- const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
   const [sensorRange, setSensorRange] = useState([]);
- // const [data, setData] = useState([]); 
+  // const [data, setData] = useState([]); 
   return (
     <MaterialTable
       icons={tableIcons}
       title="Rooms:"
       columns={[
-        { title: 'Room ID', field: 'room_id' , type: 'numeric'},
+        { title: 'Room ID', field: 'room_id', type: 'numeric' },
         { title: 'Room Type', field: 'room_type' },
         { title: 'Room Sub Type', field: 'room_sub_type' },
         { title: 'Room Name', field: 'name' },
@@ -32,11 +32,11 @@ const Rooms = ({ value,onChange, ...rest }) => {
         //   lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
         // },
       ]}
-     // data={[
-        // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-     // ]}
-     data={value.rooms}
+      // data={[
+      // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+      // { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+      // ]}
+      data={value.rooms}
       onRowClick={(async (evt, selectedRow) => {
         console.log(selectedRow)
         let hrsResult = await axios({
@@ -45,16 +45,18 @@ const Rooms = ({ value,onChange, ...rest }) => {
           headers: { "Access-Control-Allow-Origin": "*" }
         })
         console.log(hrsResult.data)
-         setSelectedRow(selectedRow.tableData.id);
+        setSelectedRow(selectedRow.tableData.id);
         setSensorRange(hrsResult.data);
         //value={sensorRange:hrsResult.data,rooms:value.rooms}
-        onChange(hrsResult.data)
-        } )}
+        
+        onChange({...value, sensorRange:hrsResult.data , selectedRoom :selectedRow.room_id })
+      })}
       options={{
-        paging :false,
-        search:false,
+        paging: false,
+        search: false,
         rowStyle: rowData => ({
-          backgroundColor: (selectedRow === rowData.tableData.id && value.sensorRange.length >0) ? '#EEE' : '#FFF',
+          // backgroundColor: (selectedRow === rowData.tableData.id && value.sensorRange.length > 0) ? '#EEE' : '#FFF',
+          backgroundColor: (selectedRow === rowData.tableData.id && value.selectedRoom != -1) ? '#EEE' : '#FFF',  //TODO defined boolean parameter inside value[] state as clicked
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
           fontSize: '14px'
 

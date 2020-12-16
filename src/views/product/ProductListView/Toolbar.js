@@ -77,6 +77,7 @@ setHubsData([])
       setShowHub(false)
       setShowRoom(false)
       setShowVenue(true)
+      setShowSection(false)
       setVenuesData(venueResult.data)
 
     }

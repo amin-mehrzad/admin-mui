@@ -77,7 +77,9 @@ console.log(event.target.value)
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowRoom(false)
+      setShowSection(false)
       setShowVenue(true)
+
       setVenuesData(venueResult.data)
 
     }
@@ -88,9 +90,9 @@ console.log(event.target.value)
 
       let roomResult = await axios({
         method: 'get',
-      //  url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
-              url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${campus_id}&venue_id=0&venue_section_id=0`,
-        //data: {id: varID},
+        //  url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${campus_id}&venue_id=0&venue_section_id=0`,
+        // data: {id: varID},
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       console.log(roomResult.data)
@@ -115,13 +117,14 @@ console.log(event.target.value)
       ...state,
       [name]: event.target.value,
     });
+    console.log(event.target.value)
+
     let sectionResult = await axios({
       method: 'get',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/venue-sections?campus_id=${state.campus}&venue_id=${event.target.value}`,
       //data: {id: varID},
       headers: { "Access-Control-Allow-Origin": "*" }
     })
-
     if (sectionResult.data[0].venue_section_id !== 0){
       //console.log(venueResult.data.venue_id)
       setShowHub(false)

@@ -29,23 +29,29 @@ const HubAssignment = () => {
   const classes = useStyles();
   //const [commands] = useState(data);
   const [roomData, setRoomData] = useState([]);
-  const [sensorData, setSensorData] = useState([]);
-  const [state, setState] = useState({rooms:[],sensorRange:[]});
+  //const [sensorTable, setSensorTable] = useState(false);
+  const [state, setState] = useState({
+    rooms: [],
+    sensorRange: [],
+    selectedRoom: -1,
+   // roomClicked: false
+  });
 
   const handleChange = (newValue) => {
+   // setSensorTable(false);
     console.log(newValue)
-
-     setRoomData(newValue);
+    setRoomData(newValue);
     //  let obj={rooms:newValue,sensorRange:[...]}
-    setState({sensorRange:[],rooms:newValue})
+    setState({ selectedRoom: -1, sensorRange: [], rooms: newValue})
   }
   const handleChangeRooms = (newValue) => {
     console.log(newValue)
 
-    //  setSensorData(newValue);
-    setState({...state,sensorRange:newValue})
+   // setSensorTable(true);
+    //setState({ ...state, sensorRange: newValue })
+    setState({ ...state, sensorRange: newValue.sensorRange, selectedRoom: newValue.selectedRoom })
   }
-  console.log(sensorData.length)
+  // console.log(sensorData.length)
   console.log(roomData)
   console.log(state)
   return (
@@ -56,7 +62,7 @@ const HubAssignment = () => {
       <Container
         maxWidth={false}
         spacing={3}>
-        <Toolbar value={roomData} onChange={handleChange} />
+        <Toolbar value={state} onChange={handleChange} />
         <Box mt={3}>
           <Grid >
             {/* {commands.map((command) => (
@@ -70,17 +76,18 @@ const HubAssignment = () => {
               > */}
             <RoomsTable
               //className={classes.rooms}
-               value={state} onChange={handleChangeRooms}
+              value={state} onChange={handleChangeRooms}
             />
           </Grid>
         </Box>
         <Box mt={3}>
-          <Zoom in={state.sensorRange.length > 0 && state.rooms.length >0}>
+          <Zoom in={state.selectedRoom !== -1}>
 
             <Grid >
               <SensorRangeTable
                 //className={classes.rooms}
-                sensorData={state.sensorRange}
+                // sensorData={state.sensorRange}
+                value={state}
               />
 
             </Grid>
