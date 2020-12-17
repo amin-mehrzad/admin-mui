@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, customers, ...rest }) => {
+const ReportTable = ({ className, customers, ...rest }) => {
   const classes = useStyles();
  // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(1000);
@@ -206,9 +206,9 @@ const Results = ({ className, customers, ...rest }) => {
   );
 };
 
-Results.propTypes = {
+ReportTable.propTypes = {
   className: PropTypes.string,
   customers: PropTypes.array.isRequired
 };
 
-export default Results;
+export default ReportTable;
