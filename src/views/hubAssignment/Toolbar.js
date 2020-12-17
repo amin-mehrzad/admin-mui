@@ -46,18 +46,18 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   const [campusData, setCampusData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
   const [sectionData, setSectionData] = useState([]);
-  const [roomData, setRoomData] = useState([]);
-  const [hubsData, setHubsData] = useState([]);
+  // const [roomData, setRoomData] = useState([]);
+  // const [hubsData, setHubsData] = useState([]);
   const [showVenue, setShowVenue] = useState(false);
-  const [showHub, setShowHub] = useState(false);
+  // const [showHub, setShowHub] = useState(false);
   const [showSection, setShowSection] = useState(false);
-  const [showRoom, setShowRoom] = useState(false);
+  // const [showRoom, setShowRoom] = useState(false);
   // const [haveVenues, setHaveVenues] = useState(false);
 
 
   const campusHandleChange = async (event) => {
     onChange([])
-setHubsData([])
+//setHubsData([])
 console.log(event.target.value)
     var name = event.target.name;
     var campus_id = event.target.value;
@@ -75,8 +75,8 @@ console.log(event.target.value)
 
     if (venueResult.data[0].venue_id !== 0){
       //console.log(venueResult.data.venue_id)
-      setShowHub(false)
-      setShowRoom(false)
+    //  setShowHub(false)
+     // setShowRoom(false)
       setShowSection(false)
       setShowVenue(true)
 
@@ -86,7 +86,7 @@ console.log(event.target.value)
     else{
       setShowVenue(false)
       setShowSection(false)
-      setShowRoom(false)
+     // setShowRoom(false)
 
       let roomResult = await axios({
         method: 'get',
@@ -98,8 +98,8 @@ console.log(event.target.value)
       console.log(roomResult.data)
      // setShowHub(true)
      // setHubsData(hubResult.data)
-      setRoomData(roomResult.data)
-      setShowRoom(true)
+     // setRoomData(roomResult.data)
+     // setShowRoom(true)
       onChange(roomResult.data)
 
     }
@@ -127,8 +127,8 @@ console.log(event.target.value)
     })
     if (sectionResult.data[0].venue_section_id !== 0){
       //console.log(venueResult.data.venue_id)
-      setShowHub(false)
-      setShowRoom(false)
+     // setShowHub(false)
+    //  setShowRoom(false)
       setShowVenue(true)
       setShowSection(true)
       setSectionData(sectionResult.data)
@@ -143,8 +143,8 @@ console.log(event.target.value)
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       console.log(hubResult.data)
-      setShowHub(true)
-      setHubsData(hubResult.data)
+    //  setShowHub(true)
+     // setHubsData(hubResult.data)
 
 
     }
@@ -157,7 +157,7 @@ console.log(event.target.value)
   const sectionHandleChange = async (event) => {
     onChange([])
 
-    setRoomData([])
+   // setRoomData([])
     var name = event.target.name;
     ///////   var venue_id = event.target.value;
     //  console.log(event)
@@ -174,11 +174,11 @@ console.log(event.target.value)
 
     if (roomResult.data[0].room_id !== null){
       console.log(roomResult.data)
-      setShowHub(false)
+    //  setShowHub(false)
       setShowVenue(true)
       setShowSection(true)
-      setRoomData(roomResult.data)
-      setShowRoom(true)
+      //setRoomData(roomResult.data)
+    //  setShowRoom(true)
       onChange(roomResult.data)
 
     }
@@ -191,8 +191,8 @@ console.log(event.target.value)
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       console.log(hubResult.data)
-      setShowHub(true)
-      setHubsData(hubResult.data)
+     // setShowHub(true)
+     // setHubsData(hubResult.data)
 
 
     }
@@ -201,55 +201,55 @@ console.log(event.target.value)
 
   };
 
-  const roomHandleChange = async (event) => {
-    onChange("")
-    setHubsData([])
-    var name = event.target.name;
-    ///////   var venue_id = event.target.value;
-    //  console.log(event)
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-    let hubResult = await axios({
-      method: 'get',
-      url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
-      //data: {id: varID},
-      headers: { "Access-Control-Allow-Origin": "*" }
-    })
+  // const roomHandleChange = async (event) => {
+  //   onChange("")
+  //  // setHubsData([])
+  //   var name = event.target.name;
+  //   ///////   var venue_id = event.target.value;
+  //   //  console.log(event)
+  //   setState({
+  //     ...state,
+  //     [name]: event.target.value,
+  //   });
+  //   let hubResult = await axios({
+  //     method: 'get',
+  //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
+  //     //data: {id: varID},
+  //     headers: { "Access-Control-Allow-Origin": "*" }
+  //   })
 
-   //if (roomResult.data[0].hub_id !== null){
-      console.log(hubResult.data)
-      setShowHub(true)
-      setShowVenue(true)
-      setShowSection(true)
-      setHubsData(hubResult.data)
-      setShowRoom(true)
+  //  //if (roomResult.data[0].hub_id !== null){
+  //     console.log(hubResult.data)
+  //    // setShowHub(true)
+  //     setShowVenue(true)
+  //     setShowSection(true)
+  //    // setHubsData(hubResult.data)
+  //    // setShowRoom(true)
 
-    // }
-    // else{
-    //   //setShowVenue(false)
-    //   let hubResult = await axios({
-    //     method: 'get',
-    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}`,
-    //     //data: {id: varID},
-    //     headers: { "Access-Control-Allow-Origin": "*" }
-    //   })
-    //   console.log(hubResult.data)
-    //   setShowHub(true)
-    //   setHubsData(hubResult.data)
-
-
-    // }
+  //   // }
+  //   // else{
+  //   //   //setShowVenue(false)
+  //   //   let hubResult = await axios({
+  //   //     method: 'get',
+  //   //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}`,
+  //   //     //data: {id: varID},
+  //   //     headers: { "Access-Control-Allow-Origin": "*" }
+  //   //   })
+  //   //   console.log(hubResult.data)
+  //   //   setShowHub(true)
+  //   //   setHubsData(hubResult.data)
 
 
+  //   // }
 
-  };
 
-  const hubHandleChange=(event) =>{
-    // Here, we invoke the callback with the new value
-    onChange(event.target.value);
-}
+
+  // };
+
+//   const hubHandleChange=(event) =>{
+//     // Here, we invoke the callback with the new value
+//     onChange(event.target.value);
+// }
 
 
   useEffect(() => {

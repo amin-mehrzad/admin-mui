@@ -10,7 +10,7 @@ const Rooms = ({ value, onChange, ...rest }) => {
   console.log(value)
   // const { useState } = React;
   const [selectedRow, setSelectedRow] = useState(null);
-  const [sensorRange, setSensorRange] = useState([]);
+  //const [sensorRange, setSensorRange] = useState([]);
   // const [data, setData] = useState([]); 
   return (
     <MaterialTable
@@ -46,7 +46,7 @@ const Rooms = ({ value, onChange, ...rest }) => {
         })
         console.log(hrsResult.data)
         setSelectedRow(selectedRow.tableData.id);
-        setSensorRange(hrsResult.data);
+      //  setSensorRange(hrsResult.data);
         //value={sensorRange:hrsResult.data,rooms:value.rooms}
         
         onChange({...value, sensorRange:hrsResult.data , selectedRoom :selectedRow.room_id })
@@ -56,7 +56,7 @@ const Rooms = ({ value, onChange, ...rest }) => {
         search: false,
         rowStyle: rowData => ({
           // backgroundColor: (selectedRow === rowData.tableData.id && value.sensorRange.length > 0) ? '#EEE' : '#FFF',
-          backgroundColor: (selectedRow === rowData.tableData.id && value.selectedRoom != -1) ? '#EEE' : '#FFF',  //TODO defined boolean parameter inside value[] state as clicked
+          backgroundColor: (selectedRow === rowData.tableData.id && value.selectedRoom !== -1) ? '#EEE' : '#FFF',  //TODO defined boolean parameter inside value[] state as clicked
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
           fontSize: '14px'
 

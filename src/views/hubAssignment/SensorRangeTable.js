@@ -38,8 +38,8 @@ const SensorRangeTable = ({ value, ...rest }) => {
         { title: 'Gender', field: 'sensor_range_gender' },
         { title: 'Handicap?', field: 'sensore_handicap' },
         { title: 'Display Sensor', field: 'display_sensor' },
-        { title: 'Updated', field: 'updated_at' , editable: 'onAdd'}, //TODO:  add type date
-        { title: 'Updated By', field: 'updated_by', editable: 'onAdd' }
+        { title: 'Updated', field: 'updated_at' , editable: 'never'}, //TODO:  add type date
+        { title: 'Updated By', field: 'updated_by', editable: 'never' }
         // {
         //   title: 'Birth Place',
         //   field: 'birthCity',
