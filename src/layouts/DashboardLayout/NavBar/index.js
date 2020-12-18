@@ -10,7 +10,7 @@ import {
   Hidden,
   List,
   Typography,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import {
   // AlertCircle as AlertCircleIcon,
@@ -25,6 +25,7 @@ import {
   //Assignment,
   BookOpen as Book,
   // Users as UsersIcon
+  Loader
 } from 'react-feather';
 import NavItem from './NavItem';
 //import tooshlightLogo from '../../../images/tooshlight_logo.png';
@@ -56,11 +57,11 @@ const items = [
     icon: Book,
     title: 'Report'
   },
-  // {
-  //   href: '/app/status',
-  //   icon: Book,
-  //   title: 'Status List'
-  // },
+  {
+    href: '/app/status',
+    icon: Loader,
+    title: 'Status List'
+  },
   {
     href: '/app/hub-assignment',
     icon: Clipboard,

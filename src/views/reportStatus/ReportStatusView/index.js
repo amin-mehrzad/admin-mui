@@ -48,15 +48,17 @@ const useStyles = makeStyles((theme) => ({
 const ReportStatusView = () => {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
-  const [state, setState] = useState({ selectedCampus: null });
+  const [state, setState] = useState({});
 
   useEffect(() => {
     async function fetchData() {
+      console.log(state)
+
       const result = await axios({
         method: 'post',
         // url: 'http://3.15.126.206/api/report',
         url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
-        //data: {id: varID},
+        data: state,
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       var tableData = result.data.filter(x => x != null)
@@ -70,12 +72,15 @@ const ReportStatusView = () => {
 
 
     //setData(result);
-  }, []);
+  }, [state]);
 
   const handleChange = (newValue) => {
     console.log(newValue)
-    setState({ selectedCampus: newValue })
+    setState(newValue)
   }
+
+  console.log(state)
+
   return (
     <Page
       className={classes.root}
