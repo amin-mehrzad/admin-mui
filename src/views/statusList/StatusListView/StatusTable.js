@@ -32,7 +32,18 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2)
   },
   table: {
-    width: '50px'
+    width: '50px',
+    // height:'100px',
+    // padding: '10px',
+   // margin:'0'
+
+  },
+  cell: {
+   // width: '50px',
+    // height:'100px',
+     padding: '5px',
+   // margin:'0'
+
   }
 }));
 
@@ -91,9 +102,9 @@ const StatusTable = ({ className, customers, ...rest }) => {
         <Box 
         //style={{ maxWidth: '910px' }} 
         >
-          <Table size="small">
+          <Table size="large">
             <TableHead>
-              <TableRow>
+              <TableRow margin = "0">
                 {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
@@ -121,7 +132,10 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   Hub Id
                 </TableCell>
 
-                {stallNum.map((stall) => (<TableCell className={classes.table}>
+                {stallNum.map((stall) => (
+                <TableCell 
+                key = {stallNum.indexOf(stall)}
+                className={classes.table}>
                   Stall {stall}
                 </TableCell>))}
                 {/* <TableCell className={classes.table}>
@@ -187,8 +201,13 @@ const StatusTable = ({ className, customers, ...rest }) => {
                     {customer.hub_id}
                   </TableCell>
                   { stallNum.map((stall) => (
-                    <TableCell key = {stall}>
-                      <div style={{background:"grey",color:"white",textAlign:"center"}}>{customer.sensor_id}</div>
+                    <TableCell 
+                   // className={classes.cell}
+                   // padding="none"
+                    key = {stallNum.indexOf(stall)}
+                      style={{background:"grey",color:"white",textAlign:"center",height:"60px",border:"solid",borderColor: "white",borderWidth: "15px",borderRadius: "60px"}}
+                      >
+                       {customer.sensor_id}
                     </TableCell>
                   ))}
                   {/* <TableCell>
