@@ -60,7 +60,7 @@ const items = [
   {
     href: '/app/status',
     icon: Loader,
-    title: 'Status List'
+    title: 'Live Occupancy Display'
   },
   {
     href: '/app/hub-assignment',

@@ -149,7 +149,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
                 <TableCell 
                 key = {stallNum.indexOf(stall)}
                 className={classes.table}>
-                  {stall}
+                  {/* {stall} */}
                 </TableCell>))}
                 {/* <TableCell className={classes.table}>
                        Stall 2
@@ -214,7 +214,6 @@ const StatusTable = ({ className, customers, ...rest }) => {
                     className={classes.cell}
                     >
                     {customer[0].hub_id}
-                    
                   </TableCell>
                   { customer.map((stall,index) => (
                     index>0?
@@ -224,8 +223,8 @@ const StatusTable = ({ className, customers, ...rest }) => {
                     key = {index}
                       style={{ background: (stall.stallStatus ==="O" || stall.stallStatus === 0 ) ? 'green' :((stall.stallStatus ==="C" || stall.stallStatus === 1 ) ? 'red': 'grey')}}
                       >
-                       {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )}
-                       {/* {stall.stallNumber} */}
+                       {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
+                       {stall.stallNumber}
                     </TableCell>
                     :null
                   ))}
