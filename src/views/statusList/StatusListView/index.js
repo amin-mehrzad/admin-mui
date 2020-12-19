@@ -10,6 +10,7 @@ import Toolbar from './Toolbar';
 //import data from './data';
 
 import axios from 'axios'
+import queryString from 'querystring'
 //import dotenv from 'dotenv/config'
 
 // function report(){
@@ -53,14 +54,17 @@ const StatusListView = () => {
   useEffect(() => {
     async function fetchData() {
       console.log(state)
-
+      var query=queryString.stringify(state)
+      console.log(query)
       const result = await axios({
-        method: 'post',
+        method: 'get',
         // url: 'http://3.15.126.206/api/report',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
-        data: state,
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?${query}`,
+       // data: state,
         headers: { "Access-Control-Allow-Origin": "*" }
       })
+    //  console.log(result)
+
       var tableData = result.data.filter(x => x != null)
       console.log(tableData)
       setCustomers(tableData)

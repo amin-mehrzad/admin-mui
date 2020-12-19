@@ -14,7 +14,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
+  // Typography,
   makeStyles
 } from '@material-ui/core';
 // import getInitials from 'src/utils/getInitials';
@@ -27,7 +27,9 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+
+  },
   avatar: {
     marginRight: theme.spacing(2)
   },
@@ -36,14 +38,25 @@ const useStyles = makeStyles((theme) => ({
     // height:'100px',
     // padding: '10px',
    // margin:'0'
+   borderBottom: "none"
 
   },
   cell: {
    // width: '50px',
     // height:'100px',
-     padding: '5px',
+    // padding: '5px',
    // margin:'0'
-
+   borderBottom: "none"
+  },
+  stall:{
+    background:"grey",
+    color:"white",
+    textAlign:"center",
+    height:"60px",
+    border:"solid",
+    borderColor: "white",
+    borderWidth: "15px",
+    borderRadius: "60px"
   }
 }));
 
@@ -102,7 +115,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
         <Box 
         //style={{ maxWidth: '910px' }} 
         >
-          <Table size="large">
+          <Table size="medium">
             <TableHead>
               <TableRow margin = "0">
                 {/* <TableCell padding="checkbox">
@@ -136,7 +149,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
                 <TableCell 
                 key = {stallNum.indexOf(stall)}
                 className={classes.table}>
-                  Stall {stall}
+                  {stall}
                 </TableCell>))}
                 {/* <TableCell className={classes.table}>
                        Stall 2
@@ -197,18 +210,24 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   <TableCell>
                     {customer.room_sub_type}
                   </TableCell> */}
-                  <TableCell>
-                    {customer.hub_id}
+                  <TableCell
+                    className={classes.cell}
+                    >
+                    {customer[0].hub_id}
+                    
                   </TableCell>
-                  { stallNum.map((stall) => (
+                  { customer.map((stall,index) => (
+                    index>0?
                     <TableCell 
-                   // className={classes.cell}
+                    className={classes.stall}
                    // padding="none"
-                    key = {stallNum.indexOf(stall)}
-                      style={{background:"grey",color:"white",textAlign:"center",height:"60px",border:"solid",borderColor: "white",borderWidth: "15px",borderRadius: "60px"}}
+                    key = {index}
+                      style={{ background: (stall.stallStatus ==="O" || stall.stallStatus === 0 ) ? 'green' :((stall.stallStatus ==="C" || stall.stallStatus === 1 ) ? 'red': 'grey')}}
                       >
-                       {customer.sensor_id}
+                       {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )}
+                       {/* {stall.stallNumber} */}
                     </TableCell>
+                    :null
                   ))}
                   {/* <TableCell>
                     {customer.sensor_id}

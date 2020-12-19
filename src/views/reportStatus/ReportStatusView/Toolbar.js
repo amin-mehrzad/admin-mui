@@ -41,7 +41,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
  // const [showSection, setShowSection] = useState(false);
   const campusHandleChange = async (event) => {
 console.log(event.target.value)
-    var name = event.target.name;
+    //var name = event.target.name;
     var campus_id = event.target.value;
     setShowVenue(false)
       setVenuesData([])
@@ -76,7 +76,7 @@ console.log(event.target.value)
   const venueHandleChange = async (event) => {
   //onChange({campus_id:event.target.value})
    // setSectionData([])
-    var name = event.target.name;
+  //  var name = event.target.name;
    onChange( {
       ...state,
       venue_id: event.target.value,
