@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { io } from 'socket.io-client';
+
 // import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -26,6 +28,9 @@ import { range } from 'lodash';
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
 
@@ -37,23 +42,23 @@ const useStyles = makeStyles((theme) => ({
     width: '50px',
     // height:'100px',
     // padding: '10px',
-   // margin:'0'
-   borderBottom: "none"
+    // margin:'0'
+    borderBottom: "none"
 
   },
   cell: {
-   // width: '50px',
+    // width: '50px',
     // height:'100px',
     // padding: '5px',
-   // margin:'0'
-   borderBottom: "none"
+    // margin:'0'
+    borderBottom: "none"
   },
-  stall:{
-    background:"grey",
-    color:"white",
-    textAlign:"center",
-    height:"60px",
-    border:"solid",
+  stall: {
+    background: "grey",
+    color: "white",
+    textAlign: "center",
+    height: "60px",
+    border: "solid",
     borderColor: "white",
     borderWidth: "15px",
     borderRadius: "60px"
@@ -65,7 +70,83 @@ const StatusTable = ({ className, customers, ...rest }) => {
   // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(1000);
   const [page, setPage] = useState(0);
+  const [state, setState] = useState([]);
+  var hubs = []
+  customers.map((hubData) => {
+    hubs.push(hubData[0].hub_id)
+    return hubData
+  })
 
+
+  const socket = io('http://tr.tooshlights.com');
+  socket.on("connect", () => {
+    console.log('socket connected')
+  });
+
+
+
+  useEffect(() => {
+    //if (customers.length >= 1 && state.length < 1)
+      setState(customers)
+
+    socket.on("connect", () => {
+      console.log('socket connected')
+    });
+
+
+    //   var hubs = []
+    // customers.map((hubData) => {
+    //   hubs.push(hubData[0].hub_id)
+    //   return hubData
+    // })
+
+    socket.on("hello", (data) => {
+      //  if (hubs.includes(data[0].h)&& data.length>0){
+       if (data.length>1){
+
+
+      // let newCustomers = customers.map((hubData) => {
+      //   if (hubData[0].hub_id === data[0].h) {
+      //     console.log(data)
+      //     hubData.map((hub, index) => {
+      //       if (index > 0 && index === hub.s){
+            
+      //         return [...hub,stallStatus:`${hub.e?'C':'O'}`]
+      //       }else
+      //       else
+      //         return hubData
+      //     })
+
+
+      //   } else
+      //     return hubData
+
+      // })
+      var isChanged=false
+      for(let i=0;i<=customers.length-1;i++) {
+        if (customers[i][0].hub_id === data[0].h) {
+                     console.log(data)
+                     customers[i][data[1].s].stallStatus= data[0].s===1?'C':'O'
+                     isChanged=true
+
+        //  for(let j=0;j<=customers.length-1;i++) {
+          console.log(customers)
+
+        }
+      }
+if(isChanged){
+  console.log(customers)
+  //  setState(customers)   // TODO change status based on received data -change structure of table
+}
+
+    }
+  }
+    );
+
+
+
+
+  }, [socket, customers, state]);
   // const handleSelectAll = (event) => {
   //   let newSelectedCustomerIds;
 
@@ -98,6 +179,14 @@ const StatusTable = ({ className, customers, ...rest }) => {
   //   setSelectedCustomerIds(newSelectedCustomerIds);
   // };
 
+  console.log(customers)
+  // setState(customers)
+  console.log(state)
+
+  // socket.on("hello", (data) => {
+  //   console.log(data)
+  //     });
+
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -112,12 +201,12 @@ const StatusTable = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box 
+        <Box
         //style={{ maxWidth: '910px' }} 
         >
           <Table size="medium">
             <TableHead>
-              <TableRow margin = "0">
+              <TableRow margin="0">
                 {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
@@ -146,11 +235,11 @@ const StatusTable = ({ className, customers, ...rest }) => {
                 </TableCell>
 
                 {stallNum.map((stall) => (
-                <TableCell 
-                key = {stallNum.indexOf(stall)}
-                className={classes.table}>
-                  {/* {stall} */}
-                </TableCell>))}
+                  <TableCell
+                    key={stallNum.indexOf(stall)}
+                    className={classes.table}>
+                    {/* {stall} */}
+                  </TableCell>))}
                 {/* <TableCell className={classes.table}>
                        Stall 2
                       </TableCell>
@@ -168,10 +257,10 @@ const StatusTable = ({ className, customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {state.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
-                  key={customers.indexOf(customer)}
+                  key={state.indexOf(customer)}
                 //   key={customer.room_id}
                 //selected={selectedCustomerIds.indexOf(customer.name) !== -1}
                 >
@@ -212,21 +301,21 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   </TableCell> */}
                   <TableCell
                     className={classes.cell}
-                    >
+                  >
                     {customer[0].hub_id}
                   </TableCell>
-                  { customer.map((stall,index) => (
-                    index>0?
-                    <TableCell 
-                    className={classes.stall}
-                   // padding="none"
-                    key = {index}
-                      style={{ background: (stall.stallStatus ==="O" || stall.stallStatus === 0 ) ? 'green' :((stall.stallStatus ==="C" || stall.stallStatus === 1 ) ? 'red': 'grey')}}
+                  { customer.map((stall, index) => (
+                    index > 0 ?
+                      <TableCell
+                        className={classes.stall}
+                        // padding="none"
+                        key={index}
+                        style={{ background: (stall.stallStatus === "O" || stall.stallStatus === 0) ? 'green' : ((stall.stallStatus === "C" || stall.stallStatus === 1) ? 'red' : 'grey') }}
                       >
-                       {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
-                       {stall.stallNumber}
-                    </TableCell>
-                    :null
+                        {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
+                        {stall.stallNumber}
+                      </TableCell>
+                      : null
                   ))}
                   {/* <TableCell>
                     {customer.sensor_id}
@@ -248,7 +337,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={state.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
