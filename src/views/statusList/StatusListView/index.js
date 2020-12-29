@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
-   // maxWidth: '920px'
+    // maxWidth: '920px'
   }
 }));
 
@@ -50,25 +50,30 @@ const StatusListView = () => {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
   const [state, setState] = useState({});
+  const [change, setChange] = useState(false);
+
 
   useEffect(() => {
     async function fetchData() {
-      console.log(state)
-      var query=queryString.stringify(state)
-      console.log(query)
-      const result = await axios({
-        method: 'get',
-        // url: 'http://3.15.126.206/api/report',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?${query}`,
-       // data: state,
-        headers: { "Access-Control-Allow-Origin": "*" }
-      })
-    //  console.log(result)
+      if (change) {
+        console.log(state)
+        var query = queryString.stringify(state)
+        console.log(query)
+        const result = await axios({
+          method: 'get',
+          // url: 'http://3.15.126.206/api/report',
+          url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?${query}`,
+          // data: state,
+          headers: { "Access-Control-Allow-Origin": "*" }
+        })
+        //  console.log(result)
 
-      var tableData = result.data.filter(x => x != null)
-      console.log(tableData)
-      setCustomers(tableData)
-      //return result
+        var tableData = result.data.filter(x => x != null)
+        console.log(tableData)
+        setCustomers(tableData)
+        setChange(false)
+        //return result
+      }
     }
 
     fetchData()
@@ -76,10 +81,11 @@ const StatusListView = () => {
 
 
     //setData(result);
-  }, [state]);
+  }, [state,change]);
 
   const handleChange = (newValue) => {
     console.log(newValue)
+    setChange(true)
     setState(newValue)
   }
 

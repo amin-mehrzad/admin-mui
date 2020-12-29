@@ -9,7 +9,11 @@ import {
   FormControl,
   InputLabel,
   Select,
+  Button
 } from '@material-ui/core';
+
+import Autorenew from '@material-ui/icons/Autorenew';
+
 import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,25 +31,28 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
-const Toolbar = ({ className,value,onChange, ...rest }) => {
+const Toolbar = ({ className, value, onChange, ...rest }) => {
   console.log(value)
   const classes = useStyles();
   const [state, setState] = useState({
   });
   const [campusData, setCampusData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
- // const [sectionData, setSectionData] = useState([]);
+  // const [sectionData, setSectionData] = useState([]);
   const [showVenue, setShowVenue] = useState(false);
- // const [showSection, setShowSection] = useState(false);
+  // const [showSection, setShowSection] = useState(false);
   const campusHandleChange = async (event) => {
-console.log(event.target.value)
-  //  var name = event.target.name;
+    console.log(event.target.value)
+    //  var name = event.target.name;
     var campus_id = event.target.value;
     setShowVenue(false)
-      setVenuesData([])
-    onChange({campus_id})
+    setVenuesData([])
+    onChange({ campus_id })
 
     setState({
       campus_id: event.target.value
@@ -56,8 +63,8 @@ console.log(event.target.value)
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (venueResult.data[0].venue_id !== 0){
-     // setShowSection(false)
+    if (venueResult.data[0].venue_id !== 0) {
+      // setShowSection(false)
       setShowVenue(true)
       setVenuesData(venueResult.data)
     }
@@ -74,10 +81,10 @@ console.log(event.target.value)
     // }
   };
   const venueHandleChange = async (event) => {
-  //onChange({campus_id:event.target.value})
-   // setSectionData([])
-  //  var name = event.target.name;
-   onChange( {
+    //onChange({campus_id:event.target.value})
+    // setSectionData([])
+    //  var name = event.target.name;
+    onChange({
       ...state,
       venue_id: event.target.value,
     })
@@ -180,7 +187,7 @@ console.log(event.target.value)
                 <Select
                   native
                   value={state.venue}
-                   onChange={venueHandleChange}
+                  onChange={venueHandleChange}
                   label="Venue"
                   inputProps={{
                     name: 'venue',
@@ -188,11 +195,23 @@ console.log(event.target.value)
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {venuesData.map((venue,index) =>
+                  {venuesData.map((venue, index) =>
                     <option value={venue.venue_id} key={index}>{venue.name}</option>
                   )}
                 </Select>
               </FormControl> : null}
+              <FormControl variant="outlined" className={classes.formControl} >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  startIcon={<Autorenew />}
+                  onClick={() => { onChange(state) }}
+                >REFRESH
+              </Button>
+              </FormControl>
+
               {/* {showSection ? <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="section">Venue Section</InputLabel>
                 <Select
