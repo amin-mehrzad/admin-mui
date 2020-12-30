@@ -43,14 +43,15 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   });
   const [campusData, setCampusData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
-  // const [sectionData, setSectionData] = useState([]);
+  const [sectionData, setSectionData] = useState([]);
   const [showVenue, setShowVenue] = useState(false);
-  // const [showSection, setShowSection] = useState(false);
+  const [showSection, setShowSection] = useState(false);
   const campusHandleChange = async (event) => {
     console.log(event.target.value)
     //  var name = event.target.name;
     var campus_id = event.target.value;
     setShowVenue(false)
+    setShowSection(false)
     setVenuesData([])
     onChange({ campus_id })
 
@@ -64,7 +65,7 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
     })
 
     if (venueResult.data[0].venue_id !== 0) {
-      // setShowSection(false)
+      setShowSection(false)
       setShowVenue(true)
       setVenuesData(venueResult.data)
     }
@@ -82,67 +83,77 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   };
   const venueHandleChange = async (event) => {
     //onChange({campus_id:event.target.value})
-    // setSectionData([])
+    setSectionData([])
+    setShowSection(false)
+
     //  var name = event.target.name;
+    console.log(state)
+    onChange({
+      campus_id:state.campus_id,
+      venue_id: event.target.value,
+     // venue_section_id: undefined
+
+    })
+
+
+  var venueID=event.target.value
+
+    let sectionResult = await axios({
+      method: 'get',
+      url: `http://${process.env.REACT_APP_SERVER_URI}/api/venue-sections?campus_id=${state.campus_id}&venue_id=${event.target.value}`,
+      headers: { "Access-Control-Allow-Origin": "*" }
+    })
+    console.log(sectionResult.data)
+    if (sectionResult.data[0].venue_section_id !== 0){
+      setShowVenue(true)
+     setShowSection(true)
+     setSectionData(sectionResult.data)
+    }
+    else{
+      setShowVenue(false)
+      let hubResult = await axios({
+        method: 'get',
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus_id}`,
+        headers: { "Access-Control-Allow-Origin": "*" }
+      })
+      console.log(hubResult.data)
+    }
+    setState({
+      campus_id:state.campus_id,
+      venue_id: venueID,
+    });
+  };
+  console.log(state)
+  const sectionHandleChange = async (event) => {
     onChange({
       ...state,
-      venue_id: event.target.value,
+      venue_section_id: event.target.value,
     })
+  //  var name = event.target.name;
     setState({
       ...state,
-      venue_id: event.target.value,
+      venue_section_id: event.target.value,
     });
-
-    console.log(event.target.value)
-
-    // let sectionResult = await axios({
+    // let roomResult = await axios({
     //   method: 'get',
-    //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/venue-sections?campus_id=${state.campus}&venue_id=${event.target.value}`,
+    //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${state.campus_id}&venue_id=${state.venue_id}&venue_section_id=${event.target.value}`,
     //   headers: { "Access-Control-Allow-Origin": "*" }
     // })
-    // if (sectionResult.data[0].venue_section_id !== 0){
+    // if (roomResult.data[0].room_id !== null){
+    //   console.log(roomResult.data)
     //   setShowVenue(true)
-    //  // setShowSection(true)
-    // //  setSectionData(sectionResult.data)
+    //   setShowSection(true)
+    //   onChange(roomResult.data)
     // }
     // else{
-    //   setShowVenue(false)
     //   let hubResult = await axios({
     //     method: 'get',
-    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}`,
+    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus_id}`,
     //     headers: { "Access-Control-Allow-Origin": "*" }
     //   })
     //   console.log(hubResult.data)
     // }
   };
-  console.log(state)
-  // const sectionHandleChange = async (event) => {
-  //   onChange([])
-  //   var name = event.target.name;
-  //   setState({
-  //     ...state,
-  //     [name]: event.target.value,
-  //   });
-  //   let roomResult = await axios({
-  //     method: 'get',
-  //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${event.target.value}`,
-  //     headers: { "Access-Control-Allow-Origin": "*" }
-  //   })
-  //   if (roomResult.data[0].room_id !== null){
-  //     console.log(roomResult.data)
-  //     setShowVenue(true)
-  //     setShowSection(true)
-  //     onChange(roomResult.data)
-  //   }
-  //   else{
-  //     let hubResult = await axios({
-  //       method: 'get',
-  //       url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}`,
-  //       headers: { "Access-Control-Allow-Origin": "*" }
-  //     })
-  //     console.log(hubResult.data)
-  //   }
-  // };
   useEffect(() => {
     async function fetchData() {
       const result = await axios({
@@ -200,19 +211,9 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
                   )}
                 </Select>
               </FormControl> : null}
-              <FormControl variant="outlined" className={classes.formControl} >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  className={classes.button}
-                  startIcon={<Autorenew />}
-                  onClick={() => { onChange(state) }}
-                >REFRESH
-              </Button>
-              </FormControl>
 
-              {/* {showSection ? <FormControl variant="outlined" className={classes.formControl}>
+
+              {showSection ? <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="section">Venue Section</InputLabel>
                 <Select
                   native
@@ -229,7 +230,18 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
                     <option value={section.venue_section_id} key={index}>{section.section_name}</option>
                   )}
                 </Select>
-              </FormControl> : null} */}
+              </FormControl> : null}
+                            <FormControl variant="outlined" className={classes.formControl} >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  startIcon={<Autorenew />}
+                  onClick={() => { onChange(state) }}
+                >REFRESH
+              </Button>
+              </FormControl>
             </Box>
           </CardContent>
         </Card>
