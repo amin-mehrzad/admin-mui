@@ -16,6 +16,8 @@ import {
 //import GoogleIcon from 'src/icons/Google';
 import Page from 'src/components/Page';
 
+import AuthService from "../../services/auth.service";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -29,6 +31,10 @@ const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+
+const sleep=(ms)=> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   return (
     <Page
       className={classes.root}
@@ -43,16 +49,46 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              username: 'Admin',
-              password: 'Password123'
+              username: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
               //username: Yup.string().username('Must be a valid username').max(255).required('Username is required'),
               username: Yup.string().max(255).required('Username is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/commands', { replace: true });
+
+             validate = {(values ) => {
+              return sleep(2000).then(() => {
+                const errors = {};
+                AuthService.login(values.username, values.password).then(
+        () => {
+        //  props.history.push("/profile");
+        //  window.location.reload();
+        navigate('/app/commands', { replace: true });
+
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          errors.username = resMessage;
+        }
+      );
+                // if (['admin', 'null', 'god'].includes(values.username)) {
+                //   errors.username = 'Nice try';
+                // }
+                return errors;
+              });
+            }}
+            onSubmit={(values) => {
+               //   navigate('/app/commands', { replace: true });
+
+
             }}
           >
             {({
@@ -158,7 +194,7 @@ const LoginView = () => {
                 <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                   // disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
