@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -30,11 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
 
-const sleep=(ms)=> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+
+  // const sleep = (ms) => {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
   return (
     <Page
       className={classes.root}
@@ -58,36 +60,35 @@ const sleep=(ms)=> {
               password: Yup.string().max(255).required('Password is required')
             })}
 
-             validate = {(values ) => {
-              return sleep(2000).then(() => {
+            validate={(values) => {
+             // return sleep(2000).then(() => {
                 const errors = {};
-                AuthService.login(values.username, values.password).then(
-        () => {
-        //  props.history.push("/profile");
-        //  window.location.reload();
-        navigate('/app/commands', { replace: true });
-
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          errors.username = resMessage;
-        }
-      );
+               
                 // if (['admin', 'null', 'god'].includes(values.username)) {
                 //   errors.username = 'Nice try';
                 // }
                 return errors;
-              });
+          //    });
             }}
             onSubmit={(values) => {
-               //   navigate('/app/commands', { replace: true });
+              //   navigate('/app/commands', { replace: true });
+              AuthService.login(values.username, values.password).then(
+                () => {
+                  navigate('/app/commands', { replace: true });
 
+                },
+                (error) => {
+                  const resMessage =
+                    (error.response &&
+                      error.response.data &&
+                      error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                 //   errors.username = resMessage;
+                    setMessage(resMessage);
+                }
+              );
 
             }}
           >
@@ -166,9 +167,9 @@ const sleep=(ms)=> {
                   </Typography>
                 </Box>
                 <TextField
-                  error={Boolean(touched.username && errors.username)}
+                  error={Boolean(touched.username && errors.username)||Boolean(message)}
                   fullWidth
-                  helperText={touched.username && errors.username}
+                  helperText={(touched.username && errors.username)}
                   label="Username"
                   margin="normal"
                   name="username"
@@ -179,9 +180,9 @@ const sleep=(ms)=> {
                   variant="outlined"
                 />
                 <TextField
-                  error={Boolean(touched.password && errors.password)}
+                  error={Boolean(touched.password && errors.password)||Boolean(message)}
                   fullWidth
-                  helperText={touched.password && errors.password}
+                  helperText={(touched.password && errors.password)||message}
                   label="Password"
                   margin="normal"
                   name="password"
@@ -194,7 +195,7 @@ const sleep=(ms)=> {
                 <Box my={2}>
                   <Button
                     color="primary"
-                   // disabled={isSubmitting}
+                    // disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"

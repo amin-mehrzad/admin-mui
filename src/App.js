@@ -7,8 +7,12 @@ import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import routes from 'src/routes';
 
+import AuthService from "./services/auth.service";
+
+
 const App = () => {
-  const routing = useRoutes(routes);
+  
+  const routing = useRoutes(routes(AuthService.getCurrentUser()));
 
   return (
     <ThemeProvider theme={theme}>

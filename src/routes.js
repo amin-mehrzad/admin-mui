@@ -13,10 +13,13 @@ import HubAssignment from 'src/views/hubAssignment/HubAssignmentView';
 // import RegisterView from 'src/views/auth/RegisterView';
 // import SettingsView from 'src/views/settings/SettingsView';
 
-const routes = [
+
+
+
+const routes = (user) => [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: Boolean(user)?<DashboardLayout />:<Navigate to="/login" /> ,
     children: [
       // { path: 'account', element: <AccountView /> },
       // { path: 'customers', element: <ReportStatusView /> },
@@ -31,7 +34,7 @@ const routes = [
   },
   {
     path: '/',
-    element: <MainLayout />,
+    element: !Boolean(user)?<MainLayout />:<Navigate to="/app/commands" />,
     children: [
       { path: 'login', element: <LoginView /> },
       // { path: 'register', element: <RegisterView /> },
