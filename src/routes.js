@@ -30,8 +30,8 @@ const routes = (user) => [
       // { path: 'dashboard', element: <DashboardView /> },
       {
         path: 'commands',
-       // element: <ProductListView />
-        element: user && [1].includes(user.roleId) ? <ProductListView /> : <Navigate to="/404" />,
+        element: <ProductListView />
+    //    element: user && [1].includes(user.roleId) ? <ProductListView /> : <Navigate to="/404" />,
 
       },
       {

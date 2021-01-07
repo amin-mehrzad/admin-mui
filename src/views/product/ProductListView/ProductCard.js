@@ -373,7 +373,7 @@ const ProductCard = ({ className, product, ...rest }) => {
                       value={command}
                       label='Command'
                       multiline
-                      rows={1}
+                      rows={4}
                       //defaultValue="Default Value"
                       variant="outlined"
                       fullWidth={true}
