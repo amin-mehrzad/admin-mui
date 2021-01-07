@@ -22,7 +22,7 @@ const login = (username, password) => {
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
-console.log(localStorage )
+      console.log(localStorage )
       return response.data;
     });
 };

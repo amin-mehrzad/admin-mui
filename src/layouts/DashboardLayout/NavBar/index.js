@@ -30,6 +30,8 @@ import {
 import NavItem from './NavItem';
 //import tooshlightLogo from '../../../images/tooshlight_logo.png';
 
+import AuthService from "../../../services/auth.service";
+
 const user = {
 avatar: '/static/images/admin-icon-.png',
 jobTitle: 'Admin',
@@ -50,22 +52,26 @@ const items = [
   {
     href: '/app/commands',
     icon: Code,
-    title: 'Hub Commands'
+    title: 'Hub Commands',
+    roles: [1]
   },
   {
     href: '/app/report',
     icon: Book,
-    title: 'Report'
+    title: 'Report',
+    roles: [1,2]
   },
   {
     href: '/app/status',
     icon: Loader,
-    title: 'Live Occupancy Display'
+    title: 'Live Occupancy Display',
+    roles: [1,2]
   },
   {
     href: '/app/hub-assignment',
     icon: Clipboard,
-    title: 'Hub Assignment'
+    title: 'Hub Assignment',
+    roles: [1]
   },
   // {
   //   href: '/app/account',
@@ -114,6 +120,10 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
 
+  const currentUser = AuthService.getCurrentUser()
+
+  console.log(currentUser)
+
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
@@ -150,19 +160,21 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {/* {user.jobTitle} */}
+          {currentUser.roleId==1?'Admin':'Installer'}
         </Typography>
       </Box>
       <Divider />
       <Box p={2}>
         <List>
           {items.map((item) => (
+            item.roles.includes(currentUser.roleId)?
             <NavItem
               href={item.href}
               key={item.title}
               title={item.title}
               icon={item.icon}
-            />
+            />:null
           ))}
         </List>
       </Box>

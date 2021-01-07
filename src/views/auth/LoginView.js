@@ -74,7 +74,7 @@ const LoginView = () => {
               //   navigate('/app/commands', { replace: true });
               AuthService.login(values.username, values.password).then(
                 () => {
-                  navigate('/app/commands', { replace: true });
+                  navigate('/app/status', { replace: true });
 
                 },
                 (error) => {
