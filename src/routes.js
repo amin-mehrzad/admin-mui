@@ -10,6 +10,7 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import StatusListView from 'src/views/statusList/StatusListView';
 import HubAssignment from 'src/views/hubAssignment/HubAssignmentView';
+import LogPage from 'src/views/logPage/LogPageView';
 // import RegisterView from 'src/views/auth/RegisterView';
 // import SettingsView from 'src/views/settings/SettingsView';
 
@@ -30,25 +31,30 @@ const routes = (user) => [
       // { path: 'dashboard', element: <DashboardView /> },
       {
         path: 'commands',
-        element: <ProductListView />
-    //    element: user && [1].includes(user.roleId) ? <ProductListView /> : <Navigate to="/404" />,
+       // element: <ProductListView />
+        element: user && [1].includes(user.roleId) ? <ProductListView /> : <Navigate to="/404" />,
 
       },
       {
         path: 'report',
        // element: <ReportStatusView />
-        element: user && [1,2].includes(user.roleId) ? <ReportStatusView /> : <Navigate to="/404" />,
+        element: user && [1,2,3].includes(user.roleId) ? <ReportStatusView /> : <Navigate to="/404" />,
 
       },
       {
         path: 'status',
        // element: <StatusListView />
-        element: user &&[1,2].includes(user.roleId) ? <StatusListView /> : <Navigate to="/404" />,
+        element: user && [1,2,3].includes(user.roleId) ? <StatusListView /> : <Navigate to="/404" />,
       },
       {
         path: 'hub-assignment',
         //element: <HubAssignment />
-        element: user &&[1].includes(user.roleId) ? <HubAssignment /> : <Navigate to="/404" />,
+        element: user && [1].includes(user.roleId) ? <HubAssignment /> : <Navigate to="/404" />,
+      },
+      {
+        path: 'logs',
+        //element: <HubAssignment />
+        element: user && [1].includes(user.roleId) ? <LogPage/> : <Navigate to="/404" />,
       },
       // { path: 'settings', element: <SettingsView /> },
       {

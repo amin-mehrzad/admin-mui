@@ -25,6 +25,7 @@ import {
   //Assignment,
   BookOpen as Book,
   // Users as UsersIcon
+  Edit,
   Loader
 } from 'react-feather';
 import NavItem from './NavItem';
@@ -59,18 +60,24 @@ const items = [
     href: '/app/report',
     icon: Book,
     title: 'Report',
-    roles: [1,2]
+    roles: [1,2,3]
   },
   {
     href: '/app/status',
     icon: Loader,
     title: 'Live Occupancy Display',
-    roles: [1,2]
+    roles: [1,2,3]
   },
   {
     href: '/app/hub-assignment',
-    icon: Clipboard,
+    icon: Edit,
     title: 'Hub Assignment',
+    roles: [1]
+  },
+  {
+    href: '/app/logs',
+    icon: Clipboard,
+    title: 'Live Logs',
     roles: [1]
   },
   // {
