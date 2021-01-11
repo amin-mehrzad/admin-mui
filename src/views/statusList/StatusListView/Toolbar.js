@@ -162,7 +162,9 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       console.log(result.data)
-      setCampusData(result.data)
+      var user = await JSON.parse(localStorage.getItem("user"));
+      var campuses=  await result.data.filter(campus => user.campusIDs.includes(campus.campus_id))
+      setCampusData(campuses)
     }
     fetchData()
   }, []);

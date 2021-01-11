@@ -37,7 +37,7 @@ const TopBar = ({
 
   const handleLogout=()=>{
     authServices.logout()
-    navigate('/app/commands', { replace: true });
+    navigate('/login', { replace: true });
 
   }
 

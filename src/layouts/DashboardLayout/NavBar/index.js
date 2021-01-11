@@ -168,7 +168,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           variant="body2"
         >
           {/* {user.jobTitle} */}
-          {currentUser.roleId==1?'Admin':'Installer'}
+          {[1,2].includes(currentUser.roleId)?'Admin':'Installer'}
         </Typography>
       </Box>
       <Divider />

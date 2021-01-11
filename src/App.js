@@ -12,6 +12,10 @@ import AuthService from "./services/auth.service";
 
 const App = () => {
   
+  var user =  JSON.parse(localStorage.getItem("user"));
+  if(user != null && (user.campusIDs===undefined || user.roleId===undefined) ){
+    localStorage.removeItem("user");
+  }
   const routing = useRoutes(routes(AuthService.getCurrentUser()));
 
   return (

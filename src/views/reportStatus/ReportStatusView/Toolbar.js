@@ -11,6 +11,7 @@ import {
   Select,
 } from '@material-ui/core';
 import axios from 'axios'
+// import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,6 +35,8 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   const classes = useStyles();
   const [state, setState] = useState({
   });
+  // const navigate = useNavigate();
+
   const [campusData, setCampusData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
  // const [sectionData, setSectionData] = useState([]);
@@ -144,7 +147,10 @@ console.log(event.target.value)
         headers: { "Access-Control-Allow-Origin": "*" }
       })
       console.log(result.data)
-      setCampusData(result.data)
+
+      var user = await JSON.parse(localStorage.getItem("user"));
+      var campuses=  await result.data.filter(campus => user.campusIDs.includes(campus.campus_id))
+      setCampusData(campuses)
     }
     fetchData()
   }, []);
