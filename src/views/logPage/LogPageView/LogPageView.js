@@ -57,10 +57,10 @@ const hubID = '9A6AFEE80000'
 
 
 const LogPageView = ({ className, customers, ...rest }) => {
-    const classes = useStyles();
+     const classes = useStyles();
     // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
-    const [response, setResponse] = useState("");
+    // const [response, setResponse] = useState("");
     const [theArray, setTheArray] = useState("");
 
 
@@ -69,7 +69,7 @@ const LogPageView = ({ className, customers, ...rest }) => {
       
       socket.on( hubID , data => {
           console.log(data)
-        setResponse(data);
+      //  setResponse(data);
         setTheArray(oldArray => [...oldArray, data]);
 
       });
