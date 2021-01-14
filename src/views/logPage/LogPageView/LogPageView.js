@@ -100,7 +100,13 @@ const LogPageView = ({ className, customers, ...rest }) => {
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
 
-        var subscription = client.subscribe('/amq/queue/9A6AFEE80000', function (message) {
+
+        // client.publish({
+        //   destination: '/topic/general',
+        //   body: 'Hello world',
+        //   headers: { priority: '9' },
+        // });
+        var subscription = client.subscribe('/exchange/9A6AFEE80000', function (message) {
             // called when the client receives a STOMP message from the server
             if (message.body) {
               console.log('got message with body ' + message.body);
