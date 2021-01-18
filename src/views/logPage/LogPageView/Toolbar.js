@@ -48,15 +48,17 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   const [showSection, setShowSection] = useState(false);
   const campusHandleChange = async (event) => {
     console.log(event.target.value)
-    //  var name = event.target.name;
     var campus_id = event.target.value;
+    var campus_name = campusData[campus_id - 1].description;
+
     setShowVenue(false)
     setShowSection(false)
     setVenuesData([])
-    onChange({ campus_id })
+    onChange({ campus_id, campus_name })
 
     setState({
-      campus_id: event.target.value
+      campus_id: event.target.value,
+      campus_name
     });
     let venueResult = await axios({
       method: 'get',
@@ -88,15 +90,18 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
 
     //  var name = event.target.name;
     console.log(state)
+    var venueID = event.target.value
+
     onChange({
-      campus_id:state.campus_id,
+      campus_id: state.campus_id,
       venue_id: event.target.value,
-     // venue_section_id: undefined
+      venue_name : venuesData[venueID - 1].name
+
+      // venue_section_id: undefined
 
     })
 
 
-  var venueID=event.target.value
 
     let sectionResult = await axios({
       method: 'get',
@@ -104,12 +109,12 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
     console.log(sectionResult.data)
-    if (sectionResult.data[0].venue_section_id !== 0){
+    if (sectionResult.data[0].venue_section_id !== 0) {
       setShowVenue(true)
-     setShowSection(true)
-     setSectionData(sectionResult.data)
+      setShowSection(true)
+      setSectionData(sectionResult.data)
     }
-    else{
+    else {
       setShowVenue(false)
       let hubResult = await axios({
         method: 'get',
@@ -118,21 +123,35 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       })
       console.log(hubResult.data)
     }
-    setState({
-      campus_id:state.campus_id,
-      venue_id: venueID,
-    });
+    setState(oldState => {
+      return {
+        ...oldState,
+        venue_id: venueID,
+        venue_name : venuesData[venueID - 1].name
+
+      }
+    }
+      //campus_id:state.campus_id,
+      // venue_id: venueID
+    );
   };
   console.log(state)
   const sectionHandleChange = async (event) => {
+    var sectionID = event.target
+    console.log(sectionID)
+
     onChange({
       ...state,
       venue_section_id: event.target.value,
+      venue_section_name : sectionData[sectionID - 1].section_name
+
     })
-  //  var name = event.target.name;
+    //  var name = event.target.name;
     setState({
       ...state,
       venue_section_id: event.target.value,
+      venue_section_name : sectionData[sectionID - 1].section_name
+
     });
     // let roomResult = await axios({
     //   method: 'get',
@@ -226,12 +245,12 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {sectionData.map((section,index) =>
+                  {sectionData.map((section, index) =>
                     <option value={section.venue_section_id} key={index}>{section.section_name}</option>
                   )}
                 </Select>
               </FormControl> : null}
-                            <FormControl variant="outlined" className={classes.formControl} >
+              <FormControl variant="outlined" className={classes.formControl} >
                 <Button
                   variant="contained"
                   color="primary"
