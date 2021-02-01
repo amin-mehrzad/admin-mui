@@ -108,7 +108,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
       //   body: 'Hello world',
       //   headers: { priority: '9' },
       // });
-      var subscription = client.subscribe('/exchange/Atlanta Airport/*.Terminal B.*', function (message) {
+      var subscription = client.subscribe('/exchange/Atlanta Airport/9A6AFEE80000', function (message) {
         // called when the client receives a STOMP message from the server
         if (message.body) {
           console.log('got message with body ' + message.body);
@@ -173,6 +173,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
           });
     
          return () =>  socket.off(hubID);    */
+         return () =>  client.deactivate();    
 
   }, []);
 

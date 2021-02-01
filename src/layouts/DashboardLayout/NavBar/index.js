@@ -22,6 +22,7 @@ import {
   // UserPlus as UserPlusIcon,
   Code,
   Clipboard,
+  Monitor,
   //Assignment,
   BookOpen as Book,
   // Users as UsersIcon
@@ -55,6 +56,12 @@ const items = [
     icon: Code,
     title: 'Hub Commands',
     roles: [1]
+  },
+  {
+    href: '/app/display',
+    icon: Monitor,
+    title: 'Diplay',
+    roles: [1,2]
   },
   {
     href: '/app/report',

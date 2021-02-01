@@ -11,6 +11,7 @@ import ProductListView from 'src/views/product/ProductListView';
 import StatusListView from 'src/views/statusList/StatusListView';
 import HubAssignment from 'src/views/hubAssignment/HubAssignmentView';
 import LogPage from 'src/views/logPage/LogPageView';
+import DisplayView from 'src/views/display/DisplayView';
 // import RegisterView from 'src/views/auth/RegisterView';
 // import SettingsView from 'src/views/settings/SettingsView';
 
@@ -33,6 +34,12 @@ const routes = (user) => [
         path: 'commands',
        // element: <ProductListView />
         element: user && [1].includes(user.roleId) ? <ProductListView /> : <Navigate to="/404" />,
+
+      },
+      {
+        path: 'display',
+       // element: <ReportStatusView />
+        element: user && [1,2].includes(user.roleId) ? <DisplayView /> : <Navigate to="/404" />,
 
       },
       {
