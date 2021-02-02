@@ -57,7 +57,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
   const campusHandleChange = async (event) => {
     onChange("")
-setHubsData([])
+    setHubsData([])
     var name = event.target.name;
     var campus_id = event.target.value;
     //  console.log(event)
@@ -196,12 +196,14 @@ setHubsData([])
     setHubsData([])
     var name = event.target.name;
     ///////   var venue_id = event.target.value;
-    //  console.log(event)
+   console.log(name)
     setState({
       ...state,
       [name]: event.target.value,
     });
-    let hubResult = await axios({
+    console.log(event.target.value)
+
+    let roomResult = await axios({
       method: 'get',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
       //data: {id: varID},
@@ -209,11 +211,11 @@ setHubsData([])
     })
 
    //if (roomResult.data[0].hub_id !== null){
-      console.log(hubResult.data)
+      console.log(roomResult.data)
       setShowHub(true)
       setShowVenue(true)
       setShowSection(true)
-      setHubsData(hubResult.data)
+      setHubsData(roomResult.data)
       setShowRoom(true)
 
     // }
@@ -238,7 +240,16 @@ setHubsData([])
 
   const hubHandleChange=(event) =>{
     // Here, we invoke the callback with the new value
-    onChange(event.target.value);
+    var name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+    // onChange(event.target.value);
+    onChange({
+      ...state,
+      [name]: event.target.value,
+    });
 }
 
 

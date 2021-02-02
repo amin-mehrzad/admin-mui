@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
-    maxWidth: '920px'
+    //maxWidth: '920px'
   }
 }));
 
