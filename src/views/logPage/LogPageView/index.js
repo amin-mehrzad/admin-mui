@@ -9,8 +9,8 @@ import LogPageView from './LogPageView';
 import Toolbar from './Toolbar';
 //import data from './data';
 
-import axios from 'axios'
-import queryString from 'querystring'
+// import axios from 'axios'
+// import queryString from 'querystring'
 //import dotenv from 'dotenv/config'
 
 // function report(){
@@ -55,7 +55,7 @@ const StatusListView = () => {
 
   useEffect(() => {
     async function fetchData() {
-      if (change) {
+      // if (change) {
         console.log(state)
         //var query = queryString.stringify(state)
        // console.log(query)
@@ -73,7 +73,7 @@ const StatusListView = () => {
         setHubData(tableData)          */
       //  setChange(false)
         //return result
-      }
+      // }
     }
 
     fetchData()
