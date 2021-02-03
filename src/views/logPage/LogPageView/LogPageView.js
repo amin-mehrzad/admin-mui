@@ -65,13 +65,14 @@ const useStyles = makeStyles((theme) => ({
 const WS_ENDPOINT = `ws://${process.env.REACT_APP_MESSAGE_BROKER_HOST}:${process.env.REACT_APP_MESSAGE_BROKER_PORT}/ws`
 
 
-const hubID = '9A6AFEE80000'
+// const hubID = '9A6AFEE80000'
 
 //var open = require('amqplib').connect(MASSAGE_BROKER_ENDPOINT);
 
 
 const LogPageView = ({ className, hubData, ...rest }) => {
   const classes = useStyles();
+  console.log(hubData)
   // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   // const [response, setResponse] = useState("");
@@ -108,7 +109,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
       //   body: 'Hello world',
       //   headers: { priority: '9' },
       // });
-      var subscription = client.subscribe('/exchange/Atlanta Airport/9A6AFEE80000', function (message) {
+      var subscription = client.subscribe(`/exchange/${hubData.campus_name}/${hubData.venue_name}.${hubData.section_name}.${hubData.room_name}`, function (message) {
         // called when the client receives a STOMP message from the server
         if (message.body) {
           console.log('got message with body ' + message.body);
@@ -175,7 +176,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
          return () =>  socket.off(hubID);    */
          return () =>  client.deactivate();    
 
-  }, []);
+  }, [hubData]);
 
 
 
@@ -186,7 +187,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
         <Paper >
           <Box p={3} textAlign={'center'} >
             <Typography>
-              HUD ID : 9A6AFEE80000
+              HUD ID : {hubData.hub}
                         </Typography>
           </Box>
           <Box p={3} fontWeight={"fontWeightLight"}  >
@@ -211,7 +212,7 @@ const LogPageView = ({ className, hubData, ...rest }) => {
 
 LogPageView.propTypes = {
   className: PropTypes.string,
-  hubData: PropTypes.array.isRequired
+  hubData: PropTypes.object
 };
 
 export default LogPageView;

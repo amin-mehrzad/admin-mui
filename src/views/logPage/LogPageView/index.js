@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StatusListView = () => {
   const classes = useStyles();
-  const [hubData, setHubData] = useState([]);
+  const [hubData, setHubData] = useState({});
   const [state, setState] = useState({});
   const [change, setChange] = useState(false);
 
@@ -57,8 +57,8 @@ const StatusListView = () => {
     async function fetchData() {
       if (change) {
         console.log(state)
-        var query = queryString.stringify(state)
-        console.log(query)
+        //var query = queryString.stringify(state)
+       // console.log(query)
       /*  const result = await axios({
           method: 'get',
           // url: 'http://3.15.126.206/api/report',
@@ -71,7 +71,7 @@ const StatusListView = () => {
         var tableData = result.data.filter(x => x != null)
         console.log(tableData) 
         setHubData(tableData)          */
-        setChange(false)
+      //  setChange(false)
         //return result
       }
     }
@@ -81,11 +81,12 @@ const StatusListView = () => {
 
 
     //setData(result);
-  }, [state, change]);
+  }, [state]);
 
   const handleChange = (newValue) => {
     console.log(newValue)
     setChange(true)
+    setHubData(newValue)
     setState(newValue)
   }
 
@@ -99,7 +100,7 @@ const StatusListView = () => {
       <Container maxWidth={false}>
         <Toolbar value={state} onChange={handleChange} />
         <Box mt={3}>
-          <LogPageView hubData={hubData} />
+          {change?<LogPageView hubData={hubData} />:null}
         </Box>
       </Container>
     </Page>
