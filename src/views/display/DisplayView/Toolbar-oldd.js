@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Box,
-  Button,
+ // Button,
   Card,
   CardContent,
-  // TextField,
-  // InputAdornment,
-  // SvgIcon,
+ // TextField,
+ // InputAdornment,
+ // SvgIcon,
   makeStyles,
   FormControl,
   InputLabel,
@@ -36,10 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Toolbar = ({ className, value, onChange, ...rest }) => {
+const Toolbar = ({ className,value,onChange, ...rest }) => {
   console.log(value)
   const classes = useStyles();
-  const [state, setState] = useState({});
+  const [state, setState] = useState({
+    campus: '',
+    venue: '',
+  });
   const [campusData, setCampusData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
   const [sectionData, setSectionData] = useState([]);
@@ -51,23 +54,16 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   const [showRoom, setShowRoom] = useState(false);
   // const [haveVenues, setHaveVenues] = useState(false);
 
-  //const prevState = usePrevious(state);
 
   const campusHandleChange = async (event) => {
-    // onChange("")
+    onChange("")
     setHubsData([])
-    setVenuesData([])
-    //var name = event.target.name;
-    var campus = event.target.value;
-    var selectedIndex = event.target.options.selectedIndex;
-    var campus_name= event.target.options[selectedIndex].innerText
-    console.log(event.target.options[selectedIndex].innerText);
-
+    var name = event.target.name;
+    var campus_id = event.target.value;
     //  console.log(event)
     setState({
-      //...state,
-      campus,
-      campus_name
+      ...state,
+      [name]: event.target.value,
     });
     let venueResult = await axios({
       method: 'get',
@@ -76,7 +72,7 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (venueResult.data[0].venue_id !== 0) {
+    if (venueResult.data[0].venue_id !== 0){
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowRoom(false)
@@ -85,14 +81,14 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       setVenuesData(venueResult.data)
 
     }
-    else {
+    else{
       setShowVenue(false)
       setShowSection(false)
       setShowRoom(false)
 
       let hubResult = await axios({
         method: 'get',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus}`,
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${campus_id}`,
         //data: {id: varID},
         headers: { "Access-Control-Allow-Origin": "*" }
       })
@@ -106,23 +102,15 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   };
 
   const venueHandleChange = async (event) => {
-    //  onChange("")
+    onChange("")
 
     setSectionData([])
-    //var name = event.target.name;
-    var selectedIndex = event.target.options.selectedIndex;
-    var venue_name= event.target.options[selectedIndex].innerText
-    console.log(event.target.options[selectedIndex].innerText);
-     var venue_id = event.target.value;
+    var name = event.target.name;
+ ///////   var venue_id = event.target.value;
     //  console.log(event)
-    setState(prevState => {
-      let newState = {
-        campus: prevState.campus,
-        campus_name: prevState.campus_name,
-        venue: venue_id,
-        venue_name      
-      }
-      return newState
+    setState({
+      ...state,
+      [name]: event.target.value,
     });
     let sectionResult = await axios({
       method: 'get',
@@ -131,7 +119,7 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (sectionResult.data[0].venue_section_id !== 0) {
+    if (sectionResult.data[0].venue_section_id !== 0){
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowRoom(false)
@@ -140,7 +128,7 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
       setSectionData(sectionResult.data)
 
     }
-    else {
+    else{
       setShowVenue(false)
       let hubResult = await axios({
         method: 'get',
@@ -158,35 +146,24 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
 
 
   const sectionHandleChange = async (event) => {
-    //  onChange("")
+    onChange("")
 
     setRoomData([])
-    //var name = event.target.name;
-    var selectedIndex = event.target.options.selectedIndex;
-    var section_name= event.target.options[selectedIndex].innerText
-    console.log(event.target.options[selectedIndex].innerText);
-     var section = event.target.value;
-    setState(prevState => {
-      let newState = {
-        campus: prevState.campus,
-        campus_name: prevState.campus_name,
-        venue: prevState.venue,
-        venue_name: prevState.venue_name,
-        section,
-        section_name  
-      }
-      return newState
+    var name = event.target.name;
+    ///////   var venue_id = event.target.value;
+    //  console.log(event)
+    setState({
+      ...state,
+      [name]: event.target.value,
     });
-
-
     let roomResult = await axios({
       method: 'get',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/rooms?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${event.target.value}`,
       //data: {id: varID},
       headers: { "Access-Control-Allow-Origin": "*" }
     })
-console.log(roomResult)
-    if (roomResult.data[0].room_id !== null) {
+
+    if (roomResult.data[0].room_id !== null){
       console.log(roomResult.data)
       setShowHub(false)
       setShowVenue(true)
@@ -195,7 +172,7 @@ console.log(roomResult)
       setShowRoom(true)
 
     }
-    else {
+    else{
       //setShowVenue(false)
       let hubResult = await axios({
         method: 'get',
@@ -215,28 +192,17 @@ console.log(roomResult)
   };
 
   const roomHandleChange = async (event) => {
-    //  onChange("")
+    onChange("")
     setHubsData([])
-    //var name = event.target.name;
-    var selectedIndex = event.target.options.selectedIndex;
-    var room_name= event.target.options[selectedIndex].innerText
-    console.log(event.target.options[selectedIndex].innerText);
-    var room = event.target.value;
-    setState(prevState => {
-      let newState = {
-        campus: prevState.campus,
-        campus_name: prevState.campus_name,
-        venue: prevState.venue,
-        venue_name: prevState.venue_name,
-        section: prevState.section,
-        section_name: prevState.section_name,
-        room,
-        room_name  
-      }
-      console.log(newState)
-
-      return newState
+    var name = event.target.name;
+    ///////   var venue_id = event.target.value;
+   console.log(name)
+    setState({
+      ...state,
+      [name]: event.target.value,
     });
+    console.log(event.target.value)
+
     let roomResult = await axios({
       method: 'get',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
@@ -244,13 +210,13 @@ console.log(roomResult)
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    //if (roomResult.data[0].hub_id !== null){
-    console.log(roomResult.data)
-    setShowHub(true)
-    setShowVenue(true)
-    setShowSection(true)
-    setHubsData(roomResult.data)
-    setShowRoom(true)
+   //if (roomResult.data[0].hub_id !== null){
+      console.log(roomResult.data)
+      setShowHub(true)
+      setShowVenue(true)
+      setShowSection(true)
+      setHubsData(roomResult.data)
+      setShowRoom(true)
 
     // }
     // else{
@@ -272,7 +238,7 @@ console.log(roomResult)
 
   };
 
-  const hubHandleChange = (event) => {
+  const hubHandleChange=(event) =>{
     // Here, we invoke the callback with the new value
     var name = event.target.name;
     setState({
@@ -280,15 +246,15 @@ console.log(roomResult)
       [name]: event.target.value,
     });
     // onChange(event.target.value);
-    // onChange({
-    //   ...state,
-    //   [name]: event.target.value,
-    // });
-  }
+    onChange({
+      ...state,
+      [name]: event.target.value,
+    });
+}
 
 
   useEffect(() => {
-    //  console.log(props)
+  //  console.log(props)
     async function fetchData() {
       const result = await axios({
         method: 'get',
@@ -333,7 +299,7 @@ console.log(roomResult)
           {/* </CardHeader> */}
           <CardContent>
             <Box maxWidth={2500} mt={1}>
-              {/* <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
+            {/* <Typography component="h1" variant="h4" color="textPrimary" gutterBottom>
                   Please Select Hub ID :
             </Typography> */}
               {/* <TextField
@@ -363,12 +329,12 @@ console.log(roomResult)
                   inputProps={{
                     name: 'campus',
                     id: 'campus',
-                    // havevenues:'false'
+                   // havevenues:'false'
                   }}
                 >
                   <option aria-label="None" value="" />
                   {campusData.map((campus) =>
-                    <option value={campus.campus_id} key={campus.campus_id} >{campus.name}</option>
+                    <option value={campus.campus_id} key={campus.campus_id} >{campus.description}</option>
                   )}
                   {/* <option value={30}>Thirty</option> */}
                 </Select>
@@ -378,7 +344,7 @@ console.log(roomResult)
                 <Select
                   native
                   value={state.venue}
-                  onChange={venueHandleChange}
+                   onChange={venueHandleChange}
                   label="Venue"
                   inputProps={{
                     name: 'venue',
@@ -386,7 +352,7 @@ console.log(roomResult)
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {venuesData.map((venue, index) =>
+                  {venuesData.map((venue,index) =>
                     <option value={venue.venue_id} key={index}>{venue.name}</option>
                   )}
                 </Select>
@@ -404,7 +370,7 @@ console.log(roomResult)
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {sectionData.map((section, index) =>
+                  {sectionData.map((section,index) =>
                     <option value={section.venue_section_id} key={index}>{section.section_name}</option>
                   )}
                 </Select>
@@ -415,7 +381,7 @@ console.log(roomResult)
                 <Select
                   native
                   value={state.room}
-                  onChange={roomHandleChange}
+                   onChange={roomHandleChange}
                   label="Room"
                   inputProps={{
                     name: 'room',
@@ -423,7 +389,7 @@ console.log(roomResult)
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {roomData.map((room, index) =>
+                  {roomData.map((room,index) =>
                     <option value={room.room_id} key={index}>{room.name}</option>
                   )}
                 </Select>
@@ -441,22 +407,11 @@ console.log(roomResult)
                   }}
                 >
                   <option aria-label="None" value="" />
-                  {hubsData.map((hub, index) =>
+                  {hubsData.map((hub,index) =>
                     <option value={hub.hub_id} key={index}>{hub.hub_id}</option>
                   )}
                 </Select>
               </FormControl> : null}
-              <FormControl variant="outlined" className={classes.formControl} >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  className={classes.button}
-                  //startIcon={<Autorenew />}
-                  onClick={() => { onChange(state) }}
-                >Open Log Stream
-              </Button>
-              </FormControl>
             </Box>
           </CardContent>
         </Card>
@@ -464,7 +419,9 @@ console.log(roomResult)
     </div>
   );
 };
+
 Toolbar.propTypes = {
   className: PropTypes.string
 };
+
 export default Toolbar;
