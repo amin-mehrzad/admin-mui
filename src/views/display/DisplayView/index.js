@@ -47,23 +47,23 @@ const useStyles = makeStyles((theme) => ({
 
 const ReportStatusView = () => {
   const classes = useStyles();
-  const [customers, setCustomers] = useState([]);
+  const [hubInfo, setHubInfo] = useState([]);
   const [state, setState] = useState({});
 
   useEffect(() => {
     async function fetchData() {
-      console.log(state)
+      // console.log(state)
 
-      const result = await axios({
-        method: 'post',
-        // url: 'http://3.15.126.206/api/report',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
-        data: state,
-        headers: { "Access-Control-Allow-Origin": "*" }
-      })
-      var tableData = result.data.filter(x => x != null)
-      console.log(tableData)
-      setCustomers(tableData)
+      // const result = await axios({
+      //   method: 'post',
+      //   // url: 'http://3.15.126.206/api/report',
+      //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/report`,
+      //   data: state,
+      //   headers: { "Access-Control-Allow-Origin": "*" }
+      // })
+      // var tableData = result.data.filter(x => x != null)
+      // console.log(tableData)
+      // setCustomers(tableData)
       //return result
     }
 
@@ -72,7 +72,7 @@ const ReportStatusView = () => {
 
 
     //setData(result);
-  }, [state]);
+  }, []);
 
   const handleChange = (newValue) => {
     console.log(newValue)
@@ -89,7 +89,7 @@ const ReportStatusView = () => {
       <Container maxWidth={false}>
         <Toolbar value={state} onChange={handleChange} />
         <Box mt={3}>
-          <ReportTable customers={customers} />
+          <ReportTable hubInfo={state} />
         </Box>
       </Container>
     </Page>
