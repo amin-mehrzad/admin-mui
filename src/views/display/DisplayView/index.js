@@ -5,11 +5,11 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import ReportTable from './ReportTable';
+import Display from './Display';
 import Toolbar from './Toolbar';
 //import data from './data';
 
-import axios from 'axios'
+//import axios from 'axios'
 //import dotenv from 'dotenv/config'
 
 // function report(){
@@ -49,6 +49,8 @@ const ReportStatusView = () => {
   const classes = useStyles();
   const [hubInfo, setHubInfo] = useState([]);
   const [state, setState] = useState({});
+  const [change, setChange] = useState(false);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -76,7 +78,10 @@ const ReportStatusView = () => {
 
   const handleChange = (newValue) => {
     console.log(newValue)
+
     setState(newValue)
+    setChange(true)
+
   }
 
   console.log(state)
@@ -89,7 +94,7 @@ const ReportStatusView = () => {
       <Container maxWidth={false}>
         <Toolbar value={state} onChange={handleChange} />
         <Box mt={3}>
-          <ReportTable hubInfo={state} />
+        {change?<Display hubInfo={state} />:null}
         </Box>
       </Container>
     </Page>

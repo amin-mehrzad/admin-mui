@@ -454,7 +454,7 @@ console.log(roomResult)
                   className={classes.button}
                   //startIcon={<Autorenew />}
                   onClick={() => { onChange(state) }}
-                >Open Log Stream
+                >Open Display
               </Button>
               </FormControl>
             </Box>
