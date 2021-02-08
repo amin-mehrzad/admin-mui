@@ -293,7 +293,42 @@ const Display = ({ className, hubInfo, ...rest }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
+                padding: '0',
+                marginBottom:'0'
+               // border: '10px solid white',
+               // borderRadius: '35px'
+              }}
+            >
+            <Typography
+              style={{
+                //  backgroundColor: `${menBackgroundColor}`,
+                color: 'white',
+                fontSize: '85px',
+                backgroundColor: '#343434',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                padding: '10px 50px',
+                width: 'fit-content',
+                // border: '10px solid white',
+               // borderRadius: '35px',
+                //fontWeight: '200',
+                fontFamily:'fantasy',
+                borderRadius: '75px',
+                margin: 'auto',
+              }}
+            >{men_count}</Typography>
+            </Grid>
+            <Grid
+              className={classes.media}
+              style={{
+                backgroundColor: `${menBackgroundColor}`,
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
                 padding: '40px 0px',
+                marginTop:'0'
+
                // border: '10px solid white',
                // borderRadius: '35px'
               }}
@@ -315,7 +350,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                 borderRadius: '20px'
 
               }}
-            > STALLS AVAILABLE</Typography>
+            >STALLS AVAILABLE</Typography>
             </Grid>
           </CardActionArea>
 
