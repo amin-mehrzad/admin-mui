@@ -112,7 +112,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
 
       const result = await axios({
         method: 'get',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}`,
+        url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
         //  data: { campus_id: 4, hub_id: hubId},
         headers: { "Access-Control-Allow-Origin": "*" }
       })
@@ -124,15 +124,24 @@ const Display = ({ className, hubInfo, ...rest }) => {
         key = 1
       else if (hubId == 'F10414D80000')
         key = 2
-
+       // result.data =result.data[0]
       console.log(result.data)
+      var sensorStatus = result.data[0]
 
-      var vacants = await result.data[key].filter(val => val.stallStatus == 'O')
+      console.log(sensorStatus[0])
+      var womenStalls=sensorStatus.filter(val=>val.roomName=='Women')
+      console.log(womenStalls)
+
+      var menStalls=sensorStatus.filter(val=>val.roomName=='Men')
+      console.log(menStalls)
+
+      
+      var menVacants = await menStalls.filter(val => val.stallStatus == 'O')
       setState({
         ...state,
-        men_count: vacants.length,
+        men_count: menVacants.length,
         // women_count: data.women_count,
-        men_total: result.data.length,
+        men_total: menStalls.length,
         // women_total: data.women_total,
         //  current_date: feed_datetime[0],
         // current_time: feed_datetime[1],
@@ -140,6 +149,8 @@ const Display = ({ className, hubInfo, ...rest }) => {
       })
       // var that = this
 
+
+      const subscribeURL= (hubInfo.venue > 0 )?`/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}`:`/exchange/${hubInfo.campus_name}/${hubId}`
       // subscribe using STOMP
       const client = new Client({
         brokerURL: `${WS_ENDPOINT}`,
@@ -158,16 +169,30 @@ const Display = ({ className, hubInfo, ...rest }) => {
         console.log('done')
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
-        var subscription = client.subscribe(`/exchange/${hubInfo.campus_name}/${hubId}`, function (message) {
+        var subscription = client.subscribe(subscribeURL, function (message) {
           // called when the client receives a STOMP message from the server
 
           if (message.body) {
             var receivdData = JSON.parse(message.body)
+            if(receivdData.roomName=='Women')
             setState({
               ...state,
-              men_count: receivdData.availableStalls,
+             // men_count: receivdData.availableStalls,
+              women_count: receivdData.roomAvailableStalls,
               //  women_count: message.body.women_count,
-              men_total: receivdData.totalStalls,
+             // men_total: receivdData.totalStalls,
+              women_total: receivdData.roomTotalStalls,
+              // women_total: message.body.women_total,
+              //  current_date: feed_datetime[0],
+              //   current_time: feed_datetime[1],
+              errorMsg: ""
+            })
+            else if (receivdData.roomName=='Men')
+            setState({
+              ...state,
+              men_count: receivdData.roomAvailableStalls,
+              //  women_count: message.body.women_count,
+              men_total: receivdData.roomTotalStalls,
               // women_total: message.body.women_total,
               //  current_date: feed_datetime[0],
               //   current_time: feed_datetime[1],
