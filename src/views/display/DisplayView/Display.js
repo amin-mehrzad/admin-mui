@@ -274,185 +274,201 @@ const Display = ({ className, hubInfo, ...rest }) => {
       </button> */}
       <FullScreen handle={handle}>
 
-      <Grid
-        //   style={{height:'100%' }}
-        className={classes.root}
+        <Grid
+          //   style={{height:'100%' }}
+          className={classes.root}
 
-      >
-        {hubInfo.room_name == 'Men' ? (
-          <Grid>
-            <Card >
-              <CardActionArea
-                style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
-                onClick={handle.enter}
+        >
+          {hubInfo.room_name == 'Men' ? (
+            <Grid>
+              <Card >
+                <CardActionArea
+                  style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
+                  onClick={handle.enter}
                 // onClick={handleToggleFullscreen()}
-              >
-                <Typography
-                  style={{
-                    color: 'white',
-                    fontSize: '4vh',
-                    textAlign: 'center',
-                    padding: '2vh 40px 0px 40px',
-                    borderRadius: '35px',
-                    fontWeight: '700'
-                  }}
-                >MEN</Typography>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${menBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '3vh',
-                    border: '10px solid white',
-                    borderRadius: '35px'
-                  }}
-                >
-                  <img src={man} alt="outer-frame" style={{height:'56vh'}}/>
-                </Grid>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${menBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '0',
-                    marginBottom: '0'
-                  }}
                 >
                   <Typography
                     style={{
                       color: 'white',
                       fontSize: '4vh',
-                      backgroundColor: '#343434',
+                      textAlign: 'center',
+                      padding: '2vh 40px 0px 40px',
+                      borderRadius: '35px',
+                      fontWeight: '700'
+                    }}
+                  >MEN</Typography>
+                  <Grid
+                    className={classes.media}
+                    style={{
+                      backgroundColor: `${menBackgroundColor}`,
                       alignItems: 'center',
                       justifyContent: 'center',
                       textAlign: 'center',
-                      padding: '1vh 3vh',
-                      width: 'fit-content',
-                      fontFamily: 'fantasy',
-                      borderRadius: '75px',
-                      margin: 'auto'
+                      // padding: '3vh',
+                      //  border: '10px solid white',
+                      //borderRadius: '35px'
                     }}
-                  >{men_count}</Typography>
-                </Grid>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${menBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '40px 0px',
-                    marginTop: '0'
-                  }}
-                >
-                  <Typography
+                  >
+                    <img src={man} alt="outer-frame"
+                      style={{
+                        height: '62vh',
+                        border: '10px solid white',
+                        borderRadius: '35px',
+                        padding: '3vh 17vw'
+                      }} />
+                  </Grid>
+                  <Grid
+                    className={classes.media}
                     style={{
-                      color: 'white',
-                      fontSize: '4vh',
-                      backgroundColor: '#343434',
-                      textAlign: 'center',
-                      padding: '2vh',
-                      fontFamily: 'fantasy',
-                      borderRadius: '20px'
-                    }}
-                  >STALLS AVAILABLE</Typography>
-                </Grid>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ) : null}
-        {hubInfo.room_name == 'Women' ? (
-          <Grid>
-            <Card >
-              <CardActionArea
-                style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
-                onClick={handle.enter}
-                // onClick={handleToggleFullscreen()}
-
-              >
-                <Typography
-                  style={{
-                    color: 'white',
-                    fontSize: '4vh',
-                    textAlign: 'center',
-                    padding: '2vh 40px 0px 40px',
-                    borderRadius: '35px',
-                    fontWeight: '700'
-                  }}
-                >WOMEN</Typography>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${womenBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '3vh',
-                    border: '10px solid white',
-                    borderRadius: '35px'
-                  }}
-                >
-                  <img src={woman} alt="outer-frame" style={{height:'56vh'}}/>
-                </Grid>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${womenBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '0',
-                    marginBottom: '0'
-                  }}
-                >
-                  <Typography
-                    style={{
-                      color: 'white',
-                      fontSize: '4vh',
-                      backgroundColor: '#343434',
+                      backgroundColor: `${menBackgroundColor}`,
                       alignItems: 'center',
                       justifyContent: 'center',
                       textAlign: 'center',
-                      padding: '1vh 3vh',
-                      width: 'fit-content',
-                      fontFamily: 'fantasy',
-                      borderRadius: '75px',
-                      margin: 'auto'
+                      padding: '0',
+                      marginBottom: '0'
                     }}
-                  >{women_count}</Typography>
-                </Grid>
-                <Grid
-                  className={classes.media}
-                  style={{
-                    backgroundColor: `${womenBackgroundColor}`,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: '40px 0px',
-                    marginTop: '0'
-                  }}
+                  >
+                    <Typography
+                      style={{
+                        color: 'white',
+                        fontSize: '5vh',
+                        backgroundColor: '#343434',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        padding: '1vh 3vh',
+                        width: 'fit-content',
+                        fontFamily: 'fantasy',
+                        borderRadius: '75px',
+                        margin: 'auto'
+                      }}
+                    >{men_count}</Typography>
+                  </Grid>
+                  <Grid
+                    className={classes.media}
+                    style={{
+                      backgroundColor: `${menBackgroundColor}`,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '3vh 0px',
+                      marginTop: '0'
+                    }}
+                  >
+                    <Typography
+                      style={{
+                        color: 'white',
+                        fontSize: '3vh',
+                        backgroundColor: '#343434',
+                        textAlign: 'center',
+                        padding: '2vh 12vw',
+                        fontFamily: 'fantasy',
+                        borderRadius: '20px',
+                        width: 'fit-content',
+                        margin: 'auto'
+                      }}
+                    >STALLS AVAILABLE</Typography>
+                  </Grid>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ) : null}
+          {hubInfo.room_name == 'Women' ? (
+            <Grid>
+              <Card >
+                <CardActionArea
+                  style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
+                  onClick={handle.enter}
+                // onClick={handleToggleFullscreen()}
+
                 >
                   <Typography
                     style={{
                       color: 'white',
                       fontSize: '4vh',
-                      backgroundColor: '#343434',
                       textAlign: 'center',
-                      padding: '2vh',
-                      fontFamily: 'fantasy',
-                      borderRadius: '20px'
+                      padding: '2vh 40px 0px 40px',
+                      borderRadius: '35px',
+                      fontWeight: '700'
                     }}
-                  >STALLS AVAILABLE</Typography>
-                </Grid>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ) : null}
-      </Grid>
+                  >WOMEN</Typography>
+                  <Grid
+                    className={classes.media}
+                    style={{
+                      backgroundColor: `${womenBackgroundColor}`,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '3vh',
+                      border: '10px solid white',
+                      borderRadius: '35px'
+                    }}
+                  >
+                    <img src={woman} alt="outer-frame" style={{
+                      height: '62vh',
+                      border: '10px solid white',
+                      borderRadius: '35px',
+                      padding: '3vh 17vw'
+                    }}
+                    />
+                  </Grid>
+                  <Grid
+                    className={classes.media}
+                    style={{
+                      backgroundColor: `${womenBackgroundColor}`,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '0',
+                      marginBottom: '0'
+                    }}
+                  >
+                    <Typography
+                      style={{
+                        color: 'white',
+                        fontSize: '5vh',
+                        backgroundColor: '#343434',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        padding: '1vh 3vh',
+                        width: 'fit-content',
+                        fontFamily: 'fantasy',
+                        borderRadius: '75px',
+                        margin: 'auto'
+                      }}
+                    >{women_count}</Typography>
+                  </Grid>
+                  <Grid
+                    className={classes.media}
+                    style={{
+                      backgroundColor: `${womenBackgroundColor}`,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '3vh 0px',
+                      marginTop: '0'
+                    }}
+                  >
+                    <Typography
+                      style={{
+                        color: 'white',
+                        fontSize: '3vh',
+                        backgroundColor: '#343434',
+                        textAlign: 'center',
+                        padding: '2vh 12vw',
+                        fontFamily: 'fantasy',
+                        borderRadius: '20px',
+                        width: 'fit-content',
+                        margin: 'auto'
+                      }}
+                    >STALLS AVAILABLE</Typography>
+                  </Grid>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ) : null}
+        </Grid>
 
       </FullScreen>
     </div>
