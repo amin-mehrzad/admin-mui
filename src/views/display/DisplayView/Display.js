@@ -23,7 +23,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 // import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
 import {
   // Avatar,
   Box,
@@ -58,10 +59,15 @@ const menBackgroundColor = '#1FB3F1'
 const womenBackgroundColor = '#E94A74'
 const WS_ENDPOINT = `ws://${process.env.REACT_APP_MESSAGE_BROKER_HOST}:${process.env.REACT_APP_MESSAGE_BROKER_PORT}/ws`
 
+
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    height: '100vh'
+
+  },
   media: {
-    minHeight: 40,
+    //  minHeight: 40,
+
     backgroundSize: 'contain',
     margin: '50px'
   },
@@ -92,44 +98,13 @@ const Display = ({ className, hubInfo, ...rest }) => {
   });
 
   useEffect(() => {
-    // setRefresh(hubInfo)
     const { hubId, version } = state;
-    var routingKey
-    // if (hubId && hubId.split(",").length > 1) {
-    //   routingKey = '#'
-    //      this.getAllModularMonitorData(hubId, version);
-    //   //   this.cronJob = setInterval(this.getAllModularMonitorData, CRON_INTERVAL, hubId, version);
-    // } else {
-    routingKey = hubInfo.hub
-    // getMonitorData(hubId, version);
-    //   this.cronJob = setInterval(this.getMonitorData, CRON_INTERVAL, hubId, version);
-    // }
-
-    //  return () =>  deactivate;  
-
-    // const fetchData= async (hubId)=>{
-    //   const result = await axios({
-    //     method: 'get',
-    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
-    //     //  data: { campus_id: 4, hub_id: hubId},
-    //     headers: { "Access-Control-Allow-Origin": "*" }
-    //   })
-    //   console.log(result.data)
-    //   return result.data
-    // }
+    var routingKey = hubInfo.hub
 
     if (version == 3) {
       console.log(hubInfo.hub)
 
-      // const result =  axios({
-      //   method: 'get',
-      //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
-      //   //  data: { campus_id: 4, hub_id: hubId},
-      //   headers: { "Access-Control-Allow-Origin": "*" }
-      // })
-      // var resultData = await fetchData(hubId)
-      // const intializeValues = 
-      async function intializeValues ()  {
+      async function intializeValues() {
         const result = await axios({
           method: 'get',
           url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubInfo.hub}`,
@@ -137,7 +112,6 @@ const Display = ({ className, hubInfo, ...rest }) => {
           headers: { "Access-Control-Allow-Origin": "*" }
         })
         console.log(result)
-        // return result.data
         var sensorStatus = result.data[0]
 
         console.log(sensorStatus[0])
@@ -174,25 +148,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
           })
         }
 
-
-
       }
-
 
       intializeValues()
 
-      // console.log(resultData)
-
-      // result.data =result.data[0]
-      //  console.log(resultData)
-
-
-      // var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
-
-      // var that = this
-
-
-      const subscribeURL = (hubInfo.venue > 0) ? `/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}` : `/exchange/${hubInfo.campus_name}/${hubId}`
+      const subscribeURL = (hubInfo.venue > 0) ? `/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}` : `/exchange/${hubInfo.campus_name}/${hubInfo.hub}`
       // subscribe using STOMP
       const client = new Client({
         brokerURL: `${WS_ENDPOINT}`,
@@ -265,142 +225,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
     }
   }, [hubInfo])
 
-  const getMonitorData = async (hubId, version) => {
-    //console.log(this.state)
 
-    // if (version == 3) {
-    //   console.log(hubId)
-
-    //   const result = await axios({
-    //     method: 'get',
-    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
-    //     //  data: { campus_id: 4, hub_id: hubId},
-    //     headers: { "Access-Control-Allow-Origin": "*" }
-    //   })
-    //   console.log(result.data)
-    //   var key
-    //   if (hubId == '6DE7E4D80000')
-    //     key = 0
-    //   else if (hubId == 'AAF814D80000')
-    //     key = 1
-    //   else if (hubId == 'F10414D80000')
-    //     key = 2
-    //   // result.data =result.data[0]
-    //   console.log(result.data)
-    //   var sensorStatus = result.data[0]
-
-    //   console.log(sensorStatus[0])
-    //   var womenStalls = sensorStatus.filter(val => val.roomName == 'Women')
-    //   console.log(womenStalls)
-
-    //   var menStalls = sensorStatus.filter(val => val.roomName == 'Men')
-    //   console.log(menStalls)
-
-    //   if (hubInfo.room_name == 'Men') {
-    //     var menVacants = await menStalls.filter(val => val.stallStatus == 'O')
-    //     setState({
-    //       ...state,
-    //       men_count: menVacants.length,
-    //       // women_count: data.women_count,
-    //       men_total: menStalls.length,
-    //       // women_total: data.women_total,
-    //       //  current_date: feed_datetime[0],
-    //       // current_time: feed_datetime[1],
-    //       errorMsg: ""
-    //     })
-    //   }
-    //   if (hubInfo.room_name == 'Women') {
-    //     var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
-    //     setState({
-    //       ...state,
-    //       women_count: womenVacants.length,
-    //       // women_count: data.women_count,
-    //       women_total: womenStalls.length,
-    //       // women_total: data.women_total,
-    //       //  current_date: feed_datetime[0],
-    //       // current_time: feed_datetime[1],
-    //       errorMsg: ""
-    //     })
-    //   }
+  console.log(state)
+  let { hubId, men_counts, men_count, women_count, men_total, women_total, current_date, current_time, errorMsg } = state;
 
 
-    //   // var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
-
-    //   // var that = this
-
-
-    //   const subscribeURL = (hubInfo.venue > 0) ? `/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}` : `/exchange/${hubInfo.campus_name}/${hubId}`
-    //   // subscribe using STOMP
-    //   const client = new Client({
-    //     brokerURL: `${WS_ENDPOINT}`,
-    //     connectHeaders: {
-    //       login: process.env.REACT_APP_MESSAGE_BROKER_USERNAME,
-    //       passcode: process.env.REACT_APP_MESSAGE_BROKER_PASSWORD,
-    //     },
-    //     debug: function (str) {
-    //       console.log(str);
-    //     },
-    //     // reconnectDelay: 5000,
-    //     heartbeatIncoming: 4000,
-    //     heartbeatOutgoing: 4000,
-    //   });
-    //   client.onConnect = function (frame) {
-    //     console.log('done')
-    //     // Do something, all subscribes must be done is this callback
-    //     // This is needed because this will be executed after a (re)connect
-    //     var subscription = client.subscribe(subscribeURL, function (message) {
-    //       // called when the client receives a STOMP message from the server
-
-    //       if (message.body) {
-    //         console.log(message.body);
-
-    //         var receivdData = JSON.parse(message.body)
-    //         if (receivdData.roomName == 'Women')
-    //           setState({
-    //             ...state,
-    //             // men_count: receivdData.availableStalls,
-    //             women_count: receivdData.roomAvailableStalls,
-    //             //  women_count: message.body.women_count,
-    //             // men_total: receivdData.totalStalls,
-    //             women_total: receivdData.roomTotalStalls,
-    //             // women_total: message.body.women_total,
-    //             //  current_date: feed_datetime[0],
-    //             //   current_time: feed_datetime[1],
-    //             errorMsg: ""
-    //           })
-    //         else if (receivdData.roomName == 'Men')
-    //           setState({
-    //             ...state,
-    //             men_count: receivdData.roomAvailableStalls,
-    //             //  women_count: message.body.women_count,
-    //             men_total: receivdData.roomTotalStalls,
-    //             // women_total: message.body.women_total,
-    //             //  current_date: feed_datetime[0],
-    //             //   current_time: feed_datetime[1],
-    //             errorMsg: ""
-    //           })
-
-    //       } else {
-    //         console.log('got empty message');
-    //       }
-    //     });
-    //   };
-
-    //   client.onStompError = function (frame) {
-    //     // Will be invoked in case of error encountered at Broker
-    //     // Bad login/passcode typically will cause an error
-    //     // Complaint brokers will set `message` header with a brief message. Body may contain details.
-    //     // Compliant brokers will terminate the connection after any error
-    //     console.log('Broker reported error: ' + frame.headers['message']);
-    //     console.log('Additional details: ' + frame.body);
-    //   };
-
-    //   client.activate();
-    //   return () =>  client.deactivate();    
-
-
-    // }
-  }
   const handleToggleFullscreen = () => {
     if (window.innerWidth <= 370) {
       var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
@@ -433,190 +262,200 @@ const Display = ({ className, hubInfo, ...rest }) => {
     }
   }
 
-  console.log(state)
-  let { hubId, men_counts, men_count, women_count, men_total, women_total, current_date, current_time, errorMsg } = state;
-  var has_men = (men_count >= 0 && women_count < 0);
-  var has_women = (men_count < 0 && women_count >= 0);
-  var has_both = (men_count >= 0 && women_count >= 0);
-  var men_ratio = 0
-  if (men_count * 2 <= men_total) men_ratio += 1;
-  if (men_count === 0) men_ratio += 1;
-  var women_ratio = 0
-  if (women_count * 2 <= women_total) women_ratio += 1;
-  if (women_count === 0) women_ratio += 1;
+  const handle = useFullScreenHandle();
+
+
   return (
-    <Grid>
-      {hubInfo.room_name == 'Men' ? (
-        <Grid>
-          <Card >
-            <CardActionArea
-              style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
-            >
-              <Typography
-                style={{
-                  color: 'white',
-                  fontSize: '85px',
-                  textAlign: 'center',
-                  padding: '40px 40px 0px 40px',
-                  borderRadius: '35px',
-                  fontWeight: '700'
-                }}
-              >MEN</Typography>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${menBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '40px',
-                  border: '10px solid white',
-                  borderRadius: '35px'
-                }}
-              >
-                <img src={man} alt="outer-frame" />
-              </Grid>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${menBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '0',
-                  marginBottom: '0'
-                }}
+    <div
+      style={{ height: '100vh' }}
+      id='monitor-wrapper'>
+      {/* <button onClick={handle.enter}>
+        Enter fullscreen
+      </button> */}
+      <FullScreen handle={handle}>
+
+      <Grid
+        //   style={{height:'100%' }}
+        className={classes.root}
+
+      >
+        {hubInfo.room_name == 'Men' ? (
+          <Grid>
+            <Card >
+              <CardActionArea
+                style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
+                onClick={handle.enter}
+                // onClick={handleToggleFullscreen()}
               >
                 <Typography
                   style={{
                     color: 'white',
                     fontSize: '85px',
-                    backgroundColor: '#343434',
+                    textAlign: 'center',
+                    padding: '40px 40px 0px 40px',
+                    borderRadius: '35px',
+                    fontWeight: '700'
+                  }}
+                >MEN</Typography>
+                <Grid
+                  className={classes.media}
+                  style={{
+                    backgroundColor: `${menBackgroundColor}`,
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '10px 50px',
-                    width: 'fit-content',
-                    fontFamily: 'fantasy',
-                    borderRadius: '75px',
-                    margin: 'auto'
+                    padding: '40px',
+                    border: '10px solid white',
+                    borderRadius: '35px'
                   }}
-                >{men_count}</Typography>
-              </Grid>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${menBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '40px 0px',
-                  marginTop: '0'
-                }}
-              >
-                <Typography
+                >
+                  <img src={man} alt="outer-frame" style={{height:'60vh'}}/>
+                </Grid>
+                <Grid
+                  className={classes.media}
                   style={{
-                    color: 'white',
-                    fontSize: '55px',
-                    backgroundColor: '#343434',
+                    backgroundColor: `${menBackgroundColor}`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '20px',
-                    fontFamily: 'fantasy',
-                    borderRadius: '20px'
+                    padding: '0',
+                    marginBottom: '0'
                   }}
-                >STALLS AVAILABLE</Typography>
-              </Grid>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      ) : null}
-      {hubInfo.room_name == 'Women' ? (
-        <Grid>
-          <Card >
-            <CardActionArea
-              style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
-            >
-              <Typography
-                style={{
-                  color: 'white',
-                  fontSize: '85px',
-                  textAlign: 'center',
-                  padding: '40px 40px 0px 40px',
-                  borderRadius: '35px',
-                  fontWeight: '700'
-                }}
-              >WOMEN</Typography>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${womenBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '40px',
-                  border: '10px solid white',
-                  borderRadius: '35px'
-                }}
-              >
-                <img src={woman} alt="outer-frame" />
-              </Grid>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${womenBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '0',
-                  marginBottom: '0'
-                }}
+                >
+                  <Typography
+                    style={{
+                      color: 'white',
+                      fontSize: '85px',
+                      backgroundColor: '#343434',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '10px 50px',
+                      width: 'fit-content',
+                      fontFamily: 'fantasy',
+                      borderRadius: '75px',
+                      margin: 'auto'
+                    }}
+                  >{men_count}</Typography>
+                </Grid>
+                <Grid
+                  className={classes.media}
+                  style={{
+                    backgroundColor: `${menBackgroundColor}`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: '40px 0px',
+                    marginTop: '0'
+                  }}
+                >
+                  <Typography
+                    style={{
+                      color: 'white',
+                      fontSize: '55px',
+                      backgroundColor: '#343434',
+                      textAlign: 'center',
+                      padding: '20px',
+                      fontFamily: 'fantasy',
+                      borderRadius: '20px'
+                    }}
+                  >STALLS AVAILABLE</Typography>
+                </Grid>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ) : null}
+        {hubInfo.room_name == 'Women' ? (
+          <Grid>
+            <Card >
+              <CardActionArea
+                style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
+                onClick={handle.enter}
+                // onClick={handleToggleFullscreen()}
+
               >
                 <Typography
                   style={{
                     color: 'white',
                     fontSize: '85px',
-                    backgroundColor: '#343434',
+                    textAlign: 'center',
+                    padding: '40px 40px 0px 40px',
+                    borderRadius: '35px',
+                    fontWeight: '700'
+                  }}
+                >WOMEN</Typography>
+                <Grid
+                  className={classes.media}
+                  style={{
+                    backgroundColor: `${womenBackgroundColor}`,
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '10px 50px',
-                    width: 'fit-content',
-                    fontFamily: 'fantasy',
-                    borderRadius: '75px',
-                    margin: 'auto'
+                    padding: '40px',
+                    border: '10px solid white',
+                    borderRadius: '35px'
                   }}
-                >{women_count}</Typography>
-              </Grid>
-              <Grid
-                className={classes.media}
-                style={{
-                  backgroundColor: `${womenBackgroundColor}`,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '40px 0px',
-                  marginTop: '0'
-                }}
-              >
-                <Typography
+                >
+                  <img src={woman} alt="outer-frame" style={{height:'60vh'}}/>
+                </Grid>
+                <Grid
+                  className={classes.media}
                   style={{
-                    color: 'white',
-                    fontSize: '55px',
-                    backgroundColor: '#343434',
+                    backgroundColor: `${womenBackgroundColor}`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '20px',
-                    fontFamily: 'fantasy',
-                    borderRadius: '20px'
+                    padding: '0',
+                    marginBottom: '0'
                   }}
-                >STALLS AVAILABLE</Typography>
-              </Grid>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      ) : null}
-    </Grid>
+                >
+                  <Typography
+                    style={{
+                      color: 'white',
+                      fontSize: '85px',
+                      backgroundColor: '#343434',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      padding: '10px 50px',
+                      width: 'fit-content',
+                      fontFamily: 'fantasy',
+                      borderRadius: '75px',
+                      margin: 'auto'
+                    }}
+                  >{women_count}</Typography>
+                </Grid>
+                <Grid
+                  className={classes.media}
+                  style={{
+                    backgroundColor: `${womenBackgroundColor}`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: '40px 0px',
+                    marginTop: '0'
+                  }}
+                >
+                  <Typography
+                    style={{
+                      color: 'white',
+                      fontSize: '55px',
+                      backgroundColor: '#343434',
+                      textAlign: 'center',
+                      padding: '20px',
+                      fontFamily: 'fantasy',
+                      borderRadius: '20px'
+                    }}
+                  >STALLS AVAILABLE</Typography>
+                </Grid>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ) : null}
+      </Grid>
 
-
+      </FullScreen>
+    </div>
   );
 }
 Display.propTypes = {
