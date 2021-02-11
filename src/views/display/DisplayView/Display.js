@@ -229,41 +229,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
   console.log(state)
   let { hubId, men_counts, men_count, women_count, men_total, women_total, current_date, current_time, errorMsg } = state;
 
-
-  const handleToggleFullscreen = () => {
-    if (window.innerWidth <= 370) {
-      var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-        (document.msFullscreenElement && document.msFullscreenElement !== null);
-
-      var docElm = document.getElementById("monitor-wrapper");
-      if (!isInFullScreen) {
-        if (docElm.requestFullscreen) {
-          docElm.requestFullscreen();
-        } else if (docElm.mozRequestFullScreen) {
-          docElm.mozRequestFullScreen();
-        } else if (docElm.webkitRequestFullScreen) {
-          docElm.webkitRequestFullScreen();
-        } else if (docElm.msRequestFullscreen) {
-          docElm.msRequestFullscreen();
-        }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      }
-    }
-  }
-
   const handle = useFullScreenHandle();
-
 
   return (
     <div
@@ -303,10 +269,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                       backgroundColor: `${menBackgroundColor}`,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      textAlign: 'center',
-                      // padding: '3vh',
-                      //  border: '10px solid white',
-                      //borderRadius: '35px'
+                      textAlign: 'center'
                     }}
                   >
                     <img src={man} alt="outer-frame"
@@ -336,7 +299,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         textAlign: 'center',
-                        padding: '1vh 3vh',
+                        padding: '1vh 3.5vh',
                         width: 'fit-content',
                         fontFamily: 'fantasy',
                         borderRadius: '75px',
@@ -398,10 +361,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                       backgroundColor: `${womenBackgroundColor}`,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      textAlign: 'center',
-                      padding: '3vh',
-                      border: '10px solid white',
-                      borderRadius: '35px'
+                      textAlign: 'center'
                     }}
                   >
                     <img src={woman} alt="outer-frame" style={{
@@ -431,7 +391,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         textAlign: 'center',
-                        padding: '1vh 3vh',
+                        padding: '1vh 3.5vh',
                         width: 'fit-content',
                         fontFamily: 'fantasy',
                         borderRadius: '75px',
@@ -469,7 +429,6 @@ const Display = ({ className, hubInfo, ...rest }) => {
             </Grid>
           ) : null}
         </Grid>
-
       </FullScreen>
     </div>
   );
