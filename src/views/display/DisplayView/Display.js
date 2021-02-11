@@ -55,6 +55,7 @@ dayjs.extend(timezone)
 
 
 const menBackgroundColor = '#1FB3F1'
+const womenBackgroundColor = '#E94A74'
 const WS_ENDPOINT = `ws://${process.env.REACT_APP_MESSAGE_BROKER_HOST}:${process.env.REACT_APP_MESSAGE_BROKER_PORT}/ws`
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +76,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
 
   // const [limit, setLimit] = useState(1000);
   // const [page, setPage] = useState(0);
+  // const [refresh, setRefresh ] = useState(hubInfo)
   const [state, setState] = useState({
     cronJob: null,
     hubId: hubInfo.hub,
@@ -90,6 +92,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
   });
 
   useEffect(() => {
+    // setRefresh(hubInfo)
     const { hubId, version } = state;
     var routingKey
     // if (hubId && hubId.split(",").length > 1) {
@@ -97,60 +100,99 @@ const Display = ({ className, hubInfo, ...rest }) => {
     //      this.getAllModularMonitorData(hubId, version);
     //   //   this.cronJob = setInterval(this.getAllModularMonitorData, CRON_INTERVAL, hubId, version);
     // } else {
-    routingKey = hubId
-    getMonitorData(hubId, version);
+    routingKey = hubInfo.hub
+    // getMonitorData(hubId, version);
     //   this.cronJob = setInterval(this.getMonitorData, CRON_INTERVAL, hubId, version);
     // }
 
-  }, [])
+    //  return () =>  deactivate;  
 
-  const getMonitorData = async (hubId, version) => {
-    //console.log(this.state)
+    // const fetchData= async (hubId)=>{
+    //   const result = await axios({
+    //     method: 'get',
+    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
+    //     //  data: { campus_id: 4, hub_id: hubId},
+    //     headers: { "Access-Control-Allow-Origin": "*" }
+    //   })
+    //   console.log(result.data)
+    //   return result.data
+    // }
 
     if (version == 3) {
-      console.log(hubId)
+      console.log(hubInfo.hub)
 
-      const result = await axios({
-        method: 'get',
-        url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
-        //  data: { campus_id: 4, hub_id: hubId},
-        headers: { "Access-Control-Allow-Origin": "*" }
-      })
-      console.log(result.data)
-      var key
-      if (hubId == '6DE7E4D80000')
-        key = 0
-      else if (hubId == 'AAF814D80000')
-        key = 1
-      else if (hubId == 'F10414D80000')
-        key = 2
-       // result.data =result.data[0]
-      console.log(result.data)
-      var sensorStatus = result.data[0]
+      // const result =  axios({
+      //   method: 'get',
+      //   url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
+      //   //  data: { campus_id: 4, hub_id: hubId},
+      //   headers: { "Access-Control-Allow-Origin": "*" }
+      // })
+      // var resultData = await fetchData(hubId)
+      // const intializeValues = 
+      async function intializeValues ()  {
+        const result = await axios({
+          method: 'get',
+          url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubInfo.hub}`,
+          //  data: { campus_id: 4, hub_id: hubId},
+          headers: { "Access-Control-Allow-Origin": "*" }
+        })
+        console.log(result)
+        // return result.data
+        var sensorStatus = result.data[0]
 
-      console.log(sensorStatus[0])
-      var womenStalls=sensorStatus.filter(val=>val.roomName=='Women')
-      console.log(womenStalls)
+        console.log(sensorStatus[0])
+        var womenStalls = sensorStatus.filter(val => val.roomName == 'Women')
+        console.log(womenStalls)
 
-      var menStalls=sensorStatus.filter(val=>val.roomName=='Men')
-      console.log(menStalls)
+        var menStalls = sensorStatus.filter(val => val.roomName == 'Men')
+        console.log(menStalls)
 
-      
-      var menVacants = await menStalls.filter(val => val.stallStatus == 'O')
-      setState({
-        ...state,
-        men_count: menVacants.length,
-        // women_count: data.women_count,
-        men_total: menStalls.length,
-        // women_total: data.women_total,
-        //  current_date: feed_datetime[0],
-        // current_time: feed_datetime[1],
-        errorMsg: ""
-      })
+        if (hubInfo.room_name == 'Men') {
+          var menVacants = menStalls.filter(val => val.stallStatus == 'O')
+          setState({
+            ...state,
+            men_count: menVacants.length,
+            // women_count: data.women_count,
+            men_total: menStalls.length,
+            // women_total: data.women_total,
+            //  current_date: feed_datetime[0],
+            // current_time: feed_datetime[1],
+            errorMsg: ""
+          })
+        }
+        if (hubInfo.room_name == 'Women') {
+          var womenVacants = womenStalls.filter(val => val.stallStatus == 'O')
+          setState({
+            ...state,
+            women_count: womenVacants.length,
+            // women_count: data.women_count,
+            women_total: womenStalls.length,
+            // women_total: data.women_total,
+            //  current_date: feed_datetime[0],
+            // current_time: feed_datetime[1],
+            errorMsg: ""
+          })
+        }
+
+
+
+      }
+
+
+      intializeValues()
+
+      // console.log(resultData)
+
+      // result.data =result.data[0]
+      //  console.log(resultData)
+
+
+      // var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
+
       // var that = this
 
 
-      const subscribeURL= (hubInfo.venue > 0 )?`/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}`:`/exchange/${hubInfo.campus_name}/${hubId}`
+      const subscribeURL = (hubInfo.venue > 0) ? `/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}` : `/exchange/${hubInfo.campus_name}/${hubId}`
       // subscribe using STOMP
       const client = new Client({
         brokerURL: `${WS_ENDPOINT}`,
@@ -173,31 +215,33 @@ const Display = ({ className, hubInfo, ...rest }) => {
           // called when the client receives a STOMP message from the server
 
           if (message.body) {
+            console.log(message.body);
+
             var receivdData = JSON.parse(message.body)
-            if(receivdData.roomName=='Women')
-            setState({
-              ...state,
-             // men_count: receivdData.availableStalls,
-              women_count: receivdData.roomAvailableStalls,
-              //  women_count: message.body.women_count,
-             // men_total: receivdData.totalStalls,
-              women_total: receivdData.roomTotalStalls,
-              // women_total: message.body.women_total,
-              //  current_date: feed_datetime[0],
-              //   current_time: feed_datetime[1],
-              errorMsg: ""
-            })
-            else if (receivdData.roomName=='Men')
-            setState({
-              ...state,
-              men_count: receivdData.roomAvailableStalls,
-              //  women_count: message.body.women_count,
-              men_total: receivdData.roomTotalStalls,
-              // women_total: message.body.women_total,
-              //  current_date: feed_datetime[0],
-              //   current_time: feed_datetime[1],
-              errorMsg: ""
-            })
+            if (receivdData.roomName == 'Women')
+              setState({
+                ...state,
+                // men_count: receivdData.availableStalls,
+                women_count: receivdData.roomAvailableStalls,
+                //  women_count: message.body.women_count,
+                // men_total: receivdData.totalStalls,
+                women_total: receivdData.roomTotalStalls,
+                // women_total: message.body.women_total,
+                //  current_date: feed_datetime[0],
+                //   current_time: feed_datetime[1],
+                errorMsg: ""
+              })
+            else if (receivdData.roomName == 'Men')
+              setState({
+                ...state,
+                men_count: receivdData.roomAvailableStalls,
+                //  women_count: message.body.women_count,
+                men_total: receivdData.roomTotalStalls,
+                // women_total: message.body.women_total,
+                //  current_date: feed_datetime[0],
+                //   current_time: feed_datetime[1],
+                errorMsg: ""
+              })
 
           } else {
             console.log('got empty message');
@@ -215,8 +259,147 @@ const Display = ({ className, hubInfo, ...rest }) => {
       };
 
       client.activate();
+      return () => client.deactivate();
+
 
     }
+  }, [hubInfo])
+
+  const getMonitorData = async (hubId, version) => {
+    //console.log(this.state)
+
+    // if (version == 3) {
+    //   console.log(hubId)
+
+    //   const result = await axios({
+    //     method: 'get',
+    //     url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?campus_id=${hubInfo.campus}&hub_id=${hubId}`,
+    //     //  data: { campus_id: 4, hub_id: hubId},
+    //     headers: { "Access-Control-Allow-Origin": "*" }
+    //   })
+    //   console.log(result.data)
+    //   var key
+    //   if (hubId == '6DE7E4D80000')
+    //     key = 0
+    //   else if (hubId == 'AAF814D80000')
+    //     key = 1
+    //   else if (hubId == 'F10414D80000')
+    //     key = 2
+    //   // result.data =result.data[0]
+    //   console.log(result.data)
+    //   var sensorStatus = result.data[0]
+
+    //   console.log(sensorStatus[0])
+    //   var womenStalls = sensorStatus.filter(val => val.roomName == 'Women')
+    //   console.log(womenStalls)
+
+    //   var menStalls = sensorStatus.filter(val => val.roomName == 'Men')
+    //   console.log(menStalls)
+
+    //   if (hubInfo.room_name == 'Men') {
+    //     var menVacants = await menStalls.filter(val => val.stallStatus == 'O')
+    //     setState({
+    //       ...state,
+    //       men_count: menVacants.length,
+    //       // women_count: data.women_count,
+    //       men_total: menStalls.length,
+    //       // women_total: data.women_total,
+    //       //  current_date: feed_datetime[0],
+    //       // current_time: feed_datetime[1],
+    //       errorMsg: ""
+    //     })
+    //   }
+    //   if (hubInfo.room_name == 'Women') {
+    //     var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
+    //     setState({
+    //       ...state,
+    //       women_count: womenVacants.length,
+    //       // women_count: data.women_count,
+    //       women_total: womenStalls.length,
+    //       // women_total: data.women_total,
+    //       //  current_date: feed_datetime[0],
+    //       // current_time: feed_datetime[1],
+    //       errorMsg: ""
+    //     })
+    //   }
+
+
+    //   // var womenVacants = await womenStalls.filter(val => val.stallStatus == 'O')
+
+    //   // var that = this
+
+
+    //   const subscribeURL = (hubInfo.venue > 0) ? `/exchange/${hubInfo.campus_name}/${hubInfo.venue_name}.${hubInfo.section_name}.${hubInfo.room_name}` : `/exchange/${hubInfo.campus_name}/${hubId}`
+    //   // subscribe using STOMP
+    //   const client = new Client({
+    //     brokerURL: `${WS_ENDPOINT}`,
+    //     connectHeaders: {
+    //       login: process.env.REACT_APP_MESSAGE_BROKER_USERNAME,
+    //       passcode: process.env.REACT_APP_MESSAGE_BROKER_PASSWORD,
+    //     },
+    //     debug: function (str) {
+    //       console.log(str);
+    //     },
+    //     // reconnectDelay: 5000,
+    //     heartbeatIncoming: 4000,
+    //     heartbeatOutgoing: 4000,
+    //   });
+    //   client.onConnect = function (frame) {
+    //     console.log('done')
+    //     // Do something, all subscribes must be done is this callback
+    //     // This is needed because this will be executed after a (re)connect
+    //     var subscription = client.subscribe(subscribeURL, function (message) {
+    //       // called when the client receives a STOMP message from the server
+
+    //       if (message.body) {
+    //         console.log(message.body);
+
+    //         var receivdData = JSON.parse(message.body)
+    //         if (receivdData.roomName == 'Women')
+    //           setState({
+    //             ...state,
+    //             // men_count: receivdData.availableStalls,
+    //             women_count: receivdData.roomAvailableStalls,
+    //             //  women_count: message.body.women_count,
+    //             // men_total: receivdData.totalStalls,
+    //             women_total: receivdData.roomTotalStalls,
+    //             // women_total: message.body.women_total,
+    //             //  current_date: feed_datetime[0],
+    //             //   current_time: feed_datetime[1],
+    //             errorMsg: ""
+    //           })
+    //         else if (receivdData.roomName == 'Men')
+    //           setState({
+    //             ...state,
+    //             men_count: receivdData.roomAvailableStalls,
+    //             //  women_count: message.body.women_count,
+    //             men_total: receivdData.roomTotalStalls,
+    //             // women_total: message.body.women_total,
+    //             //  current_date: feed_datetime[0],
+    //             //   current_time: feed_datetime[1],
+    //             errorMsg: ""
+    //           })
+
+    //       } else {
+    //         console.log('got empty message');
+    //       }
+    //     });
+    //   };
+
+    //   client.onStompError = function (frame) {
+    //     // Will be invoked in case of error encountered at Broker
+    //     // Bad login/passcode typically will cause an error
+    //     // Complaint brokers will set `message` header with a brief message. Body may contain details.
+    //     // Compliant brokers will terminate the connection after any error
+    //     console.log('Broker reported error: ' + frame.headers['message']);
+    //     console.log('Additional details: ' + frame.body);
+    //   };
+
+    //   client.activate();
+    //   return () =>  client.deactivate();    
+
+
+    // }
   }
   const handleToggleFullscreen = () => {
     if (window.innerWidth <= 370) {
@@ -261,295 +444,183 @@ const Display = ({ className, hubInfo, ...rest }) => {
   var women_ratio = 0
   if (women_count * 2 <= women_total) women_ratio += 1;
   if (women_count === 0) women_ratio += 1;
-
-
-
   return (
-    // <Container >
     <Grid>
-      <Grid>
-        {/* <Box
-         // style={{ backgroundColor: `${menBackgroundColor}`, height: '20px' }}
-        >
-        </Box> */}
-        <Card >
-          <CardActionArea
-            style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
-          >
-            {/* <CardMedia
-              className={classes.media}
-
-              image={man}
-              title="Contemplative Reptile"
-            /> */}
-            <Typography
-              style={{
-                //  backgroundColor: `${menBackgroundColor}`,
-                color: 'white',
-                fontSize: '85px',
-                //  alignItems: 'center',
-                // justifyContent: 'center',
-                textAlign: 'center',
-                padding: '40px 40px 0px 40px',
-                // border: '10px solid white',
-                borderRadius: '35px',
-                fontWeight: '700'
-              }}
-            >MEN</Typography>
-            <Grid
-              className={classes.media}
-              style={{
-                backgroundColor: `${menBackgroundColor}`,
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '40px',
-                border: '10px solid white',
-                borderRadius: '35px'
-              }}
+      {hubInfo.room_name == 'Men' ? (
+        <Grid>
+          <Card >
+            <CardActionArea
+              style={{ backgroundColor: `${menBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
             >
-              <img src={man} alt="outer-frame" />
-
-            </Grid>
-            <Grid
-              className={classes.media}
-              style={{
-                backgroundColor: `${menBackgroundColor}`,
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '0',
-                marginBottom:'0'
-               // border: '10px solid white',
-               // borderRadius: '35px'
-              }}
+              <Typography
+                style={{
+                  color: 'white',
+                  fontSize: '85px',
+                  textAlign: 'center',
+                  padding: '40px 40px 0px 40px',
+                  borderRadius: '35px',
+                  fontWeight: '700'
+                }}
+              >MEN</Typography>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${menBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '40px',
+                  border: '10px solid white',
+                  borderRadius: '35px'
+                }}
+              >
+                <img src={man} alt="outer-frame" />
+              </Grid>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${menBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '0',
+                  marginBottom: '0'
+                }}
+              >
+                <Typography
+                  style={{
+                    color: 'white',
+                    fontSize: '85px',
+                    backgroundColor: '#343434',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: '10px 50px',
+                    width: 'fit-content',
+                    fontFamily: 'fantasy',
+                    borderRadius: '75px',
+                    margin: 'auto'
+                  }}
+                >{men_count}</Typography>
+              </Grid>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${menBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '40px 0px',
+                  marginTop: '0'
+                }}
+              >
+                <Typography
+                  style={{
+                    color: 'white',
+                    fontSize: '55px',
+                    backgroundColor: '#343434',
+                    textAlign: 'center',
+                    padding: '20px',
+                    fontFamily: 'fantasy',
+                    borderRadius: '20px'
+                  }}
+                >STALLS AVAILABLE</Typography>
+              </Grid>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ) : null}
+      {hubInfo.room_name == 'Women' ? (
+        <Grid>
+          <Card >
+            <CardActionArea
+              style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
             >
-            <Typography
-              style={{
-                //  backgroundColor: `${menBackgroundColor}`,
-                color: 'white',
-                fontSize: '85px',
-                backgroundColor: '#343434',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '10px 50px',
-                width: 'fit-content',
-                // border: '10px solid white',
-               // borderRadius: '35px',
-                //fontWeight: '200',
-                fontFamily:'fantasy',
-                borderRadius: '75px',
-                margin: 'auto',
-              }}
-            >{men_count}</Typography>
-            </Grid>
-            <Grid
-              className={classes.media}
-              style={{
-                backgroundColor: `${menBackgroundColor}`,
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '40px 0px',
-                marginTop:'0'
-
-               // border: '10px solid white',
-               // borderRadius: '35px'
-              }}
-            >
-            <Typography
-              style={{
-                //  backgroundColor: `${menBackgroundColor}`,
-                color: 'white',
-                fontSize: '55px',
-                backgroundColor: '#343434',
-                //  alignItems: 'center',
-                // justifyContent: 'center',
-                textAlign: 'center',
-                padding: '20px',
-                // border: '10px solid white',
-               // borderRadius: '35px',
-                //fontWeight: '200',
-                fontFamily:'fantasy',
-                borderRadius: '20px'
-
-              }}
-            >STALLS AVAILABLE</Typography>
-            </Grid>
-          </CardActionArea>
-
-        </Card>
-
-      </Grid>
+              <Typography
+                style={{
+                  color: 'white',
+                  fontSize: '85px',
+                  textAlign: 'center',
+                  padding: '40px 40px 0px 40px',
+                  borderRadius: '35px',
+                  fontWeight: '700'
+                }}
+              >WOMEN</Typography>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${womenBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '40px',
+                  border: '10px solid white',
+                  borderRadius: '35px'
+                }}
+              >
+                <img src={woman} alt="outer-frame" />
+              </Grid>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${womenBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '0',
+                  marginBottom: '0'
+                }}
+              >
+                <Typography
+                  style={{
+                    color: 'white',
+                    fontSize: '85px',
+                    backgroundColor: '#343434',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: '10px 50px',
+                    width: 'fit-content',
+                    fontFamily: 'fantasy',
+                    borderRadius: '75px',
+                    margin: 'auto'
+                  }}
+                >{women_count}</Typography>
+              </Grid>
+              <Grid
+                className={classes.media}
+                style={{
+                  backgroundColor: `${womenBackgroundColor}`,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '40px 0px',
+                  marginTop: '0'
+                }}
+              >
+                <Typography
+                  style={{
+                    color: 'white',
+                    fontSize: '55px',
+                    backgroundColor: '#343434',
+                    textAlign: 'center',
+                    padding: '20px',
+                    fontFamily: 'fantasy',
+                    borderRadius: '20px'
+                  }}
+                >STALLS AVAILABLE</Typography>
+              </Grid>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ) : null}
     </Grid>
-    // </Container >
 
-    /* <Container maxWidth="sm"> */
-    // //  className={clsx(classes.root, className)} 
-    //   */}
-    //   <div >
-    //     <div className="wrapper" id="monitor-wrapper" onClick={handleToggleFullscreen}>
-    //       {has_women && <img src={women_bg} alt="woman" className="bg-img" />}
-    //       {has_men && <img src={men_bg} alt="man" className="bg-img" />}
-    //       {has_both && <img src={men_bg} alt="man" className="bg-img" />}
 
-    //       {has_women && <img src={women_top_left} alt="top-left" className="top-left" />}
-    //       {has_men && <img src={men_top_left} alt="top-left" className="top-left" />}
-    //       {has_both && <img src={men_top_left} alt="top-left" className="top-left" />}
-
-    //       <img src={outer_frame} alt="outer-frame" />
-
-    //       <div className="content-wrapper">
-    //         <div className="header-row">
-    //           {has_women && <div className="heading" id="womanHeading">WOMEN</div>}
-    //           {has_men && <div className="heading" id="manHeading">MEN</div>}
-    //           {has_both && <div className="heading-both-man" id="manHeading">MEN</div>}
-    //           {has_both && <div className="heading-both-woman" id="manHeading">WOMEN</div>}
-    //         </div>
-    //         <div className="icon-row">
-    //           {has_both && <div className="icon-container-both">
-    //             <img src={inner_frame} alt="inner-frame" className="inner-frame-both" />
-    //             <img src={woman} alt="woman" className="icon-both-man" />
-    //             <img src={man} alt="man" className="icon-both-woman" />
-    //           </div>}
-    //           {has_women && <div className="icon-container">
-    //             <img src={inner_frame} alt="inner-frame" className="inner-frame" />
-    //             <img src={woman} alt="woman" className="icon" />
-    //           </div>}
-    //           {has_men && <div className="icon-container">
-    //             <img src={inner_frame} alt="inner-frame" className="inner-frame" />
-    //             <img src={man} alt="man" className="icon" />
-    //           </div>}
-    //         </div>
-
-    //         <div className="empty-row-1"></div>
-
-    //         <div className="num-row">
-    //           <div className="num-container">
-    //             {has_both && <div>
-    //               {men_ratio === 0 &&
-    //                 <div className="seats-number-container-both-man">
-    //                   <div className="seats-number-both-man" id="MenseatsNumber">{men_count}</div>
-    //                 </div>}
-
-    //               {men_ratio === 1 &&
-    //                 <div className="seats-number-container-both-man-low">
-    //                   <div className="seats-number-both-man" id="MenseatsNumber">{men_count}</div>
-    //                 </div>}
-
-    //               {men_ratio === 2 &&
-    //                 <div className="seats-number-container-both-man-very-low">
-    //                   <div className="seats-number-both-man" id="MenseatsNumber">{men_count}</div>
-    //                 </div>}
-
-    //               {women_ratio === 0 && <div className="seats-number-container-both-woman">
-    //                 <div className="seats-number-both-woman" id="WomanseatsNumber">{women_count}</div>
-    //               </div>}
-
-    //               {women_ratio === 1 && <div className="seats-number-container-both-woman-low">
-    //                 <div className="seats-number-both-woman" id="WomanseatsNumber">{women_count}</div>
-    //               </div>}
-
-    //               {women_ratio === 2 && <div className="seats-number-container-both-woman-very-low">
-    //                 <div className="seats-number-both-woman" id="WomanseatsNumber">{women_count}</div>
-    //               </div>}
-    //             </div>
-    //             }
-
-    //             {has_men && men_ratio === 0 && <div className="seats-number-container">
-    //               <div className="seats-number" id="MenseatsNumber">{men_count}</div>
-    //             </div>
-    //             }
-
-    //             {has_men && men_ratio === 1 && <div className="seats-number-container-low">
-    //               <div className="seats-number" id="MenseatsNumber">{men_count}</div>
-    //             </div>
-    //             }
-
-    //             {has_men && men_ratio === 2 && <div className="seats-number-container-very-low">
-    //               <div className="seats-number" id="MenseatsNumber">{men_count}</div>
-    //             </div>
-    //             }
-
-    //             {has_women && women_ratio === 0 && <div className="seats-number-container">
-    //               <div className="seats-number" id="WomanseatsNumber">{women_count}</div>
-    //             </div>
-    //             }
-
-    //             {has_women && women_ratio === 1 && <div className="seats-number-container-low">
-    //               <div className="seats-number" id="WomanseatsNumber">{women_count}</div>
-    //             </div>
-    //             }
-
-    //             {has_women && women_ratio === 2 && <div className="seats-number-container-very-low">
-    //               <div className="seats-number" id="WomanseatsNumber">{women_count}</div>
-    //             </div>
-    //             }
-
-    //           </div>
-    //         </div>
-
-    //         <div className="empty-row-2"></div>
-
-    //         <div className="stalls-row">
-    //           <div className="stalls-container">
-    //             {((has_women && women_count > 1) || (has_men && men_count > 1)) && <div className="stalls-text-container">
-    //               <div className="stalls-text">Stalls Available</div>
-    //             </div>}
-    //             {((has_women && women_count <= 1) || (has_men && men_count <= 1)) && <div className="stalls-text-container">
-    //               <div className="stalls-text">Stall Available</div>
-    //             </div>}
-    //             {has_both && (women_count + men_count > 1) && <div className="stalls-text-container-both">
-    //               <div className="stalls-text-both">Stalls Available</div>
-    //             </div>}
-    //             {has_both && (women_count + men_count <= 1) && <div className="stalls-text-container-both">
-    //               <div className="stalls-text-both">Stall Available</div>
-    //             </div>}
-    //           </div>
-    //         </div>
-
-    //         <div className="footer-row">
-    //           <div className="date-time-container">
-    //             <div className="date-time-text-container">
-    //               <div className="date-time-text" id="current_date">{current_time}</div>
-    //               <div className="date-time-text date-time-text-2" id="current_time">{current_date}</div>
-    //             </div>
-    //           </div>
-    //           <div className="error-msg-container">
-    //             {errorMsg && errorMsg.length > 0 && <span className="error-msg">{errorMsg}</span>}
-    //           </div>
-    //           <div className="footer-logo">
-    //             <img src={Tooshilights} alt="tooshlights logo here" className="footer-logo-img" />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </Container >
   );
 }
-
-//  }
-// return (
-//   <Card
-//     className={clsx(classes.root, className)}
-//     {...rest}
-//   >
-//     <PerfectScrollbar>
-//       <Box style={{maxWidth:'910px'}} >
-
-
-//       </Box>
-//     </PerfectScrollbar>
-
-//   </Card>
-// );
-//};
-
 Display.propTypes = {
   className: PropTypes.string,
   customers: PropTypes.object
 };
-
 export default Display;
