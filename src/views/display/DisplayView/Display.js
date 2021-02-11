@@ -43,7 +43,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import { palette } from '@material-ui/system';
+// import { palette } from '@material-ui/system';
 
 // import getInitials from 'src/utils/getInitials';
 import { Client, Message } from '@stomp/stompjs';
@@ -63,11 +63,9 @@ const WS_ENDPOINT = `ws://${process.env.REACT_APP_MESSAGE_BROKER_HOST}:${process
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh'
-
   },
   media: {
     //  minHeight: 40,
-
     backgroundSize: 'contain',
     margin: '2vh'
   },
@@ -305,7 +303,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         textAlign: 'center',
                         padding: '1vh 3.5vh',
                         width: 'fit-content',
-                        fontFamily: 'fantasy',
+                        fontFamily:[
+                          'Bebas Neue',
+                          'fantasy',
+                          'cursive',
+                        ].join(',') ,
                         borderRadius: '75px',
                         margin: 'auto'
                       }}
@@ -329,7 +331,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         backgroundColor: '#343434',
                         textAlign: 'center',
                         padding: '2vh 12vw',
-                        fontFamily: 'fantasy',
+                        fontFamily:[
+                          'Bebas Neue',
+                          'fantasy',
+                          'cursive',
+                        ].join(',') ,
                         borderRadius: '20px',
                         width: 'fit-content',
                         margin: 'auto'
@@ -347,7 +353,6 @@ const Display = ({ className, hubInfo, ...rest }) => {
                   style={{ backgroundColor: `${womenBackgroundColor}`, alignItems: 'center', justifyContent: 'center' }}
                   onClick={handle.enter}
                 // onClick={handleToggleFullscreen()}
-
                 >
                   <Typography
                     style={{
@@ -397,7 +402,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         textAlign: 'center',
                         padding: '1vh 3.5vh',
                         width: 'fit-content',
-                        fontFamily: 'fantasy',
+                        fontFamily:[
+                          'Bebas Neue',
+                          'fantasy',
+                          'cursive',
+                        ].join(',') ,
                         borderRadius: '75px',
                         margin: 'auto'
                       }}
@@ -421,7 +430,11 @@ const Display = ({ className, hubInfo, ...rest }) => {
                         backgroundColor: '#343434',
                         textAlign: 'center',
                         padding: '2vh 12vw',
-                        fontFamily: 'fantasy',
+                        fontFamily:[
+                          'Bebas Neue',
+                          'fantasy',
+                          'cursive',
+                        ].join(',') ,
                         borderRadius: '20px',
                         width: 'fit-content',
                         margin: 'auto'
