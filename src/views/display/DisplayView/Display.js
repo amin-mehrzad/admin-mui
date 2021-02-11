@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     //  minHeight: 40,
 
     backgroundSize: 'contain',
-    margin: '50px'
+    margin: '2vh'
   },
 
 
@@ -290,9 +290,9 @@ const Display = ({ className, hubInfo, ...rest }) => {
                 <Typography
                   style={{
                     color: 'white',
-                    fontSize: '85px',
+                    fontSize: '4vh',
                     textAlign: 'center',
-                    padding: '40px 40px 0px 40px',
+                    padding: '2vh 40px 0px 40px',
                     borderRadius: '35px',
                     fontWeight: '700'
                   }}
@@ -304,12 +304,12 @@ const Display = ({ className, hubInfo, ...rest }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '40px',
+                    padding: '3vh',
                     border: '10px solid white',
                     borderRadius: '35px'
                   }}
                 >
-                  <img src={man} alt="outer-frame" style={{height:'60vh'}}/>
+                  <img src={man} alt="outer-frame" style={{height:'56vh'}}/>
                 </Grid>
                 <Grid
                   className={classes.media}
@@ -325,12 +325,12 @@ const Display = ({ className, hubInfo, ...rest }) => {
                   <Typography
                     style={{
                       color: 'white',
-                      fontSize: '85px',
+                      fontSize: '4vh',
                       backgroundColor: '#343434',
                       alignItems: 'center',
                       justifyContent: 'center',
                       textAlign: 'center',
-                      padding: '10px 50px',
+                      padding: '1vh 3vh',
                       width: 'fit-content',
                       fontFamily: 'fantasy',
                       borderRadius: '75px',
@@ -352,10 +352,10 @@ const Display = ({ className, hubInfo, ...rest }) => {
                   <Typography
                     style={{
                       color: 'white',
-                      fontSize: '55px',
+                      fontSize: '4vh',
                       backgroundColor: '#343434',
                       textAlign: 'center',
-                      padding: '20px',
+                      padding: '2vh',
                       fontFamily: 'fantasy',
                       borderRadius: '20px'
                     }}
@@ -377,9 +377,9 @@ const Display = ({ className, hubInfo, ...rest }) => {
                 <Typography
                   style={{
                     color: 'white',
-                    fontSize: '85px',
+                    fontSize: '4vh',
                     textAlign: 'center',
-                    padding: '40px 40px 0px 40px',
+                    padding: '2vh 40px 0px 40px',
                     borderRadius: '35px',
                     fontWeight: '700'
                   }}
@@ -391,12 +391,12 @@ const Display = ({ className, hubInfo, ...rest }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '40px',
+                    padding: '3vh',
                     border: '10px solid white',
                     borderRadius: '35px'
                   }}
                 >
-                  <img src={woman} alt="outer-frame" style={{height:'60vh'}}/>
+                  <img src={woman} alt="outer-frame" style={{height:'56vh'}}/>
                 </Grid>
                 <Grid
                   className={classes.media}
@@ -412,12 +412,12 @@ const Display = ({ className, hubInfo, ...rest }) => {
                   <Typography
                     style={{
                       color: 'white',
-                      fontSize: '85px',
+                      fontSize: '4vh',
                       backgroundColor: '#343434',
                       alignItems: 'center',
                       justifyContent: 'center',
                       textAlign: 'center',
-                      padding: '10px 50px',
+                      padding: '1vh 3vh',
                       width: 'fit-content',
                       fontFamily: 'fantasy',
                       borderRadius: '75px',
@@ -439,10 +439,10 @@ const Display = ({ className, hubInfo, ...rest }) => {
                   <Typography
                     style={{
                       color: 'white',
-                      fontSize: '55px',
+                      fontSize: '4vh',
                       backgroundColor: '#343434',
                       textAlign: 'center',
-                      padding: '20px',
+                      padding: '2vh',
                       fontFamily: 'fantasy',
                       borderRadius: '20px'
                     }}
