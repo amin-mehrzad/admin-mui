@@ -49,6 +49,8 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
   const [showHub, setShowHub] = useState(false);
   const [showSection, setShowSection] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
+  const [enableButton, setEnableButton] = useState(false);
+
   // const [haveVenues, setHaveVenues] = useState(false);
 
   //const prevState = usePrevious(state);
@@ -222,21 +224,7 @@ console.log(roomResult)
     var room_name= event.target.options[selectedIndex].innerText
     console.log(event.target.options[selectedIndex].innerText);
     var room = event.target.value;
-    setState(prevState => {
-      let newState = {
-        campus: prevState.campus,
-        campus_name: prevState.campus_name,
-        venue: prevState.venue,
-        venue_name: prevState.venue_name,
-        section: prevState.section,
-        section_name: prevState.section_name,
-        room,
-        room_name  
-      }
-      console.log(newState)
 
-      return newState
-    });
     let roomResult = await axios({
       method: 'get',
       url: `http://${process.env.REACT_APP_SERVER_URI}/api/hubs?campus_id=${state.campus}&venue_id=${state.venue}&venue_section_id=${state.section}&room_id=${event.target.value}`,
@@ -246,10 +234,27 @@ console.log(roomResult)
 
     //if (roomResult.data[0].hub_id !== null){
     console.log(roomResult.data)
-    setShowHub(true)
+    setState(prevState => {
+      let newState = {
+        campus: prevState.campus,
+        campus_name: prevState.campus_name,
+        venue: prevState.venue,
+        venue_name: prevState.venue_name,
+        section: prevState.section,
+        section_name: prevState.section_name,
+        room,
+        room_name,
+        hub:  roomResult.data[0].hub_id
+      }
+      console.log(newState)
+
+      return newState
+    });
+    // setShowHub(true)
+    setEnableButton(true)
     setShowVenue(true)
     setShowSection(true)
-    setHubsData(roomResult.data)
+    // setHubsData(roomResult.data)
     setShowRoom(true)
 
     // }
@@ -453,6 +458,7 @@ console.log(roomResult)
                   size="large"
                   className={classes.button}
                   //startIcon={<Autorenew />}
+                  disabled={enableButton?false:true}
                   onClick={() => { onChange(state) }}
                 >Open Display
               </Button>

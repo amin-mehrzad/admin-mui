@@ -125,6 +125,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
           var menVacants = menStalls.filter(val => val.stallStatus == 'O')
           setState({
             ...state,
+            hubId: hubInfo.hub,
             men_count: menVacants.length,
             // women_count: data.women_count,
             men_total: menStalls.length,
@@ -138,6 +139,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
           var womenVacants = womenStalls.filter(val => val.stallStatus == 'O')
           setState({
             ...state,
+            hubId: hubInfo.hub,
             women_count: womenVacants.length,
             // women_count: data.women_count,
             women_total: womenStalls.length,
@@ -181,6 +183,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
             if (receivdData.roomName == 'Women')
               setState({
                 ...state,
+                hubId: hubInfo.hub,
                 // men_count: receivdData.availableStalls,
                 women_count: receivdData.roomAvailableStalls,
                 //  women_count: message.body.women_count,
@@ -194,6 +197,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
             else if (receivdData.roomName == 'Men')
               setState({
                 ...state,
+                hubId: hubInfo.hub,
                 men_count: receivdData.roomAvailableStalls,
                 //  women_count: message.body.women_count,
                 men_total: receivdData.roomTotalStalls,
