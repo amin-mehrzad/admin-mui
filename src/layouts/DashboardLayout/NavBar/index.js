@@ -60,7 +60,7 @@ const items = [
   {
     href: '/app/display',
     icon: Monitor,
-    title: 'Diplay',
+    title: 'Display',
     roles: [1,2]
   },
   {
