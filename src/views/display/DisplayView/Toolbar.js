@@ -64,12 +64,13 @@ const Toolbar = ({ className, value, onChange, ...rest }) => {
     var selectedIndex = event.target.options.selectedIndex;
     var campus_name= event.target.options[selectedIndex].innerText
     console.log(event.target.options[selectedIndex].innerText);
-
+    var campusInfo = campusData.find(({campus_id}) => campus_id == event.target.value)
+    console.log(campusInfo)
     //  console.log(event)
     setState({
       //...state,
       campus,
-      campus_name
+      campus_name: campusInfo.rabbitmq_id
     });
     let venueResult = await axios({
       method: 'get',

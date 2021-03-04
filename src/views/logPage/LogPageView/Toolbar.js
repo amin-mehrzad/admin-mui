@@ -6,9 +6,9 @@ import {
   Button,
   Card,
   CardContent,
- // TextField,
- // InputAdornment,
- // SvgIcon,
+  // TextField,
+  // InputAdornment,
+  // SvgIcon,
   makeStyles,
   FormControl,
   InputLabel,
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Toolbar = ({ className,value,onChange, ...rest }) => {
+const Toolbar = ({ className, value, onChange, ...rest }) => {
   console.log(value)
   const classes = useStyles();
   const [state, setState] = useState({
@@ -56,18 +56,22 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
 
   const campusHandleChange = async (event) => {
-   // onChange("")
+    // onChange("")
     setHubsData([])
     var name = event.target.name;
-    var campus_id = event.target.value;
     var selectedIndex = event.target.options.selectedIndex;
     console.log(event.target.options[selectedIndex].innerText);
+    var campus = campusData.find(({campus_id}) => campus_id == event.target.value)
+    console.log(campus)
+    var campus_id = event.target.value;
 
     //  console.log(event)
     setState({
       ...state,
       [name]: event.target.value,
-      campus_name:event.target.options[selectedIndex].innerText
+      //campus_name: event.target.options[selectedIndex].innerText,
+      campus_name: campus.rabbitmq_id
+
     });
     let venueResult = await axios({
       method: 'get',
@@ -76,7 +80,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (venueResult.data[0].venue_id !== 0){
+    if (venueResult.data[0].venue_id !== 0) {
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowRoom(false)
@@ -85,7 +89,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       setVenuesData(venueResult.data)
 
     }
-    else{
+    else {
       setShowVenue(false)
       setShowSection(false)
       setShowRoom(false)
@@ -106,18 +110,18 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   };
 
   const venueHandleChange = async (event) => {
-  //  onChange("")
+    //  onChange("")
 
     setSectionData([])
     var name = event.target.name;
     var selectedIndex = event.target.options.selectedIndex;
     console.log(event.target.options[selectedIndex].innerText);
- ///////   var venue_id = event.target.value;
+    ///////   var venue_id = event.target.value;
     //  console.log(event)
     setState({
       ...state,
       [name]: event.target.value,
-      venue_name:event.target.options[selectedIndex].innerText
+      venue_name: event.target.options[selectedIndex].innerText
 
     });
     let sectionResult = await axios({
@@ -127,7 +131,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (sectionResult.data[0].venue_section_id !== 0){
+    if (sectionResult.data[0].venue_section_id !== 0) {
       //console.log(venueResult.data.venue_id)
       setShowHub(false)
       setShowRoom(false)
@@ -136,7 +140,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       setSectionData(sectionResult.data)
 
     }
-    else{
+    else {
       setShowVenue(false)
       let hubResult = await axios({
         method: 'get',
@@ -154,7 +158,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
 
   const sectionHandleChange = async (event) => {
-  //  onChange("")
+    //  onChange("")
 
     setRoomData([])
     var name = event.target.name;
@@ -165,7 +169,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
     setState({
       ...state,
       [name]: event.target.value,
-      section_name:event.target.options[selectedIndex].innerText
+      section_name: event.target.options[selectedIndex].innerText
 
     });
     let roomResult = await axios({
@@ -175,7 +179,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-    if (roomResult.data[0].room_id !== null){
+    if (roomResult.data[0].room_id !== null) {
       console.log(roomResult.data)
       setShowHub(false)
       setShowVenue(true)
@@ -184,7 +188,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       setShowRoom(true)
 
     }
-    else{
+    else {
       //setShowVenue(false)
       let hubResult = await axios({
         method: 'get',
@@ -204,17 +208,17 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
   };
 
   const roomHandleChange = async (event) => {
-  //  onChange("")
+    //  onChange("")
     setHubsData([])
     var name = event.target.name;
     var selectedIndex = event.target.options.selectedIndex;
     console.log(event.target.options[selectedIndex].innerText);
     ///////   var venue_id = event.target.value;
-   console.log(name)
+    console.log(name)
     setState({
       ...state,
       [name]: event.target.value,
-      room_name:event.target.options[selectedIndex].innerText
+      room_name: event.target.options[selectedIndex].innerText
 
     });
     console.log(event.target.value)
@@ -226,13 +230,13 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
       headers: { "Access-Control-Allow-Origin": "*" }
     })
 
-   //if (roomResult.data[0].hub_id !== null){
-      console.log(roomResult.data)
-      setShowHub(true)
-      setShowVenue(true)
-      setShowSection(true)
-      setHubsData(roomResult.data)
-      setShowRoom(true)
+    //if (roomResult.data[0].hub_id !== null){
+    console.log(roomResult.data)
+    setShowHub(true)
+    setShowVenue(true)
+    setShowSection(true)
+    setHubsData(roomResult.data)
+    setShowRoom(true)
 
     // }
     // else{
@@ -254,7 +258,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
 
   };
 
-  const hubHandleChange=(event) =>{
+  const hubHandleChange = (event) => {
     // Here, we invoke the callback with the new value
     var name = event.target.name;
     setState({
@@ -266,11 +270,11 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
     //   ...state,
     //   [name]: event.target.value,
     // });
-}
+  }
 
 
   useEffect(() => {
-  //  console.log(props)
+    //  console.log(props)
     async function fetchData() {
       const result = await axios({
         method: 'get',
@@ -434,7 +438,7 @@ const Toolbar = ({ className,value,onChange, ...rest }) => {
                   color="primary"
                   size="large"
                   className={classes.button}
-                 //startIcon={<Autorenew />}
+                  //startIcon={<Autorenew />}
                   onClick={() => { onChange(state) }}
                 >Open Log Stream
               </Button>

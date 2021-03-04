@@ -113,13 +113,13 @@ const Display = ({ className, hubInfo, ...rest }) => {
         var sensorStatus = result.data[0]
 
         console.log(sensorStatus[0])
-        var womenStalls = sensorStatus.filter(val => val.roomName == 'Women')
+        var womenStalls = sensorStatus.filter(val => (val.roomName == 'Women' || val.roomName == "Women's Restroom"))
         console.log(womenStalls)
 
-        var menStalls = sensorStatus.filter(val => val.roomName == 'Men')
+        var menStalls = sensorStatus.filter(val => (val.roomName == 'Men' || val.roomName == "Men's Restroom"))
         console.log(menStalls)
 
-        if (hubInfo.room_name == 'Men') {
+        if (hubInfo.room_name == 'Men' || hubInfo.room_name  == "Men's Restroom") {
           var menVacants = menStalls.filter(val => val.stallStatus == 'O')
           setState({
             ...state,
@@ -133,7 +133,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
             errorMsg: ""
           })
         }
-        if (hubInfo.room_name == 'Women') {
+        if (hubInfo.room_name == 'Women' || hubInfo.room_name== "Women's Restroom") {
           var womenVacants = womenStalls.filter(val => val.stallStatus == 'O')
           setState({
             ...state,
@@ -178,7 +178,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
             console.log(message.body);
 
             var receivdData = JSON.parse(message.body)
-            if (receivdData.roomName == 'Women')
+            if (receivdData.roomName == 'Women' || receivdData.roomName == "Women's Restroom")
               setState({
                 ...state,
                 hubId: hubInfo.hub,
@@ -192,7 +192,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
                 //   current_time: feed_datetime[1],
                 errorMsg: ""
               })
-            else if (receivdData.roomName == 'Men')
+            else if (receivdData.roomName == 'Men' || receivdData.roomName == "Men's Restroom")
               setState({
                 ...state,
                 hubId: hubInfo.hub,
@@ -247,7 +247,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
           className={classes.root}
 
         >
-          {hubInfo.room_name == 'Men' ? (
+          {hubInfo.room_name == 'Men' || hubInfo.room_name  == "Men's Restroom" ? (
             <Grid>
               <Card >
                 <CardActionArea
@@ -346,7 +346,7 @@ const Display = ({ className, hubInfo, ...rest }) => {
               </Card>
             </Grid>
           ) : null}
-          {hubInfo.room_name == 'Women' ? (
+          {hubInfo.room_name == 'Women' || hubInfo.room_name  == "Women's Restroom" ? (
             <Grid>
               <Card >
                 <CardActionArea
