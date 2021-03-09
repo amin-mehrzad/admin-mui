@@ -36,27 +36,27 @@ const useStyles = makeStyles((theme) => ({
   table: {
     width: '50px',
     // height:'100px',
-    // padding: '10px',
-   // margin:'0'
-   borderBottom: "none"
+     padding: '10px',
+    // margin:'0'
+    borderBottom: "none"
 
   },
   cell: {
-   // width: '50px',
+    // width: '50px',
     // height:'100px',
     // padding: '5px',
-   // margin:'0'
-   borderBottom: "none"
+    // margin:'0'
+    borderBottom: "none"
   },
-  stall:{
-    background:"grey",
-    color:"white",
-    textAlign:"center",
-    height:"60px",
-    border:"solid",
+  stall: {
+   // background: "grey",
+    color: "white",
+    textAlign: "center",
+    height: "50px",
+    border: "solid",
     borderColor: "white",
-    borderWidth: "15px",
-    borderRadius: "60px"
+    //borderWidth: "5px",
+   // borderRadius: "40px"
   }
 }));
 
@@ -113,12 +113,12 @@ const StatusTable = ({ className, customers, ...rest }) => {
       {...rest}
     >
       <PerfectScrollbar>
-        <Box 
+        <Box
         //style={{ maxWidth: '910px' }} 
         >
           <Table size="medium">
             <TableHead>
-              <TableRow margin = "0">
+              <TableRow margin="0">
                 {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
@@ -147,11 +147,11 @@ const StatusTable = ({ className, customers, ...rest }) => {
                 </TableCell>
 
                 {stallNum.map((stall) => (
-                <TableCell 
-                key = {stallNum.indexOf(stall)}
-                className={classes.table}>
-                  {/* {stall} */}
-                </TableCell>))}
+                  <TableCell
+                    key={stallNum.indexOf(stall)}
+                    className={classes.table}>
+                    {/* {stall} */}
+                  </TableCell>))}
                 {/* <TableCell className={classes.table}>
                        Stall 2
                       </TableCell>
@@ -213,22 +213,24 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   </TableCell> */}
                   <TableCell
                     className={classes.cell}
-                    style={{minWidth:'200px'}}
-                    >
+                    style={{ minWidth: '200px' }}
+                  >
                     {`${customer[0].hub_id} - ${customer[0].room_name}`}
                   </TableCell>
-                  { customer.map((stall,index) => (
-                    index>0?
-                    <TableCell 
-                    className={classes.stall}
-                   // padding="none"
-                    key = {index}
-                      style={{ background: (stall.stallStatus ==="O" || stall.stallStatus === 0 ) ? 'green' :((stall.stallStatus ==="C" || stall.stallStatus === 1 ) ? 'red': 'grey')}}
+                  { customer.map((stall, index) => (
+                    index > 0 ?
+                      <TableCell
+                        className={classes.stall}
+                        // padding="none"
+                        key={index}
                       >
-                       {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
-                       {stall.stallNumber}
-                    </TableCell>
-                    :null
+                        {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
+                        <div style={{color:'black'}}> {dayjs(stall.stallTimeStamp).tz("America/Chicago").format('HH:mm:ss')} </div>
+                        <div style={{ background: (stall.stallStatus === "O" || stall.stallStatus === 0) ? 'green' : ((stall.stallStatus === "C" || stall.stallStatus === 1) ? 'red' : 'grey') }}>
+                          {stall.stallNumber}</div>
+
+                      </TableCell>
+                      : null
                   ))}
                   {/* <TableCell>
                     {customer.sensor_id}
