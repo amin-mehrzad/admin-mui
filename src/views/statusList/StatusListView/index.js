@@ -61,8 +61,8 @@ const StatusListView = () => {
         console.log(query)
         const result = await axios({
           method: 'get',
-          // url: 'http://3.15.126.206/api/report',
-          url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?${query}`,
+          // url: `http://${process.env.REACT_APP_SERVER_URI}/api/sensor-status?${query}`,
+          url: `http://${process.env.REACT_APP_SERVER_URI}/api/stalls?${query}`,
           // data: state,
           headers: { "Access-Control-Allow-Origin": "*" }
         })

@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StatusTable = ({ className, customers, ...rest }) => {
+  console.log(customers)
   const classes = useStyles();
   // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(1000);
@@ -213,7 +214,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   <TableCell
                     className={classes.cell}
                     >
-                    {customer[0].hub_id}
+                    {`${customer[0].hub_id} - ${customer[0].room_name}`}
                   </TableCell>
                   { customer.map((stall,index) => (
                     index>0?
