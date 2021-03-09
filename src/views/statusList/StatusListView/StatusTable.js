@@ -213,6 +213,7 @@ const StatusTable = ({ className, customers, ...rest }) => {
                   </TableCell> */}
                   <TableCell
                     className={classes.cell}
+                    style={{minWidth:'200px'}}
                     >
                     {`${customer[0].hub_id} - ${customer[0].room_name}`}
                   </TableCell>
