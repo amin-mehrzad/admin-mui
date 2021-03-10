@@ -22,9 +22,11 @@ import {
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import duration from 'dayjs/plugin/duration'
 import { range } from 'lodash';
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(duration)
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -225,7 +227,8 @@ const StatusTable = ({ className, customers, ...rest }) => {
                         key={index}
                       >
                         {/* {stall.stallStatus === 0 ? 'O' :(stall.stallStatus === 1 ? 'C' : stall.stallStatus )} */}
-                        <div style={{color:'black'}}> {dayjs(stall.stallTimeStamp).tz("America/Chicago").format('HH:mm:ss')} </div>
+                        {/* <div style={{color:'black'}}> {dayjs(stall.stallTimeStamp).tz("America/Chicago").format('HH:mm:ss')} </div> */}
+                        <div style={{color:'black'}}> {dayjs(new Date()).diff(dayjs(stall.stallTimeStamp),'minute')} </div>
                         <div style={{ background: (stall.stallStatus === "O" || stall.stallStatus === 0) ? 'green' : ((stall.stallStatus === "C" || stall.stallStatus === 1) ? 'red' : 'grey') }}>
                           {stall.stallNumber}</div>
 
